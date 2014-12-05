@@ -18,11 +18,11 @@
   ],
   "author": "Rúnar Berg",
   "license": "ISC",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "coffee-script": "^1.8.0",
-    "express": "^4.10.4"
+    "express": "^4.10.4",
+    "jade": "^1.8.1"
   },
   "engines": {
     "node": "0.10.x"
