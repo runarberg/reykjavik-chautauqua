@@ -5,27 +5,6 @@ html(lang="en")
   body
     h1 Chantal and Rúnar’s Company for Public Debate
     ul
-      li
-        a(href="/indigenous-people") Indigenous People
-      li
-        a(href="/the-food-we-eat") The Food We Eat
-      li
-        a(href="/mechanization") Mechanization
-      li
-        a(href="/society") Society
-      li
-        a(href="/eames") Eames
-      li
-        a(href="/transportation-and-communication") Transportation and Communication
-      li
-        a(href="/urban-development") Urban Development
-      li
-        a(href="/communism") Communism
-      li
-        a(href="/independent-peoples") Independent Peoples
-      li
-        a(href="/revolution-and-stuff") Revolution and Stuff
-      li
-        a(href="/religion") Religion
-      li
-        a(href="/alternative-history") Alternative History
+      each theme in themes
+        li
+          a(href=theme.url)= theme.name
