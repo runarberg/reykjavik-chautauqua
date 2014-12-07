@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title= theme.name
+    link(rel='stylesheet', href='/stylesheets/themes.css')
+  body
+    header
+      h1= theme.name
+      
+    section(id="posts")
+      h2 Posts
+      each post in posts
+        article(id=post.title)
+        h2= post.title
+        p= post.content
+
+    section(id="new-post")
+      h2 New Post
+      form(action=theme.url + "/new-post", method="POST")
+        input(type="text", name="title")
+        textarea(name="content")
+        input(type="submit", value="submit")
