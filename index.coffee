@@ -4,6 +4,7 @@ fs = require 'fs'
 autoprefixer = require 'autoprefixer-stylus'
 bodyParser = require('body-parser')
 express = require 'express'
+marked = require 'marked'
 pg = require 'pg'
 stylus = require 'stylus'
 urlify = require('urlify').create
@@ -71,6 +72,7 @@ themes.forEach (theme) ->
                 res.render path.join('themes', urlify(theme.name)),
                     theme: theme
                     posts: result.rows
+                    md: marked
 
     app.post theme.url + "/new-post", (req, res) ->
         pg.connect process.env.DATABASE_URL, (err, client, done) ->

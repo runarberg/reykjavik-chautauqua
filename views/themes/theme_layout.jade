@@ -3,6 +3,7 @@ html
   head
     title= theme.name
     link(rel='stylesheet', href='/stylesheets/themes.css')
+    
   body
     header
       h1= theme.name
@@ -11,8 +12,9 @@ html
       h2 Posts
       each post in posts
         article(id=post.title)
-        h2= post.title
-        p= post.content
+        header
+          h2= post.title
+        section!= md(post.content)
 
     section(id="new-post")
       h2 New Post
