@@ -2,7 +2,8 @@ path = require 'path'
 fs = require 'fs'
 
 autoprefixer = require 'autoprefixer-stylus'
-bodyParser = require('body-parser')
+bodyParser = require 'body-parser'
+coffeeMiddleware = require 'connect-coffee-script'
 express = require 'express'
 marked = require 'marked'
 pg = require 'pg'
@@ -30,12 +31,11 @@ handleErr = (res, err) ->
 app = express()
 
 app.set('port', process.env.PORT or 5000)
-app.use express.static __dirname + '/public'
 
 app.use bodyParser.urlencoded { extended: false }
 app.use bodyParser.json()
 
-compile = (str, path) ->
+compileStyles = (str, path) ->
     stylus(str)
         .set('filename', path)
         .set('compress', true)
@@ -43,7 +43,15 @@ compile = (str, path) ->
 
 app.use stylus.middleware
     src: __dirname
-    compile: compile
+    compile: compileStyles
+
+app.use coffeeMiddleware
+    src: __dirname
+    dest: __dirname + "/public"
+    newPrefix: true
+    sourceMap: true
+
+app.use express.static __dirname + '/public'
 
 app.set 'views', './views'
 app.set 'view engine', 'jade'

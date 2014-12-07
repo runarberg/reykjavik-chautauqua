@@ -23,6 +23,7 @@
     "autoprefixer-stylus": "^0.3.1",
     "body-parser": "^1.10.0",
     "coffee-script": "^1.8.0",
+    "connect-coffee-script": "^0.2.0",
     "express": "^4.10.4",
     "jade": "^1.8.1",
     "marked": "^0.3.2",
