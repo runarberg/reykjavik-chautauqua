@@ -3,6 +3,22 @@ parser = new DOMParser()
 form = document.getElementById "new-post-form"
 posts = document.getElementById "posts"
 
+formTitle = form.querySelector("[name='title']")
+formContent = form.querySelector("[name='content']")
+
+newPost = document.getElementById "new-post"
+newPostTitle = newPost.querySelector ".title"
+newPostContent = newPost.querySelector ".content"
+
+formTitle.addEventListener "input", (e) ->
+    title = document.createTextNode this.value
+    oldTitle = newPostTitle.childNodes[0]
+    newPostTitle.replaceChild title, oldTitle
+
+formContent.addEventListener "input", (e) ->
+    content = marked this.value
+    newPostContent.innerHTML = content
+
 form.addEventListener "submit", (e) ->
     e.preventDefault()
     req = new XMLHttpRequest()
@@ -12,6 +28,6 @@ form.addEventListener "submit", (e) ->
     req.open 'POST', form.action
     req.setRequestHeader 'Content-Type', 'application/json'
     req.send JSON.stringify
-        title: form.querySelector("[name='title']").value
-        content: form.querySelector("[name='content']").value
+        title: formTitle.value
+        content: formContent.value
         
