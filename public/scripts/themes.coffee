@@ -1,3 +1,5 @@
+parser = new DOMParser()
+
 form = document.getElementById "new-post-form"
 posts = document.getElementById "posts"
 
@@ -5,8 +7,8 @@ form.addEventListener "submit", (e) ->
     e.preventDefault()
     req = new XMLHttpRequest()
     req.onload = (e) ->
-        console.log req.responseText
-        console.log req
+        article = parser.parseFromString(req.response, "text/html")
+        posts.appendChild article.firstChild
     req.open 'POST', form.action
     req.setRequestHeader 'Content-Type', 'application/json'
     req.send JSON.stringify

@@ -12,10 +12,7 @@ html
     section(id="posts")
       h2 Posts
       each post in posts
-        article(id=post.title)
-          header
-            h2= post.title
-          section.content!= md(post.content)
+        include ./post_layout.jade
 
     section(id="new-post")
       h2 New Post

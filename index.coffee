@@ -105,7 +105,9 @@ themes.forEach (theme) ->
 
                 done()
                 
-            res.redirect(theme.url)
+            res.render "themes/post_layout",
+                post: req.body
+                md: marked
 
 
 app.listen app.get('port'), ->
