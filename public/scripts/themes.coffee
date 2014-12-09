@@ -5,6 +5,7 @@ posts = document.getElementById "posts"
 
 formTitle = form.querySelector("[name='title']")
 formContent = form.querySelector("[name='content']")
+formAuthor = form.querySelector("[name='author']")
 
 newPost = document.getElementById "new-post"
 newPostTitle = newPost.querySelector ".title"
@@ -22,12 +23,18 @@ formContent.addEventListener "input", (e) ->
 form.addEventListener "submit", (e) ->
     e.preventDefault()
     req = new XMLHttpRequest()
+    
     req.onload = (e) ->
-        article = parser.parseFromString(req.response, "text/html")
-        posts.appendChild article.firstChild
+        if req.status == 200
+            html = parser.parseFromString req.response, "text/html"
+            article = html.getElementById formTitle.value
+            posts.appendChild article
+        else
+            console.log req.responseText
+            
     req.open 'POST', form.action
     req.setRequestHeader 'Content-Type', 'application/json'
     req.send JSON.stringify
         title: formTitle.value
         content: formContent.value
-        
+        author: formAuthor.value

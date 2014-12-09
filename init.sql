@@ -7,6 +7,8 @@ CREATE TABLE posts (
        theme    varchar REFERENCES themes,
        title    varchar NOT NULL,
        content  varchar NOT NULL,
+       author   varchar,
+       datetime timestamp,
        PRIMARY KEY (theme, title)
 );
 
@@ -15,5 +17,7 @@ CREATE TABLE comments (
        theme    varchar,
        post     varchar,
        content  varchar NOT NULL,
+       author   varchar,
+       datetime timestamp,
        FOREIGN KEY (theme, post) REFERENCES posts
 );

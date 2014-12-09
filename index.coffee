@@ -25,8 +25,9 @@ handleErr = (res, err) ->
         return false
     else
         console.error err
-        res.send "ERROR: " + err
+        res.status(500).send "ERROR: " + err
         return true
+
 
 app = express()
 
@@ -66,48 +67,47 @@ themes.forEach (theme) ->
             if err
                 done client
                 handleErr res, err
-                return
-
-            queryStr = 'SELECT * FROM posts WHERE theme=$1'
-            client.query queryStr, [theme.name], (err, result) ->
-                if err
+            else
+                queryStr = 'SELECT * FROM posts WHERE theme=$1'
+                query = client.query queryStr, [theme.name]
+                query.on 'error', (err) ->
                     done client
                     handleErr res, err
-                    return
 
-                done()
-            
-                res.render path.join('themes', urlify(theme.name)),
-                    theme: theme
-                    posts: result.rows
-                    md: marked
+                query.on 'row', (row, result) ->
+                    result.addRow row
+
+                query.on 'end', (result) ->
+                    done()
+                    res.render path.join('themes', urlify(theme.name)),
+                        theme: theme
+                        posts: result.rows
+                        md: marked
 
     app.post theme.url + "/new-post", (req, res) ->
         pg.connect process.env.DATABASE_URL, (err, client, done) ->
             if err
                 done client
                 handleErr res, err
-                return
-
-            queryStr = "
-            INSERT INTO posts (theme, title, content)
-            VALUES ($1, $2, $3)
-            "
-            client.query queryStr, [
-                    theme.name
-                    req.body.title
-                    req.body.content
-                ], (err, result) ->
-                if err
-                    done client
-                    handleErr res, err
-                    return
-
-                done()
-                
-            res.render "themes/post_layout",
-                post: req.body
-                md: marked
+            else
+                queryStr = "
+                INSERT INTO posts
+                (theme, title, content, author, datetime)
+                VALUES ($1, $2, $3, $4, $5)
+                "
+                client.query queryStr, [
+                        theme.name
+                        req.body.title
+                        req.body.content
+                        req.body.author
+                        new Date()
+                    ], (err, result) ->
+                    if err
+                        done client
+                        handleErr res, err
+                    else
+                        done()
+                        res.redirect theme.url
 
 
 app.listen app.get('port'), ->
