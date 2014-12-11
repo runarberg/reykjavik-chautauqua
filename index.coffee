@@ -3,7 +3,9 @@ fs = require 'fs'
 
 bodyParser = require 'body-parser'
 express = require 'express'
-marked = require 'marked'
+marked = require('marked').setOptions
+    renderer: require './lib/marked-renderer'
+    sanitize: true
 pg = require 'pg'
 urlify = require('urlify').create
     spaces: '-'
@@ -60,7 +62,7 @@ themes.forEach (theme) ->
 
                 query.on 'end', (result) ->
                     done()
-                    res.render path.join('themes', urlify(theme.name)),
+                    res.render path.join('themes', urlify(theme.name), 'index'),
                         themes: themes
                         theme: theme
                         posts: result.rows
