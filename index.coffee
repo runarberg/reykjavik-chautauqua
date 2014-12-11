@@ -3,7 +3,9 @@ fs = require 'fs'
 
 bodyParser = require 'body-parser'
 express = require 'express'
-marked = require 'marked'
+marked = require('marked').setOptions
+    renderer: require './lib/marked-renderer'
+    sanitize: true
 pg = require 'pg'
 urlify = require('urlify').create
     spaces: '-'

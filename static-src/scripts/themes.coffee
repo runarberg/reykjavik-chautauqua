@@ -1,4 +1,6 @@
-marked = require 'marked'
+marked = require('marked').setOptions
+    renderer: require '../../lib/marked-renderer'
+    sanitize: true
 
 parser = new DOMParser()
 
