@@ -1,13 +1,10 @@
 path = require 'path'
 fs = require 'fs'
 
-autoprefixer = require 'autoprefixer-stylus'
 bodyParser = require 'body-parser'
-coffeeMiddleware = require 'connect-coffee-script'
 express = require 'express'
 marked = require 'marked'
 pg = require 'pg'
-stylus = require 'stylus'
 urlify = require('urlify').create
     spaces: '-'
     toLower: true
@@ -36,23 +33,7 @@ app.set('port', process.env.PORT or 5000)
 app.use bodyParser.urlencoded { extended: false }
 app.use bodyParser.json()
 
-compileStyles = (str, path) ->
-    stylus(str)
-        .set('filename', path)
-        .set('compress', true)
-        .use(autoprefixer())
-
-app.use stylus.middleware
-    src: __dirname
-    compile: compileStyles
-
-app.use coffeeMiddleware
-    src: __dirname
-    dest: __dirname + "/public"
-    newPrefix: true
-    sourceMap: true
-
-app.use express.static __dirname + '/public'
+app.use express.static path.join __dirname, 'static'
 
 app.set 'views', './views'
 app.set 'view engine', 'jade'
@@ -80,6 +61,7 @@ themes.forEach (theme) ->
                 query.on 'end', (result) ->
                     done()
                     res.render path.join('themes', urlify(theme.name)),
+                        themes: themes
                         theme: theme
                         posts: result.rows
                         md: marked

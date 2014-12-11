@@ -7,6 +7,8 @@ html
     
   body
     header
+      h2
+       a(href="/") Chantal and Rúnar’s Social Club
       h1= theme.name
       
     section(id="posts")
@@ -26,5 +28,14 @@ html
         input(type="text", name="author")
         input(type="submit", value="submit")
 
-    script(src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js")
-    script(src="/public/scripts/themes.js")
+    footer
+      ul
+        each t in themes
+          if t.name == theme.name
+            li.active
+              a(href=t.url)= t.name
+          else
+            li
+              a(href=t.url)= t.name
+
+    script(src="/scripts/themes.js")

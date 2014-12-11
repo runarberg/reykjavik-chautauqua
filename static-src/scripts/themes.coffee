@@ -1,3 +1,5 @@
+marked = require 'marked'
+
 parser = new DOMParser()
 
 form = document.getElementById "new-post-form"
