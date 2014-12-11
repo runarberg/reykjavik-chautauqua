@@ -62,7 +62,7 @@ themes.forEach (theme) ->
 
                 query.on 'end', (result) ->
                     done()
-                    res.render path.join('themes', urlify(theme.name)),
+                    res.render path.join('themes', urlify(theme.name), 'index'),
                         themes: themes
                         theme: theme
                         posts: result.rows

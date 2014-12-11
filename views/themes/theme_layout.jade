@@ -7,9 +7,10 @@ html
     
   body
     header
-      h2
-       a(href="/") Chantal and Rúnar’s Social Club
-      h1= theme.name
+      block header
+        h2
+         a(href="/") Chantal and Rúnar’s Social Club
+        h1= theme.name
       
     section(id="posts")
       h2 Posts
