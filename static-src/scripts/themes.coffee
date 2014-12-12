@@ -43,6 +43,7 @@ form.addEventListener "submit", (e) ->
             html = parser.parseFromString req.response, "text/html"
             article = html.getElementById formTitle.value
             posts.appendChild article
+            document.getElementById("state-new-post").checked = false
         else
             console.log req.responseText
             

@@ -8,8 +8,11 @@ article,
   margin: 1em auto
   width: 38em
 
-.posts > h2
-  display: none
+.posts
+  margin: 4em 0
+  
+  & > h2
+    display: none
 
 .post,
 .preview
@@ -20,6 +23,9 @@ article,
   footer
     margin: .1em 0 1em
     text-indent: 2em
+
+  img
+    max-width: 100%
 
 input[type="checkbox"][rel="state"]
   display: none
@@ -46,12 +52,16 @@ label[for^="state"]
 input[type="checkbox"][rel="state"]:checked + label::before
   content: "–"
   top: -.25em
-  
-textarea,
-input
-  display: block
-  font-size: 1.2em
-  margin: .1em auto
-  width: 38em
+
+.new-post
+  textarea,
+  input
+    display: block
+    font-size: 1.2em
+    margin: .1em auto
+    width: 38em
+
+  textarea
+    height: 12em
 
 @require 'common/theme-nav'
