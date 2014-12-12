@@ -1,3 +1,12 @@
+input[type="checkbox"][rel="state"]
+  display: none
+input[type="checkbox"][rel="state"] + section
+  display: none
+input[type="checkbox"][rel="state"]:checked + section
+  display: block
+
 textarea,
 input
   display: block
+
+@require 'common/theme-nav'

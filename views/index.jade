@@ -2,11 +2,14 @@ doctype html
 html(lang="en")
   head
     title Chantal and Rúnar
+    link(rel="stylesheet", href="/stylesheets/main.css")
   body
-    h1 Chantal and Rúnar’s Social Club
-    article
-      include:markdown introduction.md
-    ul
-      each theme in themes
-        li
-          a(href=theme.url)= theme.name
+    header
+      h1 Chantal and Rúnar’s Social Club
+      article.introduction
+        include:markdown introduction.md
+    nav.theme-nav
+      ul.theme-list
+        each theme in themes
+          li
+            a(href='/'+urlify(theme.name))= theme.name

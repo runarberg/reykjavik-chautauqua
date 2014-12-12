@@ -1,6 +1,8 @@
 path = require 'path'
 fs = require 'fs'
 
+Q = require 'q'
+
 bodyParser = require 'body-parser'
 express = require 'express'
 marked = require('marked').setOptions
@@ -11,14 +13,6 @@ urlify = require('urlify').create
     spaces: '-'
     toLower: true
 
-
-themeNames = String(fs.readFileSync("themes.txt")).split("\n").slice(0,-1)
-themes = ({
-    name: name
-    url: "/"+ urlify(name)
-    } for name in themeNames)
-
-
 handleErr = (res, err) ->    
     if not err
         return false
@@ -26,6 +20,57 @@ handleErr = (res, err) ->
         console.error err
         res.status(500).send "ERROR: " + err
         return true
+
+
+
+dbUrl = process.env.DATABASE_URL
+
+getThemes = () ->
+    deferred = Q.defer()
+    pg.connect dbUrl, (err, client, done) ->
+        if err
+            done client
+            deferred.reject new Error err
+        else
+            queryStr = 'SELECT * FROM themes'
+            query = client.query queryStr
+
+            query.on 'error', (err) ->
+                done client
+                deferred.reject new Error err
+
+            query.on 'row', (row, result) ->
+                result.addRow row
+
+            query.on 'end', (result) ->
+                done()
+                deferred.resolve result.rows
+
+    return deferred.promise
+
+
+getPosts = (theme) ->
+    deferred = Q.defer()
+    pg.connect dbUrl, (err, client, done) ->
+        if err
+            done client
+            deferred.reject new Error err
+        else
+            queryStr = 'SELECT * FROM posts WHERE theme=$1'
+            query = client.query queryStr, [theme]
+            
+            query.on 'error', (err) ->
+                done client
+                deferred.reject new Error err
+
+            query.on 'row', (row, result) ->
+                result.addRow row
+
+            query.on 'end', (result) ->
+                done()
+                deferred.resolve result.rows
+                
+    return deferred.promise
 
 
 app = express()
@@ -41,57 +86,53 @@ app.set 'views', './views'
 app.set 'view engine', 'jade'
 
 app.get '/', (req, res) ->
-    res.render 'index',
-        themes: themes
+    getThemes()
+    .then (themes) ->
+        res.render 'index',
+            themes: themes
+            urlify: urlify
+    , (err) ->
+        handleErr res, err
 
-themes.forEach (theme) ->
-    app.get theme.url, (req, res) ->
-        pg.connect process.env.DATABASE_URL, (err, client, done) ->
-            if err
-                done client
-                handleErr res, err
-            else
-                queryStr = 'SELECT * FROM posts WHERE theme=$1'
-                query = client.query queryStr, [theme.name]
-                query.on 'error', (err) ->
+getThemes().then (themes) ->
+    
+    themes.forEach (theme) ->
+        app.get '/' + urlify(theme.name), (req, res) ->
+            getPosts(theme.name)
+            .then (posts) ->
+                res.render path.join('themes', urlify(theme.name), 'index'),
+                    themes: themes
+                    theme: theme
+                    posts: posts
+                    urlify: urlify
+                    md: marked
+            , (err) ->
+                handleErr res err
+
+        app.post '/' + urlify(theme.name) + "/new-post", (req, res) ->
+            pg.connect dbUrl, (err, client, done) ->
+                if err
                     done client
                     handleErr res, err
-
-                query.on 'row', (row, result) ->
-                    result.addRow row
-
-                query.on 'end', (result) ->
-                    done()
-                    res.render path.join('themes', urlify(theme.name), 'index'),
-                        themes: themes
-                        theme: theme
-                        posts: result.rows
-                        md: marked
-
-    app.post theme.url + "/new-post", (req, res) ->
-        pg.connect process.env.DATABASE_URL, (err, client, done) ->
-            if err
-                done client
-                handleErr res, err
-            else
-                queryStr = "
-                INSERT INTO posts
-                (theme, title, content, author, datetime)
-                VALUES ($1, $2, $3, $4, $5)
-                "
-                client.query queryStr, [
-                        theme.name
-                        req.body.title
-                        req.body.content
-                        req.body.author
-                        new Date()
-                    ], (err, result) ->
-                    if err
-                        done client
-                        handleErr res, err
-                    else
-                        done()
-                        res.redirect theme.url
+                else
+                    queryStr = "
+                    INSERT INTO posts
+                    (theme, title, content, author, datetime)
+                    VALUES ($1, $2, $3, $4, $5)
+                    "
+                    client.query queryStr, [
+                            theme.name
+                            req.body.title
+                            req.body.content
+                            req.body.author
+                            new Date()
+                        ], (err, result) ->
+                        if err
+                            done client
+                            handleErr res, err
+                        else
+                            done()
+                            res.redirect '/' + urlify(theme.name)
 
 
 app.listen app.get('port'), ->

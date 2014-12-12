@@ -1,5 +1,7 @@
 CREATE TABLE themes (
-       name     varchar PRIMARY KEY
+       name     varchar PRIMARY KEY,
+       year     integer,
+       month    integer
 );
 
 CREATE TABLE posts (

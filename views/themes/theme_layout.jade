@@ -17,26 +17,29 @@ html
       each post in posts
         include ./post_layout.jade
 
+    label(for="state-new-post") New post
+    input(type="checkbox", rel="state", id="state-new-post")
     section(id="new-post")
       article.preview
         header
           h2.title New Post
         section.content
         
-      form#new-post-form(action=theme.url + "/new-post", method="POST")
+      form#new-post-form(action='/' + urlify(theme.name) + "/new-post",
+                         method="POST")
         input(type="text", name="title")
         textarea(name="content")
         input(type="text", name="author")
         input(type="submit", value="submit")
 
-    footer
-      ul
+    footer.theme-nav
+      ul.theme-list
         each t in themes
           if t.name == theme.name
             li.active
-              a(href=t.url)= t.name
+              a(href=urlify(t.name))= t.name
           else
             li
-              a(href=t.url)= t.name
+              a(href=urlify(t.name))= t.name
 
     script(src="/scripts/themes.js")
