@@ -1,4 +1,8 @@
-article(id=post.title)
+article.post(id=post.title)
   header
     h2= post.title
+  footer
+    if post.author
+      | by 
+      span.author= post.author
   section.content!= md(post.content)

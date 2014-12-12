@@ -1,12 +1,57 @@
+.main-header
+  h1, h2
+    text-align: center
+
+article,
+.intro
+  font-size: 1.2em
+  margin: 1em auto
+  width: 38em
+
+.posts > h2
+  display: none
+
+.post,
+.preview
+  header
+    margin: 1em 0 .1em
+    h2
+      margin: 0
+  footer
+    margin: .1em 0 1em
+    text-indent: 2em
+
 input[type="checkbox"][rel="state"]
   display: none
-input[type="checkbox"][rel="state"] + section
+input[type="checkbox"][rel="state"] + label + section
   display: none
-input[type="checkbox"][rel="state"]:checked + section
+input[type="checkbox"][rel="state"]:checked + label + section
   display: block
 
+label[for^="state"]
+  border: 1px solid black
+  border-radius: 1em
+  cursor: pointer
+  display: block
+  margin: 2em auto
+  position: relative
+  text-align: center
+  width: 10em
+  &::before
+    content: "+"
+    font-size: 1.5em
+    position: absolute
+    left: .25em
+    top: -.175em
+input[type="checkbox"][rel="state"]:checked + label::before
+  content: "–"
+  top: -.25em
+  
 textarea,
 input
   display: block
+  font-size: 1.2em
+  margin: .1em auto
+  width: 38em
 
 @require 'common/theme-nav'

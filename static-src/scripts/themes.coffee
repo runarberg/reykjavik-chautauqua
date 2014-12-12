@@ -14,15 +14,25 @@ formAuthor = form.querySelector("[name='author']")
 newPost = document.getElementById "new-post"
 newPostTitle = newPost.querySelector ".title"
 newPostContent = newPost.querySelector ".content"
+newPostAuthor = newPost.querySelector ".author"
 
 formTitle.addEventListener "input", (e) ->
-    title = document.createTextNode this.value
-    oldTitle = newPostTitle.childNodes[0]
-    newPostTitle.replaceChild title, oldTitle
+    title = this.value
+    newNode = document.createTextNode title
+    oldNode = newPostTitle.childNodes[0]
+    oldNode.remove() if oldNode
+    newPostTitle.appendChild newNode if title
 
 formContent.addEventListener "input", (e) ->
     content = marked this.value
     newPostContent.innerHTML = content
+
+formAuthor.addEventListener "input", (e) ->
+    author = this.value
+    newNode = document.createTextNode "by #{author}"
+    oldNode = newPostAuthor.childNodes[0]
+    oldNode.remove() if oldNode
+    newPostAuthor.appendChild newNode if author
 
 form.addEventListener "submit", (e) ->
     e.preventDefault()
