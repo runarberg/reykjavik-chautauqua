@@ -25,6 +25,14 @@ handleErr = (res, err) ->
 
 dbUrl = process.env.DATABASE_URL
 
+
+getThemeMonth = (() ->
+    months = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"]
+    (theme) ->
+        months[theme.month - 1]
+)()
+
 getThemes = () ->
     deferred = Q.defer()
     pg.connect dbUrl, (err, client, done) ->
@@ -44,7 +52,13 @@ getThemes = () ->
 
             query.on 'end', (result) ->
                 done()
-                deferred.resolve result.rows
+                themes = ({
+                    name: theme.name
+                    url: "/" + urlify theme.name
+                    month: getThemeMonth theme
+                } for theme in result.rows)
+
+                deferred.resolve themes
 
     return deferred.promise
 

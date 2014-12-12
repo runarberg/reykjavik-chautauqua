@@ -1,15 +1,18 @@
+- var title = "Reykjavík Chautauqua"
+
 doctype html
 html(lang="en")
   head
-    title Chantal and Rúnar
+    title= title
     link(rel="stylesheet", href="/stylesheets/main.css")
   body
     header
-      h1 Chantal and Rúnar’s Social Club
+      h1= title
       article.introduction
         include:markdown introduction.md
     nav.theme-nav
       ul.theme-list
         each theme in themes
           li
-            a(href='/'+urlify(theme.name))= theme.name
+            a(href=theme.url)= theme.name
+            p= theme.month

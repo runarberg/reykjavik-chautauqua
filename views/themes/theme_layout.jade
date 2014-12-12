@@ -27,7 +27,7 @@ html
           span.author
         section.content
         
-      form#new-post-form(action='/' + urlify(theme.name) + "/new-post",
+      form#new-post-form(action=theme.url + "/new-post",
                          method="POST")
         input(type="text", name="title", placeholder="Title")
         textarea(name="content")
@@ -36,12 +36,14 @@ html
 
     footer.theme-nav
       ul.theme-list
-        each t in themes
-          if t.name == theme.name
+        each theme_ in themes
+          if theme_.name == theme.name
             li.active
-              a(href=urlify(t.name))= t.name
+              a(href=theme_.url)= theme_.name
+              p= theme_.month
           else
             li
-              a(href=urlify(t.name))= t.name
+              a(href=theme_.url)= theme_.name
+              p= theme_.month
 
     script(src="/scripts/themes.js")
