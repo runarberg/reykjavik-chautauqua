@@ -79,7 +79,8 @@ input[type="checkbox"][rel="state"]:checked + label::before
       list-style: none
       flex-grow: 1
       text-align: center
-      transition: flex-grow 0.3s
+      width: 100px
+      transition: flex-grow 0.3s, width 0.3s
 
       for theme in themes
         &.{theme}
@@ -87,6 +88,7 @@ input[type="checkbox"][rel="state"]:checked + label::before
 
       &:hover
         flex-grow: 5
+        width: 500px
         a
           visibility: visible
 
@@ -96,9 +98,7 @@ input[type="checkbox"][rel="state"]:checked + label::before
         flex-direction: column
         justify-content: space-between
         height: 100%
-        width: 100%
         visibility: hidden
 
         p
-          max-width: 10em
           text-shadow: 1px 1px white
