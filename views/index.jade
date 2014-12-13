@@ -13,6 +13,7 @@ html(lang="en")
     nav.theme-nav
       ul.theme-list
         each theme in themes
-          li
-            a(href=theme.url)= theme.name
-            p= theme.month
+          li(class=theme.url.slice(1))
+            a(href=theme.url)
+              p= theme.month
+              p= theme.name

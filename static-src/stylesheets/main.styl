@@ -1,3 +1,8 @@
+@require './common/themes'
+
+a[href]
+  text-decoration: none
+
 header
   font-size: 1.2em
   
@@ -9,4 +14,42 @@ header
     max-width: 38em
     margin: .5em auto
 
-@require 'common/theme-nav'
+.theme-nav
+  font-size: 1.2em
+  ul
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    margin: 0
+    padding: 0
+  li
+    display: inline-block
+    font-size: 2em
+    height: 310px
+    list-style: none
+    margin: 0
+    overflow: hidden
+    text-align: center
+    width: 500px
+
+    for theme in themes
+      &.{theme}
+        background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
+
+    a
+      background: rgba(255,255,255,0.5)
+      color: inherit
+      display: flex
+      flex-direction: column
+      justify-content: space-between
+      height: 100%
+      width: 100%
+      p
+        margin: 0.25em 0.85em
+        padding: 0.125em 0
+        text-shadow: 1px 1px white
+      
+      &:hover
+        background: none
+        p
+          background: rgba(255,255,255,0.35)

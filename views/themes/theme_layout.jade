@@ -38,12 +38,14 @@ html
       ul.theme-list
         each theme_ in themes
           if theme_.name == theme.name
-            li.active
-              a(href=theme_.url)= theme_.name
-              p= theme_.month
+            li.active(class=theme_.url.slice(1))
+              a(href=theme_.url)
+                p= theme_.month
+                p= theme_.name
           else
-            li
-              a(href=theme_.url)= theme_.name
-              p= theme_.month
+            li(class=theme_.url.slice(1))
+              a(href=theme_.url)
+                p= theme_.month
+                p= theme_.name
 
     script(src="/scripts/themes.js")

@@ -1,3 +1,8 @@
+@require './common/themes'
+
+a[href]
+  text-decoration: none
+
 .main-header
   h1, h2
     text-align: center
@@ -64,4 +69,36 @@ input[type="checkbox"][rel="state"]:checked + label::before
   textarea
     height: 12em
 
-@require 'common/theme-nav'
+.theme-nav
+  ul
+    display: flex
+    padding: 0
+    margin: 0
+
+    li
+      list-style: none
+      flex-grow: 1
+      text-align: center
+      transition: flex-grow 0.3s
+
+      for theme in themes
+        &.{theme}
+          background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
+
+      &:hover
+        flex-grow: 5
+        a
+          visibility: visible
+
+      a
+        color: inherit
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+        height: 100%
+        width: 100%
+        visibility: hidden
+
+        p
+          max-width: 10em
+          text-shadow: 1px 1px white
