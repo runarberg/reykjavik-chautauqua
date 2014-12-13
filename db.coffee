@@ -16,55 +16,44 @@ getThemeMonth = (() ->
 )()
 
 
-getThemes = () ->
+getDb = (
+    queryString, queryParams=[], accFn=(row, result) ->
+        result.addRow row
+) ->
     deferred = Q.defer()
-    pg.connect dbUrl, (err, client, done) ->
-        if err
+    pg.connect dbUrl, (error, client, done) ->
+        if error
             done client
-            deferred.reject new Error err
+            deferred.reject new Error error
         else
-            queryStr = 'SELECT * FROM themes'
-            query = client.query queryStr
+            query = client.query queryString, queryParams
 
-            query.on 'error', (err) ->
+            query.on 'error', (error) ->
                 done client
-                deferred.reject new Error err
+                deferred.reject new Error error
 
-            query.on 'row', (row, result) ->
-                result.addRow
-                    name: row.name
-                    url: "/" + urlify row.name
-                    month: getThemeMonth row
+            query.on 'row', accFn
 
             query.on 'end', (result) ->
                 done()
                 deferred.resolve result.rows
 
     return deferred.promise
+
+getThemes = () ->
+    queryStr = 'SELECT * FROM themes'
+    accFn = (row, result) ->
+        result.addRow
+            name: row.name
+            url: "/" + urlify row.name
+            month: getThemeMonth row
+
+    getDb queryStr, [], accFn
 
 
 getPosts = (theme) ->
-    deferred = Q.defer()
-    pg.connect dbUrl, (err, client, done) ->
-        if err
-            done client
-            deferred.reject new Error err
-        else
-            queryStr = 'SELECT * FROM posts WHERE theme=$1'
-            query = client.query queryStr, [theme]
-            
-            query.on 'error', (err) ->
-                done client
-                deferred.reject new Error err
-
-            query.on 'row', (row, result) ->
-                result.addRow row
-
-            query.on 'end', (result) ->
-                done()
-                deferred.resolve result.rows
-                
-    return deferred.promise
+    queryStr = 'SELECT * FROM posts WHERE theme=$1'
+    getDb queryStr, [theme]
 
 
 savePost = (theme, post) ->
