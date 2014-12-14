@@ -75,25 +75,14 @@ addComments = (post) ->
     return deferred.promise
 
 
-savePost = (theme, post) ->
+saveDb = (queryStr, queryParams) ->    
     deferred = Q.defer()
     pg.connect dbUrl, (err, client, done) ->
         if err
             done client
             deferred.reject new Error err
         else
-            queryStr = "
-            INSERT INTO posts
-            (theme, title, content, author, datetime)
-            VALUES ($1, $2, $3, $4, $5)
-            "
-            query = client.query queryStr, [
-                    theme
-                    post.title
-                    post.content
-                    post.author
-                    new Date()
-                ]
+            query = client.query queryStr, queryParams
             query.on 'error', (err) ->
                 done client
                 deferred.reject new Error err
@@ -103,6 +92,23 @@ savePost = (theme, post) ->
 
     return deferred.promise
 
+savePost = (theme, post) ->
+    queryStr = "
+    INSERT INTO posts
+    (theme, title, content, author, datetime)
+    VALUES ($1, $2, $3, $4, $5)
+    "
+    queryParams =  [theme, post.title, post.content, post.author, new Date()]
+    saveDb queryStr, queryParams
+
+saveComment = (theme, comment) ->
+    queryStr = "
+    INSERT INTO comments
+    (theme, post, content, author, datetime)
+    VALUES ($1, $2, $3, $4, $5)
+    "
+    queryParams = [theme, comment.post, comment.content, comment.author, new Date()]
+    saveDb queryStr, queryParams
 
 module.exports =
     getThemes: getThemes
@@ -110,3 +116,4 @@ module.exports =
     getComments: getComments
     addComments: addComments
     savePost: savePost
+    saveComment: saveComment

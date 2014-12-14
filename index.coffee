@@ -62,6 +62,13 @@ db.getThemes()
             .fail (error) ->
                 handleErr error, res
 
+        app.post theme.url + "/new-comment", (req, res) ->
+            db.saveComment theme.name, req.body
+            .then () ->
+                res.redirect theme.url
+            .fail (error) ->
+                handleErr error, res
+
 .fail (err) ->
     handleErr err, res
 

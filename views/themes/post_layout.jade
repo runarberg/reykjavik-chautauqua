@@ -1,17 +1,29 @@
 article.post(id=post.title)
+
   header
     h2= post.title
+    
   footer
     if post.author
       | by 
       span.author= post.author
+      
   section.content!= md(post.content)
+  
   input(id="dropdown-comment-post-#{post.id}", type="checkbox", rel="dropdown")
   label(for="dropdown-comment-post-#{post.id}").
     #{post.comments.length} comments
   section.comments
+  
     each comment in post.comments
       section.comment
-        header
-          span= comment.author
+        if comment.author
+          p.author #{comment.author} says
         section.comment!= md(comment.content)
+        
+    section.new-comment
+      form.new-comment-form(action="#{theme.url}/new-comment", method="POST")
+        input(type="hidden", name="post", value=post.title)
+        textarea(name="content")
+        input(type="text", name="author")
+        input(type="submit")
