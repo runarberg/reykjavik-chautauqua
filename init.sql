@@ -23,3 +23,29 @@ CREATE TABLE comments (
        datetime timestamp,
        FOREIGN KEY (theme, post) REFERENCES posts
 );
+
+CREATE TABLE posts_revisions (
+       id       serial,
+       revision integer,
+       theme    varchar,
+       title    varchar,
+       content  varchar NOT NULL,
+       author   varchar,
+       origtime timestamp,
+       edittime timestamp,
+       PRIMARY KEY (theme, title, revision),
+       FOREIGN KEY (theme, title) REFERENCES posts
+);
+
+CREATE TABLE comments_revisions (
+       id         serial,
+       comment_id integer REFERENCES comments,
+       revision   integer,
+       theme      varchar,
+       post       varchar,
+       content    varchar NOT NULL,
+       author     varchar,
+       origtime   timestamp,
+       edittime   timestamp,
+       PRIMARY KEY (comment_id, revision)
+);
