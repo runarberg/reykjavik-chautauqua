@@ -11,9 +11,12 @@ html(lang="en")
       article.introduction
         include:markdown introduction.md
     nav.theme-nav
+      h2 Topics
       ul.theme-list
         each theme in themes
-          li(class=theme.url.slice(1))
+          li(class=(theme.focus ? "focus " : " ") + theme.url.slice(1))
             a(href=theme.url)
               p= theme.dateStr
               p= theme.name
+
+     script(src="/scripts/main.js")

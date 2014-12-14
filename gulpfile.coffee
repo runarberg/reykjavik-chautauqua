@@ -11,13 +11,23 @@ reload = browserSync.reload
 gulp.task 'browser-sync', () ->
     browserSync proxy: 'localhost:5000'
 
-gulp.task 'browserify', () ->
+gulp.task 'browserify-main', () ->
+    browserify
+        entries: './static-src/scripts/main.coffee'
+        extensions: ['.coffee']
+    .bundle()
+    .pipe source 'main.js'
+    .pipe gulp.dest './static/scripts'
+
+gulp.task 'browserify-themes', () ->
     browserify
         entries: './static-src/scripts/themes.coffee'
         extensions: ['.coffee']
     .bundle()
     .pipe source 'themes.js'
     .pipe gulp.dest './static/scripts'
+
+gulp.task 'browserify', ['browserify-main', 'browserify-themes']
 
 gulp.task 'img', () ->
     gulp.src './static-src/img/**/*.{jpeg,png}'

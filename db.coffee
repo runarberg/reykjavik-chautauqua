@@ -42,9 +42,17 @@ getDb = (
 
 getThemes = () ->
     queryStr = 'SELECT * FROM themes'
+    today = new Date()
+    month = today.getMonth() + 1
+    year = today. getYear() + 1900
+    # XXX: Remove after new years 2015
+    if year == 2014
+        month = 1
+        year = 2015
     accFn = (theme, themes) ->
         theme.url = "/" + urlify theme.name
         theme.dateStr = getThemeDateStr theme
+        theme.focus = theme.month == month and theme.year == year
         themes.addRow theme
 
     getDb queryStr, [], accFn

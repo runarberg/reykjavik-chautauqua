@@ -1,6 +1,7 @@
 @require '../../node_modules/stylus-normalize/normalize'
 @require './common/themes'
 
+
 a[href]
   text-decoration: none
 
@@ -17,6 +18,8 @@ header
 
 .theme-nav
   font-size: 1.2em
+  h2
+    text-align: center
   ul
     justify-content: center
     margin: 0
@@ -50,8 +53,8 @@ header
         margin: 0.25em 0.85em
         padding: 0.125em 0
         text-shadow: 1px 1px white
-      
-      &:hover
-        background: none
-        p
-          background: rgba(255,255,255,0.35)
+
+    &.focus a
+      background: none
+      p
+        text-shadow: 3px 3px white
