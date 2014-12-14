@@ -17,8 +17,8 @@ html
       each post in posts
         include ./post_layout.jade
 
-    input(type="checkbox", rel="state", id="state-new-post")
-    label(for="state-new-post") New post
+    input(type="checkbox", rel="dropdown", id="dropdown-new-post")
+    label(for="dropdown-new-post") New post
     section.new-post(id="new-post")
       article.preview
         header
@@ -40,12 +40,12 @@ html
           if theme_.name == theme.name
             li.active(class=theme_.url.slice(1))
               a(href=theme_.url)
-                p= theme_.month
+                p= theme_.dateStr
                 p= theme_.name
           else
             li(class=theme_.url.slice(1))
               a(href=theme_.url)
-                p= theme_.month
+                p= theme_.dateStr
                 p= theme_.name
 
     script(src="/scripts/themes.js")

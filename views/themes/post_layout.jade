@@ -6,6 +6,12 @@ article.post(id=post.title)
       | by 
       span.author= post.author
   section.content!= md(post.content)
+  input(id="dropdown-comment-post-#{post.id}", type="checkbox", rel="dropdown")
+  label(for="dropdown-comment-post-#{post.id}").
+    #{post.comments.length} comments
   section.comments
     each comment in post.comments
-      section.comment!= md(comment.content)
+      section.comment
+        header
+          span= comment.author
+        section.comment!= md(comment.content)

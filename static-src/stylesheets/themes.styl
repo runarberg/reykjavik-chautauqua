@@ -32,14 +32,14 @@ article,
   img
     max-width: 100%
 
-input[type="checkbox"][rel="state"]
+input[type="checkbox"][rel="dropdown"]
   display: none
-input[type="checkbox"][rel="state"] + label + section
+input[type="checkbox"][rel="dropdown"] + label + section
   display: none
-input[type="checkbox"][rel="state"]:checked + label + section
+input[type="checkbox"][rel="dropdown"]:checked + label + section
   display: block
 
-label[for^="state"]
+label[for^="dropdown"]
   border: 1px solid black
   border-radius: 1em
   cursor: pointer
@@ -54,9 +54,12 @@ label[for^="state"]
     position: absolute
     left: .25em
     top: -.175em
-input[type="checkbox"][rel="state"]:checked + label::before
+input[type="checkbox"][rel="dropdown"]:checked + label::before
   content: "–"
   top: -.25em
+
+.comments
+  margin: 0 5em 2em
 
 .new-post
   textarea,

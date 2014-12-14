@@ -8,7 +8,7 @@ urlify = require('urlify').create
 dbUrl = process.env.DATABASE_URL
 
 
-getThemeMonth = (() ->
+getThemeDateStr = (() ->
     months = ["January", "February", "March", "April", "May", "June", "July",
               "August", "September", "October", "November", "December"]
     (theme) ->
@@ -42,23 +42,16 @@ getDb = (
 
 getThemes = () ->
     queryStr = 'SELECT * FROM themes'
-    accFn = (row, result) ->
-        result.addRow
-            name: row.name
-            url: "/" + urlify row.name
-            month: getThemeMonth row
+    accFn = (theme, themes) ->
+        theme.url = "/" + urlify theme.name
+        theme.dateStr = getThemeDateStr theme
+        themes.addRow theme
 
     getDb queryStr, [], accFn
 
 
 getPosts = (theme) ->
     queryStr = 'SELECT * FROM posts WHERE theme=$1'
-    accFn = (post, posts) ->
-        getComments theme, post.title
-        .then (comments) ->
-            post.comments = comments
-            posts.addRow post
-
     getDb queryStr, [theme]
     
 

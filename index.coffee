@@ -52,15 +52,15 @@ db.getThemes()
                         theme: theme
                         posts: posts
                         md: marked
-            .fail (err) ->
-                handleErr res err
+            .fail (error) ->
+                handleErr error, res
 
         app.post theme.url + "/new-post", (req, res) ->
             db.savePost theme.name, req.body
             .then () ->
                 res.redirect theme.url
-            .fail (err) ->
-                handleErr err, res
+            .fail (error) ->
+                handleErr error, res
 
 .fail (err) ->
     handleErr err, res
