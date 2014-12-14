@@ -53,7 +53,33 @@ getThemes = () ->
 
 getPosts = (theme) ->
     queryStr = 'SELECT * FROM posts WHERE theme=$1'
+    accFn = (post, posts) ->
+        getComments theme, post.title
+        .then (comments) ->
+            post.comments = comments
+            posts.addRow post
+
     getDb queryStr, [theme]
+    
+
+getComments = (theme, post) ->
+    commentSql = "
+    SELECT * FROM comments
+    WHERE theme=$1 AND post=$2
+    "
+    getDb commentSql, [theme, post]
+
+
+addComments = (post) ->
+    deferred = Q.defer()
+    getComments post.theme, post.title
+    .then (comments) ->
+        post.comments = comments
+        deferred.resolve()
+    .fail (error) ->
+        deferred.reject new Error error
+
+    return deferred.promise
 
 
 savePost = (theme, post) ->
@@ -88,4 +114,6 @@ savePost = (theme, post) ->
 module.exports =
     getThemes: getThemes
     getPosts: getPosts
+    getComments: getComments
+    addComments: addComments
     savePost: savePost

@@ -5,6 +5,7 @@ express = require 'express'
 marked = require('marked').setOptions
     renderer: require './lib/marked-renderer'
     sanitize: true
+Q = require 'q'
 
 db = require './db'
 
@@ -43,11 +44,14 @@ db.getThemes()
         app.get theme.url, (req, res) ->
             db.getPosts(theme.name)
             .then (posts) ->
-                res.render 'themes' + theme.url + '/index',
-                    themes: themes
-                    theme: theme
-                    posts: posts
-                    md: marked
+                Q.all posts.map (post) ->
+                    db.addComments post
+                .then () ->
+                    res.render 'themes' + theme.url + '/index',
+                        themes: themes
+                        theme: theme
+                        posts: posts
+                        md: marked
             .fail (err) ->
                 handleErr res err
 

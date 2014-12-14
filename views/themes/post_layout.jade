@@ -6,3 +6,6 @@ article.post(id=post.title)
       | by 
       span.author= post.author
   section.content!= md(post.content)
+  section.comments
+    each comment in post.comments
+      section.comment!= md(comment.content)
