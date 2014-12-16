@@ -1,5 +1,5 @@
 @require '../../node_modules/stylus-normalize/normalize'
-@require './common/themes'
+@require 'index'
 
 a[href]
   text-decoration: none
@@ -81,9 +81,10 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
 
     li
       list-style: none
-      flex-grow: 1
+      flex-grow: 1 
       text-align: center
-      width: 100px
+      height: 160px
+      width: 160px
       transition: flex-grow 0.3s, width 0.3s
 
       for theme in themes
@@ -91,18 +92,18 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
           background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
 
       &:hover
-        flex-grow: 5
-        width: 500px
+        flex-grow: 3
+        width: 480px
         a
-          visibility: visible
+          display: flex
 
       a
         color: inherit
-        display: flex
+        display: none
         flex-direction: column
+        font-size: 1.2em
         justify-content: space-between
         height: 100%
-        visibility: hidden
 
         p
           text-shadow: 1px 1px white

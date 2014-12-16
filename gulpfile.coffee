@@ -34,8 +34,9 @@ gulp.task 'img', () ->
     .pipe gulp.dest './static/img'
 
 gulp.task 'stylus', () ->
-    gulp.src './static-src/stylesheets/*.styl'
+    gulp.src './static-src/stylesheets/**/*.styl'
     .pipe stylus
+        paths: [__dirname+"/static-src/common"]
         use: autoprefixer()
     .pipe gulp.dest './static/stylesheets'
     .pipe reload stream: true

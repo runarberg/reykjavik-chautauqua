@@ -3,7 +3,8 @@ html
   head
     meta(charset="utf-8")
     title= theme.name
-    link(rel='stylesheet', href='/stylesheets/themes.css')
+    block stylesheet
+      link(rel='stylesheet', href='/stylesheets/themes.css')
     
   body
     header.main-header
