@@ -16,14 +16,16 @@ article.post(id=post.title)
   section.comments
   
     each comment in post.comments
-      section.comment
+      article.comment
         if comment.author
-          p.author #{comment.author} says
-        section.comment!= md(comment.content)
+          p.author
+            span.author-name= comment.author
+            |  says
+        section.comment-content!= md(comment.content)
         
     section.new-comment
       form.new-comment-form(action="#{theme.url}/new-comment", method="POST")
         input(type="hidden", name="post", value=post.title)
-        textarea(name="content")
-        input(type="text", name="author")
+        textarea(name="content", placeholder="Comment")
+        input(type="text", name="author", placeholder="Name")
         input(type="submit")

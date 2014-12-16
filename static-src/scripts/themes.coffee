@@ -5,7 +5,7 @@ marked = require('marked').setOptions
 parser = new DOMParser()
 
 form = document.getElementById "new-post-form"
-posts = document.getElementById "posts"
+posts = document.getElementById "posts"        
 
 formTitle = form.querySelector("[name='title']")
 formContent = form.querySelector("[name='content']")
@@ -53,3 +53,21 @@ form.addEventListener "submit", (e) ->
         title: formTitle.value
         content: formContent.value
         author: formAuthor.value
+
+commentForms = document.getElementsByClassName "new-comment-form"
+[].forEach.call commentForms, (commentForm) ->
+    form.addEventListener "submit", (e) ->
+        e.preventDefault()
+        req = new XMLHttpRequest()
+
+        req.onload = (e) ->
+            if req.status == 200
+                console.log req.response
+            else
+                console.log req.responseText
+
+        req.open 'POST', commentForm.action
+        req.setRequestHeader 'Content-Type', 'application/json'
+        req.send JSON.stringify
+            content: commentForm.querySelector("input[name='content']").value
+            author: commentForm.querySelector("input[name='author']").value
