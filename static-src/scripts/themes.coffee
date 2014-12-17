@@ -41,9 +41,11 @@ form.addEventListener "submit", (e) ->
     req.onload = (e) ->
         if req.status == 200
             html = parser.parseFromString req.response, "text/html"
+            console.log html
             article = html.getElementById formTitle.value
+            console.log article
             posts.appendChild article
-            document.getElementById("state-new-post").checked = false
+            document.getElementById("dropdown-new-post").checked = false
         else
             console.log req.responseText
             
@@ -54,20 +56,29 @@ form.addEventListener "submit", (e) ->
         content: formContent.value
         author: formAuthor.value
 
-commentForms = document.getElementsByClassName "new-comment-form"
-[].forEach.call commentForms, (commentForm) ->
-    form.addEventListener "submit", (e) ->
+posts.addEventListener 'submit', (e) ->
+    form = e.target
+    if form.matches '.new-comment-form'
         e.preventDefault()
+        postTitle = form.querySelector("input[name='post']").value
         req = new XMLHttpRequest()
 
         req.onload = (e) ->
             if req.status == 200
-                console.log req.response
+                resHtml = parser.parseFromString req.response, "text/html"
+                resArticle = resHtml.getElementById postTitle
+                resComments = resArticle.querySelector(".comments")
+
+                post = document.getElementById postTitle
+                post.querySelector(".comment-length").innerHTML = resComments.childNodes.length
+                comments = post.querySelector(".comments")
+                comments.appendChild(resComments.lastChild)
             else
                 console.log req.responseText
 
-        req.open 'POST', commentForm.action
+        req.open 'POST', form.action
         req.setRequestHeader 'Content-Type', 'application/json'
         req.send JSON.stringify
-            content: commentForm.querySelector("input[name='content']").value
-            author: commentForm.querySelector("input[name='author']").value
+            content: form.querySelector("textarea[name='content']").value
+            author: form.querySelector("input[name='author']").value
+            post: postTitle

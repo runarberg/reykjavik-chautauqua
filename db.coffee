@@ -106,7 +106,8 @@ savePost = (theme, post) ->
     (theme, title, content, author, datetime)
     VALUES ($1, $2, $3, $4, $5)
     "
-    queryParams =  [theme, post.title, post.content, post.author, new Date()]
+    queryParams =  [theme, post.title, post.content,
+                    post.author, new Date()]
     saveDb queryStr, queryParams
 
 saveComment = (theme, comment) ->
@@ -115,7 +116,8 @@ saveComment = (theme, comment) ->
     (theme, post, content, author, datetime)
     VALUES ($1, $2, $3, $4, $5)
     "
-    queryParams = [theme, comment.post, comment.content, comment.author, new Date()]
+    queryParams = [theme, comment.post, comment.content,
+                   comment.author, new Date()]
     saveDb queryStr, queryParams
 
 module.exports =

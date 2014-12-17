@@ -11,8 +11,9 @@ article.post(id=post.title)
   section.content!= md(post.content)
   
   input(id="dropdown-comment-post-#{post.id}", type="checkbox", rel="dropdown")
-  label(for="dropdown-comment-post-#{post.id}").
-    #{post.comments.length} comments
+  label(for="dropdown-comment-post-#{post.id}")
+    span.comment-length #{post.comments.length}
+    |   comments
   section.comments
   
     each comment in post.comments
@@ -23,9 +24,9 @@ article.post(id=post.title)
             |  says
         section.comment-content!= md(comment.content)
         
-    section.new-comment
-      form.new-comment-form(action="#{theme.url}/new-comment", method="POST")
-        input(type="hidden", name="post", value=post.title)
-        textarea(name="content", placeholder="Comment")
-        input(type="text", name="author", placeholder="Name")
-        input(type="submit")
+  section.new-comment
+    form.new-comment-form(action="#{theme.url}/new-comment", method="POST")
+      input(type="hidden", name="post", value=post.title)
+      textarea(name="content", placeholder="Comment")
+      input(type="text", name="author", placeholder="Name")
+      input(type="submit")

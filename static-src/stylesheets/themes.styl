@@ -36,9 +36,11 @@ article,
 
 input[type="checkbox"][rel="dropdown"]
   display: none
-input[type="checkbox"][rel="dropdown"] + label + section
+input[type="checkbox"][rel="dropdown"] + label + section,
+input[type="checkbox"][rel="dropdown"] + label + section + .new-comment
   display: none
-input[type="checkbox"][rel="dropdown"]:checked + label + section
+input[type="checkbox"][rel="dropdown"]:checked + label + section,
+input[type="checkbox"][rel="dropdown"]:checked + label + section + .new-comment
   display: block
 
 label[for^="dropdown"]
@@ -60,6 +62,7 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
   content: "–"
   top: -.25em
 
+.new-comment,
 .comments
   margin: 0 5em 2em
   input:not([type="submit"]),
@@ -71,7 +74,7 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
   input[type="submit"]
     display: block
     margin: 1em auto
-
+    
 .comment
   font-size: 0.95em
   margin: 2em 0
