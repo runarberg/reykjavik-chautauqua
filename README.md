@@ -1,5 +1,5 @@
-Chantal and Rúnar Cinema Company
-================================
+Reykjavík Chautauqua
+====================
 
 This is the app backing up the cinema company that is Rúnar Berg
 and Chantal. It will function as a front of our cinema, a social
