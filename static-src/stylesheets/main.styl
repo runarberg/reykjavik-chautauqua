@@ -4,24 +4,43 @@
 
 
 body
+  background: #C6A575
+  color: #1B1C18
   font-family: "Crimson Text", georgia, serifs
 
 h1, h2, h3
+  color: #302B22
   font-family: "Vollkorn", georgia, serifs
 
 a[href]
   text-decoration: none
 
 header
+  // background: url("/img/chautauqua-header.jpeg")
+  background-repeat: no-repeat
+  background-size: 100%
   font-size: 1.2em
   
   h1
-    margin: 2em .5em 0.2em
+    border: 2px solid #1B1C18
+    border-bottom: none
+    margin: 3em 1.5rem 0
+    padding-top: .75em
     text-align: center
     text-transform: uppercase
+    &::after
+      content: ""
+      border-bottom: 4px double #1B1C18
+      display: block
+      padding-top: .45em
+      margin: 0 auto
+      width: 90%
 
   h2
-    margin: 0.2em .5em 2em
+    border: 2px solid #1B1C18
+    border-top: none
+    margin: 0 1.5rem 2em
+    padding-bottom: .5em
     text-align: center
 
   .introduction
@@ -58,6 +77,8 @@ header
       color: inherit
       display: flex
       flex-direction: column
+      font-family: "Vollkorn"
+      font-weight: bold
       justify-content: space-between
       height: 100%
       width: 100%
@@ -69,4 +90,4 @@ header
     &.focus a
       background: none
       p
-        text-shadow: 3px 3px white
+        text-shadow: 2px 2px white
