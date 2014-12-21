@@ -4,7 +4,7 @@
 
 
 body
-  background: #C6A575
+  background: lightness(#C6A575, 90%)
   color: #1B1C18
   font-family: "Crimson Text", georgia, serifs
 
@@ -19,12 +19,12 @@ header
   // background: url("/img/chautauqua-header.jpeg")
   background-repeat: no-repeat
   background-size: 100%
-  font-size: 1.2em
-  
+  font-size: 1.5em
+
   h1
-    border: 2px solid #1B1C18
+    border: 4px solid #1B1C18
     border-bottom: none
-    margin: 3em 1.5rem 0
+    margin: 1.5em 1.5rem 0
     padding-top: .75em
     text-align: center
     text-transform: uppercase
@@ -32,30 +32,45 @@ header
       content: ""
       border-bottom: 4px double #1B1C18
       display: block
-      padding-top: .45em
+      padding-top: .70em
       margin: 0 auto
       width: 90%
 
   h2
-    border: 2px solid #1B1C18
+    border: 4px solid #1B1C18
     border-top: none
     margin: 0 1.5rem 2em
-    padding-bottom: .5em
+    padding: 1em 0 .85em
     text-align: center
 
   .introduction
     max-width: 38em
     margin: .5em auto
 
+  .heading-picture
+    background: url("/img/chautauqua-header.jpeg")
+    background-repeat: no-repeat
+    border: 4px double #1B1C18
+    display: block
+    margin: 0 auto 2em
+    width: 750px
+    height: 332px
+
 .theme-nav
   font-size: 1.2em
+  margin-top: 6em
   h2
+    border-bottom: 4px double #1B1C18
+    padding-bottom 1em
+    margin: 1em auto
     text-align: center
+    width: 90%
+
   ul
     justify-content: center
     margin: 0
     padding: 0
-    overflow-x: scroll
+    overflow-x: auto
     white-space: nowrap
   li
     display: inline-block
@@ -63,7 +78,8 @@ header
     height: 310px
     list-style: none
     margin: 0
-    overflow: hidden
+    padding: 0
+    overflow: auto
     text-align: center
     width: 500px
     white-space: normal
@@ -85,9 +101,9 @@ header
       p
         margin: 0.25em 0.85em
         padding: 0.125em 0
-        text-shadow: 1px 1px white
 
     &.focus a
       background: none
       p
-        text-shadow: 2px 2px white
+        color: #A9CCE4
+        text-shadow: 1px 1px black
