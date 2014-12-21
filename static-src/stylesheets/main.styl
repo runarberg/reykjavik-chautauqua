@@ -1,6 +1,13 @@
 @require '../../node_modules/stylus-normalize/normalize'
 @require 'index'
+@require './fonts'
 
+
+body
+  font-family: "Crimson Text", georgia, serifs
+
+h1, h2, h3
+  font-family: "Vollkorn", georgia, serifs
 
 a[href]
   text-decoration: none
@@ -9,7 +16,12 @@ header
   font-size: 1.2em
   
   h1
-    margin: 2em .5em
+    margin: 2em .5em 0.2em
+    text-align: center
+    text-transform: uppercase
+
+  h2
+    margin: 0.2em .5em 2em
     text-align: center
 
   .introduction

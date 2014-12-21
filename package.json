@@ -2,7 +2,7 @@
   "name": "reykjavik-chautauqua",
   "version": "0.0.0",
   "description": "Chantal's and Rúnars new cinema forum",
-  "repository": "https://git.heroku.com/chantal-runar-cinema-company.git",
+  "repository": "git@github.com:runarberg/reykjavik-chautauqua.git",
   "main": "index.coffee",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

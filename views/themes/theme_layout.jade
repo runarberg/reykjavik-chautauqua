@@ -39,7 +39,8 @@ html
       ul.theme-list
         each theme_ in themes
           if theme_.name == theme.name
-            li.active(class=theme_.url.slice(1))
+            li(class=(theme_.name == theme.name ? "active " : " ") +
+               theme_.url.slice(1))
               a(href=theme_.url)
                 p= theme_.dateStr
                 p= theme_.name

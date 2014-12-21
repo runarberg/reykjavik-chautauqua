@@ -29,6 +29,10 @@ gulp.task 'browserify-themes', () ->
 
 gulp.task 'browserify', ['browserify-main', 'browserify-themes']
 
+gulp.task 'fonts', () ->
+    gulp.src './static-src/fonts/**/*.{woff,ttf,otf}'
+    .pipe gulp.dest './static/fonts'
+
 gulp.task 'img', () ->
     gulp.src './static-src/img/**/*.{jpeg,png}'
     .pipe gulp.dest './static/img'
@@ -41,9 +45,12 @@ gulp.task 'stylus', () ->
     .pipe gulp.dest './static/stylesheets'
     .pipe reload stream: true
 
-gulp.task 'default', ['browserify', 'img', 'stylus']
-gulp.task 'watch', ['browserify', 'img', 'stylus', 'browser-sync'], () ->
+gulp.task 'default', ['browserify', 'fonts', 'img', 'stylus']
+gulp.task 'watch', [
+    'browserify', 'fonts', 'img', 'stylus', 'browser-sync'
+    ], () ->
     gulp.watch './static-src/stylesheets/**/*.styl', ['stylus']
+    gulp.watch './static-src/fonts/**/*.{woff,ttf,otf}', ['fonts']
     gulp.watch './static-src/img/**/*.{jpeg,png}', ['img', reload]
     gulp.watch './static-src/scripts/**/*.coffee', ['browserify', reload]
     gulp.watch './lib/**/*.coffee', ['browserify', reload]
