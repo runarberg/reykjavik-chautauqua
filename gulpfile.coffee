@@ -34,7 +34,7 @@ gulp.task 'fonts', () ->
     .pipe gulp.dest './static/fonts'
 
 gulp.task 'img', () ->
-    gulp.src './static-src/img/**/*.{jpeg,png}'
+    gulp.src './static-src/img/**/*.{jpeg,png,svg}'
     .pipe gulp.dest './static/img'
 
 gulp.task 'stylus', () ->
