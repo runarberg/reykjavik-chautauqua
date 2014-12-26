@@ -1,12 +1,72 @@
 @require '../../node_modules/stylus-normalize/normalize'
 @require 'index'
+@require './fonts'
+
+
+body-background = #F0E7DB
+
+body
+  background: body-background
+  color: #1B1C18
+  font-family: "Crimson Text", georgia, serifs
+
+h1, h2, h3
+  color: #302B22
+  font-family: "Vollkorn", georgia, serifs
 
 a[href]
+  border-bottom: 1px dotted #302B22
+  color: lightness(#302B22, 22%)
   text-decoration: none
+  &:hover
+    color: lightness(#302B22, 40%)
+    border-color: @color
 
 .main-header
-  h1, h2
+  h1
+    border: 4px solid #302B22
+    border-bottom: none
+    margin: 1.5em 1.5rem 0
+    padding-top: .75em
     text-align: center
+    text-transform: uppercase
+    &::after
+      content: ""
+      border-bottom: 4px double #1B1C18
+      display: block
+      padding-top: .70em
+      margin: 0 auto
+      width: 90%
+
+  h2
+    border: 4px solid #302B22
+    border-top: none
+    margin: 0 1.5rem 1em
+    padding: 1em 0 .85em
+    text-align: center
+    a, a:hover
+      border-bottom: 0
+      color: inherit
+
+  h1, h2
+    border-image: url(/img/main-borders.svg) 23.5
+    border-image-width: 8
+    text-align: center
+
+  &::after
+    content: "ReyQua.com"
+    border 2px solid #302B22
+    border-image: url(/img/main-borders.svg) 23.5
+    border-image-width: 8
+    display: block
+    font-weight: bold
+    font-family: "Vollkorn", georgia, serifs
+    font-size: 1.6em
+    margin: 0 auto
+    padding: .3em 0 .5em
+    width: 16em
+    text-align: center
+
 
 article,
 .intro
@@ -15,12 +75,16 @@ article,
   padding: 1em
   width: 38em
 
+.intro
+  margin-top: 1em
+  padding-top: 0
+
 .posts
-  margin: 4em 0
+  margin: 2em 0
   
   & > h2
     display: none
-
+    
 .post,
 .preview
   header
@@ -44,10 +108,13 @@ input[type="checkbox"][rel="dropdown"]:checked + label + section + .new-comment
   display: block
 
 label[for^="dropdown"]
-  border: 1px solid black
-  border-radius: 1em
+  border 2px solid #302B22
+  border-image: url(/img/main-borders.svg) 23.5
+  border-image-width: 8
+  color: #302B22
   cursor: pointer
   display: block
+  font-family: "Vollkorn", georgia, serifs
   margin: 2em auto
   position: relative
   text-align: center
@@ -56,8 +123,8 @@ label[for^="dropdown"]
     content: "+"
     font-size: 1.5em
     position: absolute
-    left: .25em
-    top: -.175em
+    left: 0.75em
+    top: -.25em
 input[type="checkbox"][rel="dropdown"]:checked + label::before
   content: "–"
   top: -.25em
@@ -123,15 +190,22 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
         flex-grow: 3
         width: 480px
         a
-          display: flex
+          width: 100%
+          p
+            font-size: 1em
 
       a
         color: inherit
-        display: none
+        display: flex
         flex-direction: column
         font-size: 1.2em
+        font-weight: bold
         justify-content: space-between
+        width: 0
         height: 100%
 
         p
-          text-shadow: 1px 1px white
+          color: body-background
+          font-size: 0
+          text-shadow: 1px 1px black
+          transition: font-size 0.3s
