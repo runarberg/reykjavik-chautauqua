@@ -65,13 +65,14 @@ header
     height: 332px
 
 .theme-nav
-  font-size: 1.4em
+  font-size: 1.25em
   margin-top: 4em
   h2
     border: 4px solid #302B22
     border-image: url(/img/main-borders.svg) 23.5
     border-image-width: 8
     color: #302B22
+    font-size: 1.6em
     padding 1em 0 1.2em
     margin: 1em auto 2em
     width: 90%
@@ -90,7 +91,7 @@ header
     list-style: none
     margin: 0
     padding: 0
-    overflow: auto
+    overflow: hidden
     text-align: center
     width: 500px
     white-space: normal
@@ -109,6 +110,8 @@ header
       justify-content: space-between
       height: 100%
       width: 100%
+      &:hover
+        color: inherit
       p
         margin: 0.25em 0.85em
         padding: 0.125em 0

@@ -17,13 +17,16 @@ themeNav.addEventListener "mouseover", (e) ->
 
     scroller = setInterval () ->
         scrollFn()
-        [].forEach.call themeLis, (li) ->
-            offsetLeft = li.offsetLeft - themeNav.scrollLeft
-            if winMid-li.clientWidth < offsetLeft < winMid
-                li.classList.add "focus"
-            else
-                li.classList.remove "focus"
     , 50
+
+
+[].forEach.call themeLis, (li) ->
+    li.addEventListener "mouseover", () ->
+        [].forEach.call themeLis, (li_) ->
+            li_.classList.remove "focus"
+            
+        this.classList.add "focus"
+
 
 themeNav.addEventListener "mouseout", (e) ->
     this.removeEventListener "mousemove", setScrollFn
