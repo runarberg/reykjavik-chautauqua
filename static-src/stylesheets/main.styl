@@ -13,7 +13,12 @@ h1, h2, h3
   font-family: "Vollkorn", georgia, serifs
 
 a[href]
+  border-bottom: 1px dotted #302B22
+  color: lightness(#302B22, 22%)
   text-decoration: none
+  &:hover
+    color: lightness(#302B22, 40%)
+    border-color: @color
 
 header
   background-repeat: no-repeat
