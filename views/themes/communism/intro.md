@@ -16,4 +16,4 @@ revolution, and the one solution to all the injustice done to the wage
 laborer. Let Marx’s manifesto shine through the Bolshevik revolution,
 to the liberation of neo-colonized third world states. Join the cause,
 join the social movement. United against tyranny. Here at Reykjavík
-Chahutauqua.
+Chautauqua.
