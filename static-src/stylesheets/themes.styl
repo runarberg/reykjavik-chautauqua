@@ -101,8 +101,8 @@ input[type="checkbox"][rel="dropdown"]
 input[type="checkbox"][rel="dropdown"] + label + section,
 input[type="checkbox"][rel="dropdown"] + label + section + .new-comment
   display: none
-input[type="checkbox"][rel="dropdown"]:checked + label + section,
-input[type="checkbox"][rel="dropdown"]:checked + label + section + .new-comment
+input[type="checkbox"][rel="dropdown"]:checked ~ section,
+input[type="checkbox"][rel="dropdown"]:checked ~ .new-comment
   display: block
 
 label[for^="dropdown"]
