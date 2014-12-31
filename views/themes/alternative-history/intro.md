@@ -5,4 +5,5 @@ perspective, not sci-fi novels with alien Nazi’s winning the war
 feel free to share!). History is so much a narrative of who is
 documenting it that it becomes hugely subjective and even
 dynamic. What history would you rather know? What history do you think
-is just plain wrong?
+is just plain wrong? Join us in discovering the past the thought we
+knew.
