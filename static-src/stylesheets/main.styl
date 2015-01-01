@@ -68,25 +68,44 @@ header
     height: 332px
 
 .theme-nav
+  border-width: 4px
+  border-style: solid
+  border-color: #302B22
+  border-image: url(/img/main-borders.svg) 23.5% / 8
   font-size: 1.25em
-  margin-top: 4em
+  margin: 4em 1.5rem 0
+  padding 0 4px 2em
   overflow-y: hidden
   h2
-    border-width: 4px
-    border-style: solid
-    border-color: #302B22
-    border-image: url(/img/main-borders.svg) 23.5% / 8
     color: #302B22
     font-size: 1.6em
-    padding 1em 0 1.2em
-    margin: 1em auto 2em
-    width: 90%
+    margin: .4em auto
+    position: relative
     text-align: center
+    &::before,
+    &::after
+      background: body-background
+      display: inline-block
+      line-height: 310px
+      height: 310px
+      pointer-events: none
+      position: absolute
+      padding: 0 .4em
+      top 1.075em
+      font-size: 1.5em
+    &::before
+      content: "«"
+      left: 0
+      padding-right: 0.6em
+    &::after
+      content: "»"
+      right: 0
+      padding-left: 0.6em
 
   ul
     justify-content: center
-    margin: 0 0 -24px           // Hiding the scroll-bar
-    padding: 0 0 24px
+    margin: 0 0 -55px           // Hiding the scroll-bar
+    padding: 0 0 55px
     overflow-x: auto
     white-space: nowrap
   li
