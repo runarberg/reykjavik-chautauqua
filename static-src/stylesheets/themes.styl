@@ -179,9 +179,11 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
       width: 160px
       transition: flex-grow 0.3s, width 0.3s
 
-      for theme in themes
+      for theme, color in themes
         &.{theme}
           background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
+          a p
+            color: color
 
       &:hover
         flex-grow: 3
@@ -202,7 +204,6 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
         height: 100%
 
         p
-          color: body-background
           font-size: 0
           text-shadow: 1px 1px black
           transition: font-size 0.3s

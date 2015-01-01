@@ -99,9 +99,11 @@ header
     width: 500px
     white-space: normal
 
-    for theme in themes
+    for theme, color in themes
       &.{theme}
         background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
+        &.focus a p
+          color: color
 
     a
       background: rgba(255,166,166,0.2)
@@ -122,5 +124,4 @@ header
     &.focus a
       background: none
       p
-        color: #A9CCE4
         text-shadow: 1px 1px black

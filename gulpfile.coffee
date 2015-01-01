@@ -49,7 +49,7 @@ gulp.task 'default', ['browserify', 'fonts', 'img', 'stylus']
 gulp.task 'watch', [
     'browserify', 'fonts', 'img', 'stylus', 'browser-sync'
     ], () ->
-    gulp.watch './static-src/stylesheets/**/*.styl', ['stylus']
+    gulp.watch './static-src/{stylesheets,common}/**/*.styl', ['stylus']
     gulp.watch './static-src/fonts/**/*.{woff,ttf,otf}', ['fonts']
     gulp.watch './static-src/img/**/*.{jpeg,png}', ['img', reload]
     gulp.watch './static-src/scripts/**/*.coffee', ['browserify', reload]
