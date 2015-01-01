@@ -8,9 +8,9 @@ html
     title= theme.name
     block stylesheet
       link(rel='stylesheet', href='/stylesheets/themes.css')
-    
+
   body
-    header.main-header
+    header.main-header(class=theme.url.slice(1))
       block header
         h1= theme.name
         h2

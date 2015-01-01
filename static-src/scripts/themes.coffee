@@ -36,6 +36,11 @@ formAuthor.addEventListener "input", (e) ->
 
 form.addEventListener "submit", (e) ->
     e.preventDefault()
+
+    unless formTitle.value and formContent.value
+        # You have to have a title and a content to your post
+        return
+    
     req = new XMLHttpRequest()
     
     req.onload = (e) ->
@@ -73,6 +78,11 @@ posts.addEventListener 'submit', (e) ->
         commentAuthor = form.querySelector("input[name='author']")
         commentContent = form.querySelector("textarea[name='content']")
         postTitle = form.querySelector("input[name='post']").value
+
+        unless commentContent.value
+            # No sending in an empty comment
+            return
+        
         req = new XMLHttpRequest()
 
         req.onload = (e) ->

@@ -52,19 +52,16 @@ a[href]
     border-image: url(/img/main-borders.svg) 23.5% / 8
     text-align: center
 
-  &::after
-    content: "ReyQua.com"
-    border 2px solid #302B22
-    border-image: url(/img/main-borders.svg) 23.5% / 8
-    display: block
-    font-weight: bold
-    font-family: "Vollkorn", georgia, serifs
-    font-size: 1.6em
-    margin: 0 auto
-    padding: .3em 0 .5em
-    width: 16em
-    text-align: center
-
+  for theme, color in themes
+    &.{theme}::after
+      content: ""
+      background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
+      background-repeat: no-repeat
+      border 4px double #302B22
+      display: block
+      margin: 0 auto
+      width: 500px
+      height: 310px
 
 article,
 .intro

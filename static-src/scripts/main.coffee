@@ -34,6 +34,13 @@ themeNav.addEventListener "mouseout", (e) ->
         clearInterval scroller
 
 
+themeNav.addEventListener "touchmove", (e) ->
+    [].forEach.call themeLis, (li) ->
+        li.classList.remove "focus"
+        if li.offsetLeft < themeNav.scrollLeft + winMid < li.offsetLeft + li.clientWidth
+            li.classList.add "focus"
+
+
 document.addEventListener "DOMContentLoaded", () ->
     winWidth = window.innerWidth
     liWidth = themeNav.firstChild.clientWidth
