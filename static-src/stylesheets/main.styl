@@ -75,32 +75,35 @@ header
   font-size: 1.25em
   margin: 4em 1.5rem 0
   padding 0 4px 2em
+  position: relative
   overflow-y: hidden
   h2
     color: #302B22
     font-size: 1.6em
     margin: .4em auto
-    position: relative
     text-align: center
-    &::before,
-    &::after
-      background: body-background
-      display: inline-block
-      line-height: 310px
-      height: 310px
-      pointer-events: none
-      position: absolute
-      padding: 0 .4em
-      top 1.075em
-      font-size: 1.5em
-    &::before
-      content: "«"
-      left: 0
+
+  a.scroll
+    background: body-background
+    border: 0
+    cursor: default
+    display: inline-block
+    font-size: 2.4em
+    font-weight: bold
+    line-height: 310px
+    height: 310px
+    position: absolute
+    padding: 0 .4em
+    &.left
+      left: 4px
       padding-right: 0.6em
-    &::after
-      content: "»"
-      right: 0
+    &.right
+      right: 4px
       padding-left: 0.6em
+    &, &:hover, &:focus
+      color: inherit
+      outline: 0
+
 
   ul
     justify-content: center

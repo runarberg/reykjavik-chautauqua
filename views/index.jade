@@ -15,6 +15,8 @@ html(lang="en")
         include:markdown introduction.md
     nav.theme-nav
       h2 Topics
+      a.scroll.left(href="#") «
+      a.scroll.right(href="#") »
       ul.theme-list
         each theme in themes
           li(class=(theme.focus ? "focus " : " ") + theme.url.slice(1))
