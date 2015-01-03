@@ -151,6 +151,10 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
   p
     margin: 0.5em 0
 
+  textarea[name="comment"]
+    // Honeypot
+    display: none
+
 .new-post
   textarea,
   input
@@ -161,6 +165,8 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
 
   textarea
     height: 12em
+    &[name="post"]
+      display: none
 
 .theme-nav
   ul

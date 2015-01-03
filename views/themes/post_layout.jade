@@ -27,6 +27,7 @@ article.post(id=post.title)
   section.new-comment
     form.new-comment-form(action="#{theme.url}/new-comment", method="POST")
       input(type="hidden", name="post", value=post.title)
+      textarea(name="comment", placeholder="Comment")
       textarea(name="content", placeholder="Comment")
       input(type="text", name="author", placeholder="Name")
       input(type="submit")

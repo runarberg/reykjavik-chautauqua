@@ -4,12 +4,12 @@ marked = require('marked').setOptions
 
 parser = new DOMParser()
 
-form = document.getElementById "new-post-form"
+postForm = document.getElementById "new-post-form"
 posts = document.getElementById "posts"        
 
-formTitle = form.querySelector("[name='title']")
-formContent = form.querySelector("[name='content']")
-formAuthor = form.querySelector("[name='author']")
+formTitle = postForm.querySelector("[name='title']")
+formContent = postForm.querySelector("[name='content']")
+formAuthor = postForm.querySelector("[name='author']")
 
 newPost = document.getElementById "new-post"
 newPostTitle = newPost.querySelector ".title"
@@ -34,9 +34,11 @@ formAuthor.addEventListener "input", (e) ->
     oldNode.remove() if oldNode
     newPostAuthor.appendChild newNode if author
 
-form.addEventListener "submit", (e) ->
+postForm.addEventListener "submit", (e) ->
     e.preventDefault()
 
+    robot = postForm.querySelector("[name='post']").value !== ""
+    
     unless formTitle.value and formContent.value
         # You have to have a title and a content to your post
         return
@@ -63,12 +65,13 @@ form.addEventListener "submit", (e) ->
         else
             console.log req.responseText
             
-    req.open 'POST', form.action
+    req.open 'POST', postForm.action
     req.setRequestHeader 'Content-Type', 'application/json'
     req.send JSON.stringify
         title: formTitle.value
         content: formContent.value
         author: formAuthor.value
+        robot: robot
 
 
 posts.addEventListener 'submit', (e) ->
@@ -78,6 +81,7 @@ posts.addEventListener 'submit', (e) ->
         commentAuthor = form.querySelector("input[name='author']")
         commentContent = form.querySelector("textarea[name='content']")
         postTitle = form.querySelector("input[name='post']").value
+        robot = form.querySelector("input[name='comment']").value !== ""
 
         unless commentContent.value
             # No sending in an empty comment
@@ -108,3 +112,4 @@ posts.addEventListener 'submit', (e) ->
             content: commentContent.value
             author: commentAuthor.value
             post: postTitle
+            robot: robot
