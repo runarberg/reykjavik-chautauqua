@@ -101,6 +101,10 @@ saveDb = (queryStr, queryParams) ->
     return deferred.promise
 
 savePost = (theme, post) ->
+    if post.post
+        # Robot fell into a honeypot
+        return Q.defer().promise
+        
     queryStr = "
     INSERT INTO posts
     (theme, title, content, author, datetime)
@@ -111,6 +115,10 @@ savePost = (theme, post) ->
     saveDb queryStr, queryParams
 
 saveComment = (theme, comment) ->
+    if comment.comment
+        # Robot fell into a honeypot
+        return Q.defer().promise
+    
     queryStr = "
     INSERT INTO comments
     (theme, post, content, author, datetime)

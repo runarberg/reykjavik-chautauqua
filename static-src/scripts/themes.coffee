@@ -36,8 +36,6 @@ formAuthor.addEventListener "input", (e) ->
 
 postForm.addEventListener "submit", (e) ->
     e.preventDefault()
-
-    robot = postForm.querySelector("[name='post']").value !== ""
     
     unless formTitle.value and formContent.value
         # You have to have a title and a content to your post
@@ -71,7 +69,6 @@ postForm.addEventListener "submit", (e) ->
         title: formTitle.value
         content: formContent.value
         author: formAuthor.value
-        robot: robot
 
 
 posts.addEventListener 'submit', (e) ->
@@ -81,7 +78,6 @@ posts.addEventListener 'submit', (e) ->
         commentAuthor = form.querySelector("input[name='author']")
         commentContent = form.querySelector("textarea[name='content']")
         postTitle = form.querySelector("input[name='post']").value
-        robot = form.querySelector("input[name='comment']").value !== ""
 
         unless commentContent.value
             # No sending in an empty comment
@@ -112,4 +108,3 @@ posts.addEventListener 'submit', (e) ->
             content: commentContent.value
             author: commentAuthor.value
             post: postTitle
-            robot: robot

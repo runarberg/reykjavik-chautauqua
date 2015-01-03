@@ -135,6 +135,10 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
   input[type="submit"]
     display: block
     margin: 1em auto
+
+  textarea[name="comment"]
+    // Honeypot
+    display: none
     
 .comment
   font-size: 0.95em
@@ -150,10 +154,6 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
     margin-top: 0.25em
   p
     margin: 0.5em 0
-
-  textarea[name="comment"]
-    // Honeypot
-    display: none
 
 .new-post
   textarea,
