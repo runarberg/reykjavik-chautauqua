@@ -1,5 +1,6 @@
 pg = require 'pg'
 Q = require 'q'
+dateFormat = require 'dateformat'
 urlify = require('urlify').create
     spaces: '-'
     toLower: true
@@ -62,6 +63,7 @@ getPosts = (theme) ->
     queryStr = 'SELECT * FROM posts WHERE theme=$1 ORDER BY datetime ASC'
     accFn = (post, posts) ->
         post.articleId = post.title.replace /\s/g, '-'
+        posts.humanDate = dateFormat post.date, 'mmmm, dS'
         posts.addRow post
     getDb queryStr, [theme], accFn
     

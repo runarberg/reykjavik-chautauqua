@@ -44,6 +44,11 @@ db.getThemes()
         app.get theme.url, (req, res) ->
             db.getPosts(theme.name)
             .then (posts) ->
+                
+                # reverse the chronological order of the current month
+                if theme.focus
+                    posts = posts.reverse()
+                    
                 Q.all posts.map (post) ->
                     db.addComments post
                 .then () ->

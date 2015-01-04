@@ -110,8 +110,14 @@ postForm.addEventListener "submit", (e) ->
     req.onload = (e) ->
         if req.status == 200
             html = parser.parseFromString req.response, "text/html"
-            article = html.getElementById formTitle.value.replace /\s/g, '-'
-            posts.appendChild article
+            articleId = formTitle.value.replace /\s/g, '-'
+            article = html.getElementById articleId
+
+            # Prepend on focus month otherwise append
+            if document.documentElement.classList.contains "focus-theme"
+                posts.insertBefore article, posts.querySelector(".post")
+            else
+                posts.appendChild article
 
             # Clear all form and preview content
             document.getElementById("dropdown-new-post").checked = false
@@ -124,6 +130,8 @@ postForm.addEventListener "submit", (e) ->
             
             formAuthor.value = ""
             newPostAuthor.childNodes[0].remove()
+
+            window.location.hash = "#"+ articleId
         else
             console.log req.responseText
             
@@ -173,10 +181,3 @@ posts.addEventListener 'submit', (e) ->
             author: commentAuthor.value
             post: postTitle
 
-
-document.querySelector "a[href='#new-post']"
-.addEventListener "click", (e) ->
-    console.log "click"
-    e.preventDefault()
-    document.getElementById("dropdown-new-post").checked = true
-    window.location.hash = "new-post"
