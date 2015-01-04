@@ -59,7 +59,7 @@ getThemes = () ->
 
 
 getPosts = (theme) ->
-    queryStr = 'SELECT * FROM posts WHERE theme=$1'
+    queryStr = 'SELECT * FROM posts WHERE theme=$1 ORDER BY datetime ASC'
     accFn = (post, posts) ->
         post.articleId = post.title.replace /\s/g, '-'
         posts.addRow post

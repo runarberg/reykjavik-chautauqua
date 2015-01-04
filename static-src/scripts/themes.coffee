@@ -79,17 +79,17 @@ formTitle.addEventListener "keydown", (e) ->
     if e.keyCode == 13
         e.preventDefault()
         e.stopPropagation()
-        formContent.focus()
+        formAuthor.focus()
+
+formAuthor.addEventListener "keydown", (e) ->
+    if e.keyCode == 13
+        e.preventDefault()
+        e.stopPropagation()
+        formContent.submit()
 
 formContent.addEventListener "input", (e) ->
     content = marked this.value
     newPostContent.innerHTML = content
-
-formContent.addEventListener "keydown", (e) ->
-    if e.keyCode == 9 and not e.shiftKey
-        e.preventDefault()
-        e.stopPropagation()
-        formAuthor.focus()
 
 formAuthor.addEventListener "input", (e) ->
     author = this.value
@@ -97,12 +97,6 @@ formAuthor.addEventListener "input", (e) ->
     oldNode = newPostAuthor.childNodes[0]
     oldNode.remove() if oldNode
     newPostAuthor.appendChild newNode if author
-
-formAuthor.addEventListener "keydown", (e) ->
-    if e.keyCode == 13
-        e.preventDefault()
-        e.stopPropagation()
-        this.form.submit()
 
 postForm.addEventListener "submit", (e) ->
     e.preventDefault()
@@ -116,7 +110,7 @@ postForm.addEventListener "submit", (e) ->
     req.onload = (e) ->
         if req.status == 200
             html = parser.parseFromString req.response, "text/html"
-            article = html.getElementById formTitle.value
+            article = html.getElementById formTitle.value.replace /\s/g, '-'
             posts.appendChild article
 
             # Clear all form and preview content
