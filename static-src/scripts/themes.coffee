@@ -16,6 +16,58 @@ newPostTitle = newPost.querySelector ".title"
 newPostContent = newPost.querySelector ".content"
 newPostAuthor = newPost.querySelector ".author"
 
+surround = (a, b, defaultText) ->
+    oldText = formContent.value
+    selStart = formContent.selectionStart
+    selEnd = formContent.selectionEnd
+    startText = oldText.substring(0, selStart)
+    endText = oldText.substring(selEnd)
+
+    if selStart != selEnd
+        selText = oldText.substring(selStart, selEnd)
+    else
+        selText = defaultText
+        selEnd += defaultText.length
+
+    newText = startText + a + selText + b + endText
+
+    formContent.value = newText
+    newPostContent.innerHTML = marked newText
+    formContent.setSelectionRange(selStart + a.length, selEnd + a.length)
+    formContent.focus()
+
+editor =
+    h2: () ->
+        surround "", "\n-------\n", "heading"
+    h3: () ->
+        surround "\n###", "###\n", "heading"
+    em: () ->
+        surround "*", "*", "emphasized text"
+    strong: () ->
+        surround "**", "**", "strong text"
+    a: () ->
+        url = prompt "Enter a URL"
+        surround "[", "](#{url})", "link description"
+    img: () ->
+        url = prompt "Enter an image URL"
+        surround "![", "](#{url})", "image description"
+    yt: () ->
+        url = prompt "Enter the URL to the You Tube video"
+        surround "", "![yt](#{url})", ""
+    vimeo: () ->
+        url = prompt "Enter the URL to the vimeo video"
+        surround "", "![vimeo](#{url})", ""
+
+
+postForm.querySelector ".editmenu"
+.addEventListener "click", (e) ->
+    button = e.target
+    unless e.target.matches "button[value]"
+        return
+
+    e.preventDefault()
+    editor[button.value]()
+
 formTitle.addEventListener "input", (e) ->
     title = this.value
     newNode = document.createTextNode title
@@ -23,9 +75,21 @@ formTitle.addEventListener "input", (e) ->
     oldNode.remove() if oldNode
     newPostTitle.appendChild newNode if title
 
+formTitle.addEventListener "keydown", (e) ->
+    if e.keyCode == 13
+        e.preventDefault()
+        e.stopPropagation()
+        formContent.focus()
+
 formContent.addEventListener "input", (e) ->
     content = marked this.value
     newPostContent.innerHTML = content
+
+formContent.addEventListener "keydown", (e) ->
+    if e.keyCode == 9 and not e.shiftKey
+        e.preventDefault()
+        e.stopPropagation()
+        formAuthor.focus()
 
 formAuthor.addEventListener "input", (e) ->
     author = this.value
@@ -33,6 +97,12 @@ formAuthor.addEventListener "input", (e) ->
     oldNode = newPostAuthor.childNodes[0]
     oldNode.remove() if oldNode
     newPostAuthor.appendChild newNode if author
+
+formAuthor.addEventListener "keydown", (e) ->
+    if e.keyCode == 13
+        e.preventDefault()
+        e.stopPropagation()
+        this.form.submit()
 
 postForm.addEventListener "submit", (e) ->
     e.preventDefault()

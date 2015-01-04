@@ -157,7 +157,8 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
 
 .new-post
   textarea,
-  input
+  input,
+  .form-content
     display: block
     font-size: 1.2em
     margin: .1em auto
@@ -167,6 +168,60 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
     height: 12em
     &[name="post"]
       display: none
+
+  .form-content
+    display: flex
+    align-items: center
+    textarea
+      flex-grow 1
+    .editmenu
+      flex-grow 0
+      width: 2em
+      ul
+        padding: 0
+        margin: 0
+      li
+        list-style: none
+        text-align: center
+        button
+          background: inherit
+          border: 0
+          color: #302B22
+          line-height: 1.5em
+          padding: .1em 0
+          width: 2em
+          height: 1.5em
+          &.heading2
+            font-weight: bold
+            text-decoration: underline
+          &.heading3
+            font-style: italic
+          &.strong
+            font-weight: bold
+          &.em
+            font-style: italic
+          &.yt, &.vimeo, &.anchor, &.img
+            overflow: hidden
+            white-space: nowrap
+            text-indent: 110%
+          &.img
+            background: url(/img/picture-icon.png) no-repeat
+            width: 24px
+            height: 20px
+          &.anchor
+            background: url(/img/link-icon.png) no-repeat
+            width: 21px
+            height: 23px
+          &.yt
+            background: url(/img/youtube-icon.png) no-repeat
+            width: 24px
+            height: 24px
+          &.vimeo
+            background: url(/img/vimeo-icon.png) no-repeat
+            width: 24px
+            height: 24px
+
+
 
 .theme-nav
   ul
