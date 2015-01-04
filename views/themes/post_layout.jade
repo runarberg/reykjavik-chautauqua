@@ -1,7 +1,8 @@
-article.post(id=post.title)
+article.post(id=post.articleId)
 
   header
     h2= post.title
+    a.permalink(href="#"+post.articleId, title="permalink") Permalink
     
   footer
     if post.author

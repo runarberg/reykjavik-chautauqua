@@ -4,27 +4,29 @@
 
 
 body-background = #F0E7DB
+font-color-dark = #1B1C18
+font-color-light = #302B22
 
 body
   background: body-background
-  color: #1B1C18
+  color: font-color-dark
   font-family: "Crimson Text", georgia, serifs
 
 h1, h2, h3
-  color: #302B22
+  color: font-color-light
   font-family: "Vollkorn", georgia, serifs
 
 a[href]
-  border-bottom: 1px dotted #302B22
-  color: lightness(#302B22, 22%)
+  border-bottom: 1px dotted font-color-light
+  color: lightness(font-color-light, 22%)
   text-decoration: none
   &:hover
-    color: lightness(#302B22, 40%)
+    color: lightness(font-color-light, 40%)
     border-color: @color
 
 .main-header
   h1
-    border: 4px solid #302B22
+    border: 4px solid font-color-light
     border-bottom: 0
     margin: 1.5em 1.5rem 0
     padding-top: .75em
@@ -39,7 +41,7 @@ a[href]
       width: 90%
 
   h2
-    border: 4px solid #302B22
+    border: 4px solid font-color-light
     border-top: 0
     margin: 0 1.5rem 1em
     padding: 1em 0 .85em
@@ -57,7 +59,7 @@ a[href]
       content: ""
       background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
       background-repeat: no-repeat
-      border 4px double #302B22
+      border 4px double font-color-light
       display: block
       margin: 0 auto
       width: 500px
@@ -76,16 +78,63 @@ article,
 
 .posts
   margin: 2em 0
-  
-  & > h2
-    display: none
-    
+
+  h2
+    text-align: center
+
+  .toc
+    font-size: 1.2em
+    width: 38em
+    margin: .5em auto
+    a
+      color: font-color-dark
+      display: flex
+      justify-content: space-between
+      &:hover
+        color: font-color-light
+      span
+        background: body-background
+        display: inline-block
+        margin: .3em 0 -.3em
+      &:hover .title
+        color: lightness(font-color-light, 30%)
+    ul
+      padding 0 3em
+    li
+      list-style: none
+      .title
+        font-style: italic
+    li.new-post
+      margin-top: 0.5em
+      span.title::before
+        content: "+"
+        font-style: normal
+        padding-right: 0.5em
+
 .post,
 .preview
   header
     margin: 1em 0 .1em
     h2
       margin: 0
+      display: inline-block
+    .permalink
+      background: url(/img/link-icon.png) no-repeat
+      border: 0
+      display: none
+      margin-top: -.5em
+      margin-left: .8em
+      opacity: 0.35
+      overflow: hidden
+      text-indent: 110%
+      white-space: nowrap
+      width: 21px
+      height: 23px
+      &:focus
+        outline: 0
+    &:hover
+      .permalink
+        display: inline-block
   footer
     margin: .1em 0 1em
     text-indent: 2em
@@ -103,9 +152,9 @@ input[type="checkbox"][rel="dropdown"]:checked ~ .new-comment
   display: block
 
 label[for^="dropdown"]
-  border 2px solid #302B22
+  border 2px solid font-color-light
   border-image: url(/img/main-borders.svg) 23.5% / 8
-  color: #302B22
+  color: font-color-light
   cursor: pointer
   display: block
   font-family: "Vollkorn", georgia, serifs
@@ -177,16 +226,38 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
     .editmenu
       flex-grow 0
       width: 2em
-      ul
+      > ul
         padding: 0
         margin: 0
-      li
+      > ul > li
         list-style: none
         text-align: center
+        width: 39px
+        height: 29px
+        position: relative
+        &.help
+          background: url(/img/question-mark.png) no-repeat
+          margin-left: 6px
+          text-align: left
+          .help-container
+            background: lightness(body-background, 80%)
+            display: none
+            font-size: 0.8em
+            padding: 1em
+            border: 1px solid font-color-light
+            position: absolute
+            right: 1em
+            bottom: 0
+            width: 21em
+            ul
+              padding: 0
+          &:hover
+            .help-container
+              display: block
         button
           background: inherit
           border: 0
-          color: #302B22
+          color: font-color-light
           line-height: 1.5em
           padding: .1em 0
           width: 2em
@@ -219,8 +290,7 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
           &.vimeo
             background: url(/img/vimeo-icon.png) no-repeat
             width: 24px
-            height: 24px
-
+            height: 24px              
 
 
 .theme-nav

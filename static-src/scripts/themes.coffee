@@ -178,3 +178,11 @@ posts.addEventListener 'submit', (e) ->
             content: commentContent.value
             author: commentAuthor.value
             post: postTitle
+
+
+document.querySelector "a[href='#new-post']"
+.addEventListener "click", (e) ->
+    console.log "click"
+    e.preventDefault()
+    document.getElementById("dropdown-new-post").checked = true
+    window.location.hash = "new-post"

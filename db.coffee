@@ -60,7 +60,10 @@ getThemes = () ->
 
 getPosts = (theme) ->
     queryStr = 'SELECT * FROM posts WHERE theme=$1'
-    getDb queryStr, [theme]
+    accFn = (post, posts) ->
+        post.articleId = post.title.replace /\s/g, '-'
+        posts.addRow post
+    getDb queryStr, [theme], accFn
     
 
 getComments = (theme, post) ->

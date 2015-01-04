@@ -18,9 +18,20 @@ html
         
         section.intro
           block intro
-      
+
     section.posts(id="posts")
       h2 Posts
+      nav.toc
+        ul
+          each post in posts
+            li
+              a(href="#"+post.articleId)
+                span.title= post.title
+                span.author by #{post.author}
+          li.new-post
+            a(href="#new-post")
+              span.title= "New Post"
+              span.author= "by you"
       each post in posts
         include ./post_layout.jade
 
@@ -58,6 +69,23 @@ html
                 button.yt(value="yt", title="You Tube") yt
               li
                 button.vimeo(value="vimeo", title="Vimeo") vimeo
+              li.help
+                div.help-container
+                  :markdown
+                    * *Italic text* is surrounded by `*asterisks*`
+                    * **bold text** by a `**couple**`.
+                    * You add a paragraph by including a blank line.
+                    * Two spaces after a line will force a line-break (good
+                      for poetry).
+                    * [Hyperlinks](http://info.cern.ch/hypertext/WWW/WhatIs.html)
+                      simply follow `[Link Name](http://www.example.com)`.
+                    * Images are like links, but with an exclamation (!) in front
+                      `![fallback text](http://url-to-image-site.com/image.jpeg)`
+                    * YouTube and Vimeo embeds are like images but with
+                      `yt` and `vimeo` as the fallback text respectively.
+                    * In short, we follow the
+                      [markdown](http://daringfireball.net/projects/markdown/)
+                      syntax.
 
         input(type="text", name="author", placeholder="Author")
         input(type="submit", value="submit")
