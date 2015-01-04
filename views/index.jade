@@ -24,7 +24,15 @@ html(lang="en")
               p= theme.dateStr
               p= theme.name
 
-     footer
-       include:markdown about.md
+    div.email-signup-form#mc_embed_signup
+      form(action="//reyqua.us9.list-manage.com/subscribe/post?u=34db5ed86b65db22d9ec6a3ef&amp;id=e2cc057825", method="post", id="mc-embedded-subscribe-form", name="mc-embedded-subscribe-form", class="validate", target="_blank", novalidate)
+        label(for="mce-EMAIL") Email
+        input(type="email", value="", name="EMAIL", class="required email", id="mce-EMAIL")
+        input(type="text" name="b_34db5ed86b65db22d9ec6a3ef_e2cc057825", tabindex="-1", value="")
+        input(type="submit", value="Join", name="subscribe", id="mc-embedded-subscribe", class="button")
+      label(for="mce-EMAIL") Join our email list
+
+    footer
+      include:markdown about.md
          
-     script(src="/scripts/main.js")
+    script(src="/scripts/main.js")

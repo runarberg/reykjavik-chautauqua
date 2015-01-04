@@ -149,3 +149,47 @@ header
       background: none
       p
         text-shadow: 1px 1px black
+
+.email-signup-form
+  max-width: 38em
+  margin: 8em auto
+  form
+    border-bottom: 1px solid #302B22
+    display: flex
+    font-size: 1.2em
+    label, input[type="email"], input[type="submit"]
+      display: inline-block
+      height: 1em
+    label::after
+      content: ":"
+      padding-right: 0.5em
+    input[type="email"]
+      background: inherit
+      border: 0
+      flex-grow: 1
+      padding: 0
+    input[name="b_34db5ed86b65db22d9ec6a3ef_e2cc057825"]
+      position: absolute
+      left: -9999px
+    input[type="submit"]
+      background: #1B1C18
+      border: 1px solid #302B22
+      color: lightness(body-background, 110%)
+      margin: calc(-2px - .5em) 0 0
+      padding: 0.2em 0.5em 0.3em
+      height: 1.5em
+  > label
+    display: block
+    margin: 1em auto
+    text-align: center
+
+footer
+  border-top: 4px double #302B22
+  max-width: 42em
+  margin: 8em auto 2em
+  padding-top: 2em
+  h2
+    text-align: center
+  p
+    max-width: 38em
+    margin: 1em auto
