@@ -24,7 +24,7 @@ html(class=theme.focus ? "focus-theme" : "")
         ul
           each post in posts
             li
-              a(href="#"+post.articleId)
+              a(href="#"+(post.articleId || post.title.replace(/\s/g, '-')))
                 span.title= post.title
                 span.author by #{post.author || "Somebody"}
 

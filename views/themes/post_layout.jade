@@ -1,8 +1,8 @@
-article.post(id=post.articleId)
+article.post(id=(post.articleId || post.title.replace(/\s/g, '-')))
 
   header
     h2= post.title
-    a.permalink(href="#"+post.articleId, title="permalink") Permalink
+    a.permalink(href="#"+(post.articleId || post.title.replace(/\s/g, '-')), title="permalink") Permalink
     
   footer
     if post.author
