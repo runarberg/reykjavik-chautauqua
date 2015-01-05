@@ -55,7 +55,8 @@ header
     text-align: center
 
   .introduction
-    max-width: 38em
+    width: 38em
+    max-width: 95%
     margin: .5em auto
 
   .heading-picture
@@ -66,6 +67,11 @@ header
     margin: 0 auto 2em
     width: 750px
     height: 332px
+    @media screen and (max-width: 760px)
+      width: 98%
+      height: 0
+      padding-bottom: 43.5%
+      background-size: contain
 
 .theme-nav
   border-width: 4px
@@ -157,9 +163,13 @@ header
     border-bottom: 1px solid #302B22
     display: flex
     font-size: 1.2em
+    max-width: 98%
+    margin 0 auto
+
     label, input[type="email"], input[type="submit"]
       display: inline-block
       height: 1em
+      margin-left: 0.5em
     label::after
       content: ":"
       padding-right: 0.5em
@@ -175,7 +185,7 @@ header
       background: #1B1C18
       border: 1px solid #302B22
       color: lightness(body-background, 110%)
-      margin: calc(-2px - .5em) 0 0
+      margin: calc(-2px - .5em) .5em 0 0
       padding: 0.2em 0.5em 0.3em
       height: 1.5em
   > label
@@ -185,11 +195,13 @@ header
 
 footer
   border-top: 4px double #302B22
-  max-width: 42em
+  width: 42em
+  max-width: 98%
   margin: 8em auto 2em
   padding-top: 2em
   h2
     text-align: center
   p
-    max-width: 38em
+    width: 38em
+    max-width: 95%
     margin: 1em auto

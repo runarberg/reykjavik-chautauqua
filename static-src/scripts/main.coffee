@@ -34,9 +34,9 @@ handleScrollEnd = (e) ->
     a.addEventListener "click", (e) ->
         e.preventDefault()
         if this.classList.contains "left"
-            themeUl.scrollLeft -= 310
+            themeUl.scrollLeft -= 500
         else
-            themeUl.scrollLeft += 310
+            themeUl.scrollLeft += 500
         handleScrollEnd e
     
 
@@ -74,3 +74,5 @@ document.addEventListener "DOMContentLoaded", () ->
     padding = (winWidth / 2) - (liWidth / 2)
     themeUl.firstChild.style.marginLeft = "#{padding}px"
     themeUl.lastChild.style.marginRight = "#{padding}px"
+    focusCenter = themeUl.querySelector(".focus").offsetLeft + liWidth/2
+    themeUl.scrollLeft = focusCenter - themeNav.clientWidth/2
