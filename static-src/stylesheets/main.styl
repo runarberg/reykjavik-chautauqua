@@ -27,6 +27,10 @@ header
   background-repeat: no-repeat
   background-size: 100%
   font-size: 1.5em
+  @media screen and (max-width: 640px)
+    font-size 1.2em
+    @media screen and (max-width: 460px)
+      font-size: 1em
 
   h1, h2
     border-width: 4px
@@ -88,6 +92,8 @@ header
     font-size: 1.6em
     margin: .4em auto
     text-align: center
+    @media screen and (max-width: 360px)
+      font-size: 1.2em
 
   a.scroll
     background: body-background
@@ -110,6 +116,19 @@ header
       color: inherit
       outline: 0
 
+    @media only screen and (max-width: 640px)
+      height: 1em
+      width: 1em
+      line-height: 1em
+      top: 4px
+      &, &.left, &.right
+        padding: 0
+      &.left
+        left: 24px
+      &.right
+        right: 24px
+        text-align: right
+
 
   ul
     justify-content: center
@@ -128,6 +147,17 @@ header
     text-align: center
     width: 500px
     white-space: normal
+    @media screen and (max-width: 500px)
+      background-size: contain
+      font-size: 1.5em
+      width: 100%
+      height: 0
+      padding-bottom: 50%
+      padding-top: 12%
+    @media screen and (max-width: 460px)
+      font-size: 1.2em
+    @media screen and (max-width: 360px)
+      font-size: 0.9em
 
     for theme, color in themes
       &.{theme}
@@ -157,13 +187,13 @@ header
         text-shadow: 1px 1px black
 
 .email-signup-form
-  max-width: 38em
+  width: 38em
+  max-width: 98%
   margin: 8em auto
   form
     border-bottom: 1px solid #302B22
     display: flex
     font-size: 1.2em
-    max-width: 98%
     margin 0 auto
 
     label, input[type="email"], input[type="submit"]
@@ -177,6 +207,7 @@ header
       background: inherit
       border: 0
       flex-grow: 1
+      flex-shring: 2
       padding: 0
     input[name="b_34db5ed86b65db22d9ec6a3ef_e2cc057825"]
       position: absolute

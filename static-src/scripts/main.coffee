@@ -32,40 +32,42 @@ handleScrollEnd = (e) ->
 
 [].forEach.call scrollBtns, (a) ->
     a.addEventListener "click", (e) ->
+        liWidth = themeLis[0].clientWidth
         e.preventDefault()
         if this.classList.contains "left"
-            themeUl.scrollLeft -= 500
+            themeUl.scrollLeft -= liWidth
         else
-            themeUl.scrollLeft += 500
+            themeUl.scrollLeft += liWidth
         handleScrollEnd e
     
 
 
-themeNav.addEventListener "mouseover", (e) ->
-    this.addEventListener "mousemove", setScrollFn
+unless 'ontouchstart' in document.documentElement
+    themeNav.addEventListener "mouseover", (e) ->
+        this.addEventListener "mousemove", setScrollFn
 
-    scroller = setInterval () ->
-        scrollFn()
-        if e.target in scrollBtns
-            handleScrollEnd()
-    , 50
-
-
-[].forEach.call themeLis, (li) ->
-    li.addEventListener "mouseover", () ->
-        [].forEach.call themeLis, (li_) ->
-            li_.classList.remove "focus"
-            
-        this.classList.add "focus"
+        scroller = setInterval () ->
+            scrollFn()
+            if e.target in scrollBtns
+                handleScrollEnd()
+        , 50
 
 
-themeNav.addEventListener "mouseout", (e) ->
-    this.removeEventListener "mousemove", setScrollFn
-    if scroller
-        clearInterval scroller
+    [].forEach.call themeLis, (li) ->
+        li.addEventListener "mouseover", () ->
+            [].forEach.call themeLis, (li_) ->
+                li_.classList.remove "focus"
+                
+            this.classList.add "focus"
 
 
-themeNav.addEventListener "touchmove", handleScrollEnd
+    themeNav.addEventListener "mouseout", (e) ->
+        this.removeEventListener "mousemove", setScrollFn
+        if scroller
+            clearInterval scroller
+
+
+themeUl.addEventListener "touchmove", handleScrollEnd
 
 
 document.addEventListener "DOMContentLoaded", () ->
