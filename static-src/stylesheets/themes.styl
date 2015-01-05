@@ -64,6 +64,11 @@ a[href]
     margin: 0 auto
     width: 500px
     height: 310px
+    @media screen and (max-width: 500px)
+      border: 0
+      width: 98%
+      height: 0
+      padding-bottom: 62%
 
   for theme, color in themes
     &.{theme}::after
@@ -75,7 +80,7 @@ article,
   margin: 1em auto
   padding: 1em
   width: article-width
-  max-width: 95%
+  max-width: 90%
 
 .intro
   margin-top: 1em
@@ -90,7 +95,7 @@ article,
   .toc
     font-size: 1.2em
     width: article-width
-    max-width: 95%
+    max-width: 90%
     margin: .5em auto
     a
       color: font-color-dark
@@ -219,7 +224,7 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
     font-size: 1.2em
     margin: .1em auto
     width: article-width
-    max-width: 95%
+    max-width: 90%
 
   textarea
     height: 12em
