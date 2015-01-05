@@ -28,7 +28,7 @@ handleScrollEnd = (e) ->
             li.classList.remove "focus"
             if li.offsetLeft < themeUl.scrollLeft + winMid < li.offsetLeft + li.clientWidth
                 li.classList.add "focus"
-    , 50
+    , 20
 
 [].forEach.call scrollBtns, (a) ->
     a.addEventListener "click", (e) ->
@@ -39,35 +39,6 @@ handleScrollEnd = (e) ->
         else
             themeUl.scrollLeft += liWidth
         handleScrollEnd e
-    
-
-
-unless 'ontouchstart' in document.documentElement
-    themeNav.addEventListener "mouseover", (e) ->
-        this.addEventListener "mousemove", setScrollFn
-
-        scroller = setInterval () ->
-            scrollFn()
-            if e.target in scrollBtns
-                handleScrollEnd()
-        , 50
-
-
-    [].forEach.call themeLis, (li) ->
-        li.addEventListener "mouseover", () ->
-            [].forEach.call themeLis, (li_) ->
-                li_.classList.remove "focus"
-                
-            this.classList.add "focus"
-
-
-    themeNav.addEventListener "mouseout", (e) ->
-        this.removeEventListener "mousemove", setScrollFn
-        if scroller
-            clearInterval scroller
-
-
-themeUl.addEventListener "touchmove", handleScrollEnd
 
 
 document.addEventListener "DOMContentLoaded", () ->
@@ -78,3 +49,30 @@ document.addEventListener "DOMContentLoaded", () ->
     themeUl.lastChild.style.marginRight = "#{padding}px"
     focusCenter = themeUl.querySelector(".focus").offsetLeft + liWidth/2
     themeUl.scrollLeft = focusCenter - themeNav.clientWidth/2
+
+    if 'ontouchstart' in window
+        themeUl.addEventListener "scroll", handleScrollEnd
+
+    unless 'ontouchstart' in window
+        themeNav.addEventListener "mouseover", (e) ->
+            this.addEventListener "mousemove", setScrollFn
+
+            scroller = setInterval () ->
+                scrollFn()
+                if e.target in scrollBtns
+                    handleScrollEnd e
+            , 50
+
+
+        [].forEach.call themeLis, (li) ->
+            li.addEventListener "mouseover", () ->
+                [].forEach.call themeLis, (li_) ->
+                    li_.classList.remove "focus"
+                    
+                this.classList.add "focus"
+
+
+        themeNav.addEventListener "mouseout", (e) ->
+            this.removeEventListener "mousemove", setScrollFn
+            if scroller
+                clearInterval scroller
