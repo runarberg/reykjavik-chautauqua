@@ -7,6 +7,8 @@ body-background = #F0E7DB
 font-color-dark = #1B1C18
 font-color-light = #302B22
 
+article-width = 38em
+
 body
   background: body-background
   color: font-color-dark
@@ -54,23 +56,26 @@ a[href]
     border-image: url(/img/main-borders.svg) 23.5% / 8
     text-align: center
 
+  &::after
+    content: ""
+    background-repeat: no-repeat
+    border 4px double font-color-light
+    display: block
+    margin: 0 auto
+    width: 500px
+    height: 310px
+
   for theme, color in themes
     &.{theme}::after
-      content: ""
       background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
-      background-repeat: no-repeat
-      border 4px double font-color-light
-      display: block
-      margin: 0 auto
-      width: 500px
-      height: 310px
 
 article,
 .intro
   font-size: 1.2em
   margin: 1em auto
   padding: 1em
-  width: 38em
+  width: article-width
+  max-width: 95%
 
 .intro
   margin-top: 1em
@@ -84,7 +89,8 @@ article,
 
   .toc
     font-size: 1.2em
-    width: 38em
+    width: article-width
+    max-width: 95%
     margin: .5em auto
     a
       color: font-color-dark
@@ -178,6 +184,7 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
   input:not([type="submit"]),
   textarea
     display: block
+    min-height: 1.2em
     width: 100%
   textarea
     height: 8em
@@ -211,7 +218,8 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
     display: block
     font-size: 1.2em
     margin: .1em auto
-    width: 38em
+    width: article-width
+    max-width: 95%
 
   textarea
     height: 12em
@@ -298,6 +306,8 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
     display: flex
     padding: 0
     margin: 0
+    @media screen and (max-width: 800px)
+      flex-wrap: wrap
 
     li
       list-style: none
@@ -321,6 +331,13 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
           p
             font-size: 1em
 
+      @media screen and (max-width: 800px)
+        height: 80px
+        width: 22%
+        &:hover
+          flex-grow: 3
+          width: 34%
+
       a
         color: inherit
         display: flex
@@ -330,6 +347,8 @@ input[type="checkbox"][rel="dropdown"]:checked + label::before
         justify-content: space-between
         width: 0
         height: 100%
+        @media screen and (max-width: 800px)
+          font-size: 0.8em
 
         p
           font-size: 0
