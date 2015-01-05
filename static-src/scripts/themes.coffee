@@ -160,10 +160,10 @@ posts.addEventListener 'submit', (e) ->
         req.onload = (e) ->
             if req.status == 200
                 resHtml = parser.parseFromString req.response, "text/html"
-                resArticle = resHtml.getElementById postTitle
+                resArticle = resHtml.getElementById postTitle.replace /\s/g, "-"
                 resComments = resArticle.querySelector(".comments")
 
-                post = document.getElementById postTitle
+                post = document.getElementById postTitle.replace /\s/g, "-"
                 post.querySelector(".comment-length").innerHTML = resComments.childNodes.length
                 comments = post.querySelector(".comments")
                 comments.appendChild(resComments.lastChild)
