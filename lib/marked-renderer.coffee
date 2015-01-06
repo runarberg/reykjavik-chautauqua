@@ -7,21 +7,24 @@ renderer.image = (href, title, text) ->
         if ytCode.slice(0, 6) == "watch?"
             ytCode = ytCode.match(/v=([^;]+)/)[1]
             
-        out = '<iframe width="560" height="315"' +
+        out = '<figure class="video yt">'+
+                '<iframe width="560" height="315"' +
                 " src=\"//www.youtube.com/embed/#{ytCode}\"" +
-                " allowfullscreen></iframe>"
+                " allowfullscreen></iframe></figure>"
 
     else if text == "vimeo"
         code = href.split("/").slice(-1)[0]
-        out = "<iframe src=\"//player.vimeo.com/video/#{code}\"" +
+        out = '<figure class="video vimeo">'+
+                "<iframe src=\"//player.vimeo.com/video/#{code}\"" +
                 ' width="500" height="281" frameborder="0"' +
                 ' webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
-                '</iframe>'
+                '</iframe></figure>'
 
     else
-        out = "<img src=\"#{href}\" alt=\"#{text}\"" +
+        out = '<figure class="image">'+
+                "<img src=\"#{href}\" alt=\"#{text}\"" +
                 (if title then " title=\"#{title}\"" else "") +
-                ">"
+                "></figure>"
 
     return out
 
