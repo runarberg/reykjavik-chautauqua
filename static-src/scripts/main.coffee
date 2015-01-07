@@ -10,24 +10,26 @@ setDelay = ( () ->
         timer = setTimeout callback, ms
 )()
 
-scroller = null
+
 scrollBtns = themeNav.querySelectorAll "a.scroll"
-scrollFn = () ->
-
-setScrollFn = (e) ->
-    if Math.abs(e.pageX - winMid) > 200
-        scrollFn = () ->
-            themeUl.scrollLeft += (e.pageX - winMid) / 25
-    else
-        scrollFn = () ->
 
 
-handleScrollEnd = (e) ->
-    setDelay (e) ->
-        [].forEach.call themeLis, (li) ->
-            li.classList.remove "focus"
-            if li.offsetLeft < themeUl.scrollLeft + winMid < li.offsetLeft + li.clientWidth
-                li.classList.add "focus"
+setCenterLiFocus = () ->
+    [].forEach.call themeLis, (li) ->
+        li.classList.remove "focus"
+        if li.offsetLeft < themeUl.scrollLeft + winMid < li.offsetLeft + li.clientWidth
+            li.classList.add "focus"
+
+
+handleScrollEnd = (e, focus=true) ->
+    setDelay () ->
+        setCenterLiFocus() if focus
+        scrollDiv = themeNav.querySelector ".scroll-bar"
+        scrollA = scrollDiv.querySelector "a.scroll-bar-center"
+        scrollProp = themeUl.scrollLeft/themeUl.scrollLeftMax
+        scrollLeft = scrollProp * scrollDiv.clientWidth
+
+        scrollA.style.left = scrollLeft + "px"
     , 20
 
 [].forEach.call scrollBtns, (a) ->
@@ -35,10 +37,23 @@ handleScrollEnd = (e) ->
         liWidth = themeLis[0].clientWidth
         e.preventDefault()
         if this.classList.contains "left"
-            themeUl.scrollLeft -= liWidth
+            stop = Math.max(themeUl.scrollLeft - liWidth, 0)
+            scrolling = window.setInterval () ->
+                if themeUl.scrollLeft <= stop
+                    window.clearInterval scrolling
+                    handleScrollEnd e
+                else
+                    themeUl.scrollLeft -= if themeUl.scrollLeft - stop < 50 then 5 else 25
+            , 10
         else
-            themeUl.scrollLeft += liWidth
-        handleScrollEnd e
+            stop = Math.min(themeUl.scrollLeft + liWidth, themeUl.scrollLeftMax)
+            scrolling = window.setInterval () ->
+                if themeUl.scrollLeft >= stop
+                    window.clearInterval scrolling
+                    handleScrollEnd e
+                else
+                    themeUl.scrollLeft += if stop - themeUl.scrollLeft < 50 then 5 else 25
+            , 10
 
 
 document.addEventListener "DOMContentLoaded", () ->
@@ -50,29 +65,46 @@ document.addEventListener "DOMContentLoaded", () ->
     focusCenter = themeUl.querySelector(".focus").offsetLeft + liWidth/2
     themeUl.scrollLeft = focusCenter - themeNav.clientWidth/2
 
-    if 'ontouchstart' in window
-        themeUl.addEventListener "scroll", handleScrollEnd
+    # add scroll bar at bottom
+    (() ->
+        div = document.createElement "div"
+        div.className = "scroll-bar"
+        
+        a = document.createElement "a"
+        a.className = "scroll-bar-center"
+        a.href = "#"
 
-    unless 'ontouchstart' in window
-        themeNav.addEventListener "mouseover", (e) ->
-            this.addEventListener "mousemove", setScrollFn
+        div.appendChild a
+        themeNav.appendChild div
 
-            scroller = setInterval () ->
-                scrollFn()
-                if e.target in scrollBtns
-                    handleScrollEnd e
-            , 50
+        doScrollThemes = (e) ->
+            offset = div.getBoundingClientRect().x + a.clientWidth/2
+            left = e.pageX - offset
+            left = Math.max left, 0
+            left = Math.min left, div.clientWidth
+            a.style.left = left + "px"
 
+            scrollProp = left/div.clientWidth
+            scrollLeft = themeUl.scrollLeftMax * scrollProp
+            themeUl.scrollLeft = scrollLeft
 
-        [].forEach.call themeLis, (li) ->
-            li.addEventListener "mouseover", () ->
-                [].forEach.call themeLis, (li_) ->
-                    li_.classList.remove "focus"
-                    
-                this.classList.add "focus"
+            setCenterLiFocus()
 
+        a.addEventListener "click", (e) ->
+            e.preventDefault()
 
-        themeNav.addEventListener "mouseout", (e) ->
-            this.removeEventListener "mousemove", setScrollFn
-            if scroller
-                clearInterval scroller
+        a.addEventListener "mousedown", (e) ->
+            e.preventDefault()
+            document.body.addEventListener "mousemove", doScrollThemes
+            document.body.addEventListener "mouseup", (e) ->
+                document.body.removeEventListener "mousemove", doScrollThemes
+    )()
+
+    themeUl.addEventListener "scroll", (e) ->
+        handleScrollEnd(e, 'ontouchstart' not in window)
+
+    [].forEach.call themeLis, (li) ->
+        li.addEventListener "mouseover", (e) ->
+            [].forEach.call themeLis, (li_) ->
+                li_.classList.remove "focus"
+            this.classList.add "focus"

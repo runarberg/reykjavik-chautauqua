@@ -4,23 +4,25 @@
 
 
 body-background = #F0E7DB
+font-color-dark = #1B1C18
+font-color-light = #302B22
 
 body
   background: body-background
-  color: #1B1C18
+  color: font-color-dark
   font-family: "Crimson Text", georgia, serifs
   padding-bottom: 10em
 
 h1, h2, h3
-  color: #302B22
+  color: font-color-light
   font-family: "Vollkorn", georgia, serifs
 
 a[href]
-  border-bottom: 1px dotted #302B22
-  color: lightness(#302B22, 22%)
+  border-bottom: 1px dotted font-color-light
+  color: lightness(font-color-light, 22%)
   text-decoration: none
   &:hover
-    color: lightness(#302B22, 40%)
+    color: lightness(font-color-light, 40%)
     border-color: @color
 
 header
@@ -35,7 +37,7 @@ header
   h1, h2
     border-width: 4px
     border-style: solid
-    border-color: #302B22
+    border-color: font-color-light
     border-image: url(/img/main-borders.svg) 23.5% / 8 stretch
 
   h1
@@ -46,7 +48,7 @@ header
     text-transform: uppercase
     &::after
       content: ""
-      border-bottom: 4px double #1B1C18
+      border-bottom: 4px double font-color-dark
       display: block
       padding-top: .70em
       margin: 0 auto
@@ -66,7 +68,7 @@ header
   .heading-picture
     background: url("/img/chautauqua-header.jpeg")
     background-repeat: no-repeat
-    border: 4px double #1B1C18
+    border: 4px double font-color-dark
     display: block
     margin: 0 auto 2em
     width: 750px
@@ -80,7 +82,7 @@ header
 .theme-nav
   border-width: 4px
   border-style: solid
-  border-color: #302B22
+  border-color: font-color-light
   border-image: url(/img/main-borders.svg) 23.5% / 8
   font-size: 1.25em
   margin: 4em 1.5rem 0
@@ -88,7 +90,7 @@ header
   position: relative
   overflow-y: hidden
   h2
-    color: #302B22
+    color: font-color-light
     font-size: 1.6em
     margin: .4em auto
     text-align: center
@@ -98,7 +100,6 @@ header
   a.scroll
     background: body-background
     border: 0
-    cursor: default
     display: inline-block
     font-size: 2.4em
     font-weight: bold
@@ -130,6 +131,21 @@ header
         right: 30px
         text-align: right
 
+  .scroll-bar
+    border-bottom: 1px solid font-color-dark
+    height: 0
+    margin: 0 2em
+    overflow: visible
+    position: relative
+
+  a.scroll-bar-center
+    display: block
+    background: font-color-light
+    border-radius: 100%
+    position: absolute
+    top -.5em
+    width: 1em
+    height: 1em
 
   ul
     justify-content: center
@@ -192,7 +208,7 @@ header
   max-width: 98%
   margin: 8em auto
   form
-    border-bottom: 1px solid #302B22
+    border-bottom: 1px solid font-color-light
     display: flex
     font-size: 1.2em
     margin 0 auto
@@ -214,8 +230,8 @@ header
       position: absolute
       left: -9999px
     input[type="submit"]
-      background: #1B1C18
-      border: 1px solid #302B22
+      background: font-color-dark
+      border: 1px solid font-color-light
       color: lightness(body-background, 110%)
       margin: calc(-2px - .5em) .5em 0 0
       padding: 0.2em 0.5em 0.3em
@@ -226,7 +242,7 @@ header
     text-align: center
 
 footer
-  border-top: 4px double #302B22
+  border-top: 4px double font-color-light
   width: 42em
   max-width: 98%
   margin: 8em auto 2em
