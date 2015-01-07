@@ -26,7 +26,7 @@ handleScrollEnd = (e, focus=true) ->
         setCenterLiFocus() if focus
         scrollDiv = themeNav.querySelector ".scroll-bar"
         scrollA = scrollDiv.querySelector "a.scroll-bar-center"
-        scrollProp = themeUl.scrollLeft/themeUl.scrollLeftMax
+        scrollProp = themeUl.scrollLeft/themeUl.scrollWidth
         scrollLeft = scrollProp * scrollDiv.clientWidth
 
         scrollA.style.left = scrollLeft + "px"
@@ -46,7 +46,7 @@ handleScrollEnd = (e, focus=true) ->
                     themeUl.scrollLeft -= if themeUl.scrollLeft - stop < 50 then 5 else 25
             , 10
         else
-            stop = Math.min(themeUl.scrollLeft + liWidth, themeUl.scrollLeftMax)
+            stop = Math.min(themeUl.scrollLeft + liWidth, themeUl.scrollWidth)
             scrolling = window.setInterval () ->
                 if themeUl.scrollLeft >= stop
                     window.clearInterval scrolling
@@ -78,14 +78,14 @@ document.addEventListener "DOMContentLoaded", () ->
         themeNav.appendChild div
 
         doScrollThemes = (e) ->
-            offset = div.getBoundingClientRect().x + a.clientWidth/2
+            offset = div.getBoundingClientRect().left + a.clientWidth/2
             left = e.pageX - offset
             left = Math.max left, 0
             left = Math.min left, div.clientWidth
             a.style.left = left + "px"
 
             scrollProp = left/div.clientWidth
-            scrollLeft = themeUl.scrollLeftMax * scrollProp
+            scrollLeft = themeUl.scrollWidth * scrollProp
             themeUl.scrollLeft = scrollLeft
 
             setCenterLiFocus()
@@ -101,7 +101,7 @@ document.addEventListener "DOMContentLoaded", () ->
     )()
 
     themeUl.addEventListener "scroll", (e) ->
-        handleScrollEnd(e, 'ontouchstart' not in window)
+        handleScrollEnd(e)
 
     [].forEach.call themeLis, (li) ->
         li.addEventListener "mouseover", (e) ->

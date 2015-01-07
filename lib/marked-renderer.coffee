@@ -20,20 +20,6 @@ renderer.image = (href, title, text) ->
                 ' webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
                 '</iframe></figure>'
 
-    else if text == "nzonscreen"
-        out = '<figure class="video nzonscreen">'+
-                "<iframe src=\"#{href}\"" +
-                ' width="585" height="410" frameborder="0"' +
-                ' webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
-                '</iframe></figure>'
-
-    else if text == "nfbcanada"
-        out = '<figure class="video nfbcanada">'+
-                "<iframe src=\"#{href}\"" +
-                ' width="516" height="320" frameborder="0"' +
-                ' webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
-                '</iframe></figure>'
-
     else
         out = '<figure class="image">'+
                 "<img src=\"#{href}\" alt=\"#{text}\"" +

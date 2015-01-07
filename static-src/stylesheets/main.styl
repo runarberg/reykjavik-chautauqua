@@ -137,6 +137,10 @@ header
     margin: 0 2em
     overflow: visible
     position: relative
+    @media screen and (max-width: 640px)
+      display: none
+      a.scroll-bar-center
+        display: none
 
   a.scroll-bar-center
     display: block
@@ -181,6 +185,9 @@ header
         background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
         &.focus a p
           color: color
+        @media screen and (max-width: 500px)
+          & a p
+            color: color
 
     a
       background: rgba(255,166,166,0.2)
