@@ -68,7 +68,7 @@ postForm.addEventListener "submit", (e) ->
     .catch (error) ->
         console.error error
 
-submitComment = (e) ->
+submitComment = (form, e) ->
     e.preventDefault()
     commentAuthor = form.querySelector("input[name='author']")
     commentContent = form.querySelector("textarea[name='content']")
@@ -90,7 +90,7 @@ submitComment = (e) ->
         post = document.getElementById postTitle.replace /\s/g, "-"
         post.querySelector(".comment-length").innerHTML = resComments.childNodes.length
         comments = post.querySelector(".comments")
-        comments.appendChild(resComments.lastChild)
+        comments.parentNode.replaceChild(resComments, comments)
 
         # Clear the input fields
         commentContent.value = ""
@@ -103,4 +103,4 @@ submitComment = (e) ->
 posts.addEventListener 'submit', (e) ->
     form = e.target
     if form.matches '.new-comment-form'
-        submitComment e
+        submitComment form, e
