@@ -1,6 +1,23 @@
+qwest = require 'qwest'
+
 marked = require('marked').setOptions
     renderer: require '../../lib/marked-renderer'
     sanitize: true
+
+
+# Polyfills and prefixes
+
+# ChildNode.prototype.remove() polyfill
+unless Element.prototype.remove
+    Object.defineProperty Element.prototype,
+        value: () ->
+            this.parentNode.removeChild this
+
+# Element.matches() selector
+Element.prototype.matches = Element.prototype.matches or
+        Element.prototype.webkitMatchesSelector or
+        Element.prototype.mozMatchesSelector or
+        Element.prototype.msMatchesSelector
 
 parser = new DOMParser()
 
@@ -104,43 +121,38 @@ postForm.addEventListener "submit", (e) ->
     unless formTitle.value and formContent.value
         # You have to have a title and a content to your post
         return
-    
-    req = new XMLHttpRequest()
-    
-    req.onload = (e) ->
-        if req.status == 200
-            html = parser.parseFromString req.response, "text/html"
-            articleId = formTitle.value.replace /\s/g, '-'
-            article = html.getElementById articleId
 
-            # Prepend on focus month otherwise append
-            if document.documentElement.classList.contains "focus-theme"
-                posts.insertBefore article, posts.querySelector(".post")
-            else
-                posts.appendChild article
-
-            # Clear all form and preview content
-            document.getElementById("dropdown-new-post").checked = false
-            
-            formTitle.value = ""
-            newPostTitle.childNodes[0].remove()
-            
-            formContent.value = ""
-            newPostContent.innerHTML = ""
-            
-            formAuthor.value = ""
-            newPostAuthor.childNodes[0].remove()
-
-            window.location.hash = "#"+ articleId
-        else
-            console.log req.responseText
-            
-    req.open 'POST', postForm.action
-    req.setRequestHeader 'Content-Type', 'application/json'
-    req.send JSON.stringify
+    qwest.post postForm.action,
         title: formTitle.value
         content: formContent.value
         author: formAuthor.value
+    .then (response) ->
+        html = parser.parseFromString response, "text/html"
+        articleId = formTitle.value.replace /\s/g, '-'
+        article = html.getElementById articleId
+
+        # Prepend on focus month otherwise append
+        if document.documentElement.classList.contains "focus-theme"
+            posts.insertBefore article, posts.querySelector(".post")
+        else
+            posts.appendChild article
+
+        # Clear all form and preview content
+        document.getElementById("dropdown-new-post").checked = false
+
+        formTitle.value = ""
+        newPostTitle.childNodes[0].remove()
+
+        formContent.value = ""
+        newPostContent.innerHTML = ""
+
+        formAuthor.value = ""
+        newPostAuthor.childNodes[0].remove()
+
+        window.location.hash = "#"+ articleId
+        
+    .catch (error) ->
+        console.log error
 
 
 posts.addEventListener 'submit', (e) ->
@@ -155,29 +167,23 @@ posts.addEventListener 'submit', (e) ->
             # No sending in an empty comment
             return
         
-        req = new XMLHttpRequest()
-
-        req.onload = (e) ->
-            if req.status == 200
-                resHtml = parser.parseFromString req.response, "text/html"
-                resArticle = resHtml.getElementById postTitle.replace /\s/g, "-"
-                resComments = resArticle.querySelector(".comments")
-
-                post = document.getElementById postTitle.replace /\s/g, "-"
-                post.querySelector(".comment-length").innerHTML = resComments.childNodes.length
-                comments = post.querySelector(".comments")
-                comments.appendChild(resComments.lastChild)
-
-                # Clear the input fields
-                commentContent.value = ""
-                commentAuthor.value = ""
-            else
-                console.log req.responseText
-
-        req.open 'POST', form.action
-        req.setRequestHeader 'Content-Type', 'application/json'
-        req.send JSON.stringify
+        qwest.post form.action,
             content: commentContent.value
             author: commentAuthor.value
             post: postTitle
+        .then (response) ->
+            resHtml = parser.parseFromString response, "text/html"
+            resArticle = resHtml.getElementById postTitle.replace /\s/g, "-"
+            resComments = resArticle.querySelector(".comments")
+
+            post = document.getElementById postTitle.replace /\s/g, "-"
+            post.querySelector(".comment-length").innerHTML = resComments.childNodes.length
+            comments = post.querySelector(".comments")
+            comments.appendChild(resComments.lastChild)
+
+            # Clear the input fields
+            commentContent.value = ""
+            commentAuthor.value = ""
+        .catch (message)
+            console.log message
 

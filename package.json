@@ -38,6 +38,7 @@
     "marked": "^0.3.2",
     "pg": "^4.1.0",
     "q": "^1.1.2",
+    "qwest": "^1.5.4",
     "stylus-normalize": "^3.0.3",
     "urlify": "^0.3.5",
     "vinyl-source-stream": "^1.0.0"

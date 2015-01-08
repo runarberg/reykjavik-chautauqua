@@ -33,8 +33,8 @@ renderer.image = (href, title, text) ->
                 ' width="516" height="320" frameborder="0"' +
                 ' webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
                 '</iframe></figure>'
-                
-   else
+
+    else
         out = '<figure class="image">'+
                 "<img src=\"#{href}\" alt=\"#{text}\"" +
                 (if title then " title=\"#{title}\"" else "") +
