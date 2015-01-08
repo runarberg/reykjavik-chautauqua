@@ -1,17 +1,12 @@
+crel = require 'crel'
 qwest = require 'qwest'
 
 marked = require('marked').setOptions
     renderer: require '../../lib/marked-renderer'
     sanitize: true
 
+Editor = require '../../lib/editor'
 
-# Polyfills and prefixes
-
-# ChildNode.prototype.remove() polyfill
-unless Element.prototype.remove
-    Object.defineProperty Element.prototype,
-        value: () ->
-            this.parentNode.removeChild this
 
 # Element.matches() selector
 Element.prototype.matches = Element.prototype.matches or
@@ -23,134 +18,84 @@ parser = new DOMParser()
 
 postForm = document.getElementById "new-post-form"
 posts = document.getElementById "posts"        
-
-formTitle = postForm.querySelector("[name='title']")
-formContent = postForm.querySelector("[name='content']")
-formAuthor = postForm.querySelector("[name='author']")
-
 newPost = document.getElementById "new-post"
-newPostTitle = newPost.querySelector ".title"
-newPostContent = newPost.querySelector ".content"
-newPostAuthor = newPost.querySelector ".author"
 
-surround = (a, b, defaultText) ->
-    oldText = formContent.value
-    selStart = formContent.selectionStart
-    selEnd = formContent.selectionEnd
-    startText = oldText.substring(0, selStart)
-    endText = oldText.substring(selEnd)
+editor = new Editor
+    container: postForm
+    menu: postForm.querySelector ".editmenu"
+    inputs:
+        title: postForm.querySelector "[name='title']"
+        content: postForm.querySelector "[name='content']"
+        author: postForm.querySelector "[name='author']"
+,
+    container: newPost
+    title: newPost.querySelector ".title"
+    content: newPost.querySelector ".content"
+    author: newPost.querySelector ".author"
 
-    if selStart != selEnd
-        selText = oldText.substring(selStart, selEnd)
-    else
-        selText = defaultText
-        selEnd += defaultText.length
-
-    newText = startText + a + selText + b + endText
-
-    formContent.value = newText
-    newPostContent.innerHTML = marked newText
-    formContent.setSelectionRange(selStart + a.length, selEnd + a.length)
-    formContent.focus()
-
-editor =
-    h2: () ->
-        surround "", "\n-------\n", "heading"
-    h3: () ->
-        surround "\n###", "###\n", "heading"
-    em: () ->
-        surround "*", "*", "emphasized text"
-    strong: () ->
-        surround "**", "**", "strong text"
-    a: () ->
-        url = prompt "Enter a URL"
-        surround "[", "](#{url})", "link description"
-    img: () ->
-        url = prompt "Enter an image URL"
-        surround "![", "](#{url})", "image description"
-    yt: () ->
-        url = prompt "Enter the URL to the You Tube video"
-        surround "", "![yt](#{url})", ""
-    vimeo: () ->
-        url = prompt "Enter the URL to the vimeo video"
-        surround "", "![vimeo](#{url})", ""
-
-
-postForm.querySelector ".editmenu"
-.addEventListener "click", (e) ->
-    button = e.target
-    unless e.target.matches "button[value]"
-        return
-
-    e.preventDefault()
-    editor[button.value]()
-
-formTitle.addEventListener "input", (e) ->
-    title = this.value
-    newNode = document.createTextNode title
-    oldNode = newPostTitle.childNodes[0]
-    oldNode.remove() if oldNode
-    newPostTitle.appendChild newNode if title
-
-formTitle.addEventListener "keydown", (e) ->
-    if e.keyCode == 13
-        e.preventDefault()
-        e.stopPropagation()
-        formAuthor.focus()
-
-formAuthor.addEventListener "keydown", (e) ->
-    if e.keyCode == 13
-        e.preventDefault()
-        e.stopPropagation()
-        formContent.submit()
-
-formContent.addEventListener "input", (e) ->
-    content = marked this.value
-    newPostContent.innerHTML = content
-
-formAuthor.addEventListener "input", (e) ->
-    author = this.value
-    newNode = document.createTextNode "by #{author}"
-    oldNode = newPostAuthor.childNodes[0]
-    oldNode.remove() if oldNode
-    newPostAuthor.appendChild newNode if author
 
 postForm.addEventListener "submit", (e) ->
     e.preventDefault()
-    
-    unless formTitle.value and formContent.value
+
+    title = postForm.querySelector("[name='title']").value
+    author = postForm.querySelector("[name='author']").value
+    content = postForm.querySelector("[name='content']").value
+
+    unless title and content
         # You have to have a title and a content to your post
         return
 
     qwest.post postForm.action,
-        title: formTitle.value
-        content: formContent.value
-        author: formAuthor.value
+        title: title
+        author: author
+        content: content
     .then (response) ->
         html = parser.parseFromString response, "text/html"
-        articleId = formTitle.value.replace /\s/g, '-'
-        article = html.getElementById articleId
+        articleId = title.replace /\s/g, '-'
+        newPosts = html.getElementById "posts"
+        newArticle = html.getElementById articleId
+        newToc = newPosts.querySelector ".toc"
+        oldToc = posts.querySelector ".toc"
 
-        # Prepend on focus month otherwise append
-        if document.documentElement.classList.contains "focus-theme"
-            posts.insertBefore article, posts.querySelector(".post")
-        else
-            posts.appendChild article
+        # Clear old values from the editor
+        editor.clear()
 
-        # Clear all form and preview content
-        document.getElementById("dropdown-new-post").checked = false
-
-        formTitle.value = ""
-        newPostTitle.childNodes[0].remove()
-
-        formContent.value = ""
-        newPostContent.innerHTML = ""
-
-        formAuthor.value = ""
-        newPostAuthor.childNodes[0].remove()
+        posts.replaceChild newToc, oldToc
+        posts.insertBefore newArticle, posts.querySelector ".post"
 
         window.location.hash = "#"+ articleId
-        
+
+    .catch (error) ->
+        console.error error
+
+submitComment = (e) ->
+    e.preventDefault()
+    commentAuthor = form.querySelector("input[name='author']")
+    commentContent = form.querySelector("textarea[name='content']")
+    postTitle = form.querySelector("input[name='post']").value
+
+    unless commentContent.value
+        # No sending in an empty comment
+        return
+
+    qwest.post form.action,
+        content: commentContent.value
+        author: commentAuthor.value
+        post: postTitle
+    .then (response) ->
+        resHtml = parser.parseFromString response, "text/html"
+        resArticle = resHtml.getElementById postTitle.replace /\s/g, "-"
+        resComments = resArticle.querySelector(".comments")
+
+        post = document.getElementById postTitle.replace /\s/g, "-"
+        post.querySelector(".comment-length").innerHTML = resComments.childNodes.length
+        comments = post.querySelector(".comments")
+        comments.appendChild(resComments.lastChild)
+
+        # Clear the input fields
+        commentContent.value = ""
+        commentAuthor.value = ""
+
     .catch (error) ->
         console.log error
 
@@ -158,32 +103,4 @@ postForm.addEventListener "submit", (e) ->
 posts.addEventListener 'submit', (e) ->
     form = e.target
     if form.matches '.new-comment-form'
-        e.preventDefault()
-        commentAuthor = form.querySelector("input[name='author']")
-        commentContent = form.querySelector("textarea[name='content']")
-        postTitle = form.querySelector("input[name='post']").value
-
-        unless commentContent.value
-            # No sending in an empty comment
-            return
-        
-        qwest.post form.action,
-            content: commentContent.value
-            author: commentAuthor.value
-            post: postTitle
-        .then (response) ->
-            resHtml = parser.parseFromString response, "text/html"
-            resArticle = resHtml.getElementById postTitle.replace /\s/g, "-"
-            resComments = resArticle.querySelector(".comments")
-
-            post = document.getElementById postTitle.replace /\s/g, "-"
-            post.querySelector(".comment-length").innerHTML = resComments.childNodes.length
-            comments = post.querySelector(".comments")
-            comments.appendChild(resComments.lastChild)
-
-            # Clear the input fields
-            commentContent.value = ""
-            commentAuthor.value = ""
-        .catch (message)
-            console.log message
-
+        submitComment e
