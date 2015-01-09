@@ -1,3 +1,5 @@
+tween = require 'tween.js'
+
 themeNav = document.querySelector ".theme-nav"
 themeUl = document.querySelector "ul"
 themeLis = themeNav.querySelectorAll "li"
@@ -38,23 +40,20 @@ handleScrollEnd = (e, focus=true) ->
         e.preventDefault()
         if this.classList.contains "left"
             stop = Math.max(themeUl.scrollLeft - liWidth, 0)
-            scrolling = window.setInterval () ->
-                if themeUl.scrollLeft <= stop
-                    window.clearInterval scrolling
-                    handleScrollEnd e
-                else
-                    themeUl.scrollLeft -= if themeUl.scrollLeft - stop < 50 then 5 else 25
-            , 10
         else
             stop = Math.min(themeUl.scrollLeft + liWidth, themeUl.scrollWidth)
-            scrolling = window.setInterval () ->
-                if themeUl.scrollLeft >= stop
-                    window.clearInterval scrolling
-                    handleScrollEnd e
-                else
-                    themeUl.scrollLeft += if stop - themeUl.scrollLeft < 50 then 5 else 25
-            , 10
-
+        pos = {x: themeUl.scrollLeft}
+        scrolling = new tween.Tween pos
+        .to {x: stop}, 500
+        .onUpdate () ->
+            themeUl.scrollLeft = pos.x
+        .easing tween.Easing.Quadratic.Out
+        .start()
+        animation = () ->
+            requestAnimationFrame animation
+            tween.update()
+        animation()
+        
 
 document.addEventListener "DOMContentLoaded", () ->
     winWidth = window.innerWidth
