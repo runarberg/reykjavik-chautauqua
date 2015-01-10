@@ -19,16 +19,15 @@ article.post(id=(post.articleId || post.title.replace(/\s/g, '-')))
   
     each comment in post.comments
       article.comment
-        if comment.author
-          p.author
-            span.author-name= comment.author
-            |  says
+        p.author
+          span.author-name= comment.author || "Somebody"
+          |  says
         section.comment-content!= md(comment.content)
         
   section.new-comment
     form.new-comment-form(action="#{theme.url}/new-comment", method="POST")
       input(type="hidden", name="post", value=post.title)
+      input(type="text", name="author", placeholder="Name")
       textarea(name="comment", placeholder="Comment")
       textarea(name="content", placeholder="Comment")
-      input(type="text", name="author", placeholder="Name")
       input(type="submit")
