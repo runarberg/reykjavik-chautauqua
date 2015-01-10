@@ -10,6 +10,7 @@ Editor = require '../../lib/editor'
 
 # Element.matches() selector
 Element.prototype.matches = Element.prototype.matches or
+        Element.prototype.matchesSelector or
         Element.prototype.webkitMatchesSelector or
         Element.prototype.mozMatchesSelector or
         Element.prototype.msMatchesSelector

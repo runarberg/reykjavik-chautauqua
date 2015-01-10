@@ -7,7 +7,7 @@ marked = require('marked').setOptions
 
 # ChildNode.prototype.remove() polyfill
 unless Element.prototype.remove
-    Object.defineProperty Element.prototype,
+    Object.defineProperty Element.prototype, "remove",
         value: () ->
             this.parentNode.removeChild this
 

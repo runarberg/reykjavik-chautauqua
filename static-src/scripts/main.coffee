@@ -74,7 +74,7 @@ document.addEventListener "DOMContentLoaded", () ->
         div = crel "div",
             class: "scroll-bar"
         
-        a = crel "a"
+        a = crel "a",
             class: "scroll-bar-center"
             href: "#"
 
