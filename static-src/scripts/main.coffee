@@ -1,3 +1,4 @@
+crel = require 'crel'
 tween = require 'tween.js'
 
 themeNav = document.querySelector ".theme-nav"
@@ -23,15 +24,18 @@ setCenterLiFocus = () ->
             li.classList.add "focus"
 
 
-handleScrollEnd = (e, focus=true) ->
-    setDelay () ->
-        setCenterLiFocus() if focus
-        scrollDiv = themeNav.querySelector ".scroll-bar"
-        scrollA = scrollDiv.querySelector "a.scroll-bar-center"
-        scrollProp = themeUl.scrollLeft/themeUl.scrollWidth
-        scrollLeft = scrollProp * scrollDiv.clientWidth
+setScrollPos = () ->
+    scrollDiv = themeNav.querySelector ".scroll-bar"
+    scrollA = scrollDiv.querySelector "a.scroll-bar-center"
+    scrollProp = themeUl.scrollLeft/themeUl.scrollWidth
+    scrollLeft = scrollProp * scrollDiv.clientWidth
 
-        scrollA.style.left = scrollLeft + "px"
+    scrollA.style.left = scrollLeft + "px"
+
+handleScrollEnd = (e) ->
+    setDelay () ->
+        setCenterLiFocus()
+        setScrollPos()
     , 20
 
 [].forEach.call scrollBtns, (a) ->
@@ -47,6 +51,7 @@ handleScrollEnd = (e, focus=true) ->
         .to {x: stop}, 500
         .onUpdate () ->
             themeUl.scrollLeft = pos.x
+            setScrollPos()
         .easing tween.Easing.Quadratic.Out
         .start()
         animation = () ->
@@ -66,15 +71,14 @@ document.addEventListener "DOMContentLoaded", () ->
 
     # add scroll bar at bottom
     (() ->
-        div = document.createElement "div"
-        div.className = "scroll-bar"
+        div = crel "div",
+            class: "scroll-bar"
         
-        a = document.createElement "a"
-        a.className = "scroll-bar-center"
-        a.href = "#"
+        a = crel "a"
+            class: "scroll-bar-center"
+            href: "#"
 
-        div.appendChild a
-        themeNav.appendChild div
+        crel themeNav, crel div, a
 
         doScrollThemes = (e) ->
             offset = div.getBoundingClientRect().left + a.clientWidth/2
