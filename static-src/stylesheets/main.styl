@@ -1,34 +1,10 @@
-@require '../../node_modules/stylus-normalize/normalize'
 @require 'index'
-@require './fonts'
-
+@require './defaults'
 
 body-background = #F0E7DB
 font-color-dark = #1B1C18
 font-color-light = #302B22
 
-body
-  background-attachment: fixed
-  background-color: body-background
-  background-image: url(/img/ReyQua-full-notext-transparent.svg)
-  background-position: center
-  background-repeat: no-repeat
-  background-size: auto 95%
-  color: font-color-dark
-  font-family: "Crimson Text", georgia, serifs
-  padding-bottom: 10em
-
-h1, h2, h3
-  color: font-color-light
-  font-family: "Vollkorn", georgia, serifs
-
-a[href]
-  border-bottom: 1px dotted font-color-light
-  color: lightness(font-color-light, 22%)
-  text-decoration: none
-  &:hover
-    color: lightness(font-color-light, 40%)
-    border-color: @color
 
 header
   font-size: 1.5em
@@ -212,6 +188,23 @@ header
       background: none
       p
         text-shadow: 1px 1px black
+
+.events
+  width: 38em
+  max-width: 90%
+  margin: 1em auto
+
+  h2
+    font-size: 2em
+    margin-top: 2em
+    text-align: center
+
+  .event-list
+    font-size: 1.2em
+    list-style: none
+    a
+      border: 0
+      color: inherit
 
 .email-signup-form
   width: 38em

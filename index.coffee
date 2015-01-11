@@ -28,10 +28,21 @@ app.set 'views', './views'
 app.set 'view engine', 'jade'
 
 app.get '/', (req, res) ->
-    db.getThemes()
-    .then (themes) ->
+    Q.all [db.getThemes(), db.getEvents()]
+    .then ([themes, events]) ->
         res.render 'index',
             themes: themes
+            events: events
+    .fail (err) ->
+        handleErr err, res
+
+
+app.get '/events', (req, res) ->
+    db.getEvents()
+    .then (events) ->
+        res.render 'events',
+            events: events
+            md: marked
     .fail (err) ->
         handleErr err, res
 
@@ -76,7 +87,7 @@ db.getThemes()
 
 .fail (err) ->
     handleErr err, res
-
+    
 
 app.listen app.get('port'), ->
     console.log "Node app is running at localhost:"+ app.get 'port'

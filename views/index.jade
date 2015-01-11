@@ -25,6 +25,13 @@ html(lang="en")
               p= theme.dateStr
               p= theme.name
 
+    section#events.events
+      h2 Events
+      ul.event-list
+        each event in events
+          li
+            a(href=event.permalink)= event.title
+
     div.email-signup-form#mc_embed_signup
       form(action="//reyqua.us9.list-manage.com/subscribe/post?u=34db5ed86b65db22d9ec6a3ef&amp;id=e2cc057825", method="post", id="mc-embedded-subscribe-form", name="mc-embedded-subscribe-form", class="validate", target="_blank", novalidate)
         label(for="mce-EMAIL") Email

@@ -1,0 +1,29 @@
+.main-header
+  h1
+    border: 4px solid font-color-light
+    border-bottom: 0
+    margin: 1.5em 1.5rem 0
+    padding-top: .75em
+    text-align: center
+    text-transform: uppercase
+    &::after
+      content: ""
+      border-bottom: 4px double #1B1C18
+      display: block
+      padding-top: .70em
+      margin: 0 auto
+      width: 90%
+
+  h2
+    border: 4px solid font-color-light
+    border-top: 0
+    margin: 0 1.5rem 1em
+    padding: 1em 0 .85em
+    text-align: center
+    a, a:hover
+      border-bottom: 0
+      color: inherit
+
+  h1, h2
+    border-image: url(/img/main-borders.svg) 23.5% / 8
+    text-align: center

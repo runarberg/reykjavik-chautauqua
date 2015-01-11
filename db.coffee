@@ -59,6 +59,16 @@ getThemes = () ->
     getDb queryStr, [], accFn
 
 
+getEvents = () ->
+    queryStr = 'SELECT * FROM events'
+    accFn = (event, events) ->
+        event.permalink = "/events##{urlify event.theme}/#{urlify event.title}"
+        event.id = "#{urlify event.theme}/#{urlify event.title}"
+        event.humanDate = dateFormat event.datetime, 'dddd, mmmm dS, h:MM TT'
+        events.addRow event
+    getDb queryStr, [], accFn
+
+
 getPosts = (theme) ->
     queryStr = 'SELECT * FROM posts WHERE theme=$1 ORDER BY datetime ASC'
     accFn = (post, posts) ->
@@ -136,6 +146,7 @@ saveComment = (theme, comment) ->
 module.exports =
     getThemes: getThemes
     getPosts: getPosts
+    getEvents: getEvents
     getComments: getComments
     addComments: addComments
     savePost: savePost

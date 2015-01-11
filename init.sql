@@ -24,6 +24,18 @@ CREATE TABLE comments (
        FOREIGN KEY (theme, post) REFERENCES posts
 );
 
+
+CREATE TABLE events (
+       theme       varchar REFERENCES themes,
+       title       varchar NOT NULL,
+       datetime    timestamp NOT NULL,
+       location    varchar NOT NULL,
+       host        varchar,
+       description varchar NOT NULL,
+       PRIMARY KEY (theme, title)
+);
+
+
 CREATE TABLE posts_revisions (
        id       serial,
        revision integer,

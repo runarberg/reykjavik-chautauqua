@@ -1,6 +1,5 @@
-@require '../../node_modules/stylus-normalize/normalize'
 @require 'index'
-@require './fonts'
+@require './defaults'
 
 
 body-background = #F0E7DB
@@ -9,75 +8,26 @@ font-color-light = #302B22
 
 article-width = 38em
 
-body
-  background-attachment: fixed
-  background-color: body-background
-  background-image: url(/img/ReyQua-full-notext-transparent.svg)
-  background-position: center
+
+@require 'snippets/main-header'
+
+.main-header::after
+  content: ""
   background-repeat: no-repeat
-  background-size: auto 95%
-  color: font-color-dark
-  font-family: "Crimson Text", georgia, serifs
+  border 4px double font-color-light
+  display: block
+  margin: 0 auto
+  width: 500px
+  height: 310px
+  @media screen and (max-width: 500px)
+    border: 0
+    width: 98%
+    height: 0
+    padding-bottom: 62%
 
-h1, h2, h3
-  color: font-color-light
-  font-family: "Vollkorn", georgia, serifs
-
-a[href]
-  border-bottom: 1px dotted font-color-light
-  color: lightness(font-color-light, 22%)
-  text-decoration: none
-  &:hover
-    color: lightness(font-color-light, 40%)
-    border-color: @color
-
-.main-header
-  h1
-    border: 4px solid font-color-light
-    border-bottom: 0
-    margin: 1.5em 1.5rem 0
-    padding-top: .75em
-    text-align: center
-    text-transform: uppercase
-    &::after
-      content: ""
-      border-bottom: 4px double #1B1C18
-      display: block
-      padding-top: .70em
-      margin: 0 auto
-      width: 90%
-
-  h2
-    border: 4px solid font-color-light
-    border-top: 0
-    margin: 0 1.5rem 1em
-    padding: 1em 0 .85em
-    text-align: center
-    a, a:hover
-      border-bottom: 0
-      color: inherit
-
-  h1, h2
-    border-image: url(/img/main-borders.svg) 23.5% / 8
-    text-align: center
-
-  &::after
-    content: ""
-    background-repeat: no-repeat
-    border 4px double font-color-light
-    display: block
-    margin: 0 auto
-    width: 500px
-    height: 310px
-    @media screen and (max-width: 500px)
-      border: 0
-      width: 98%
-      height: 0
-      padding-bottom: 62%
-
-  for theme, color in themes
-    &.{theme}::after
-      background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
+for theme, color in themes
+  .main-header.{theme}::after
+    background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
 
 article,
 .intro

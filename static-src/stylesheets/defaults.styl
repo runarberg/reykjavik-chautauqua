@@ -1,0 +1,30 @@
+@require '../../node_modules/stylus-normalize/normalize'
+@require 'index'
+@require './fonts'
+
+body-background = #F0E7DB
+font-color-dark = #1B1C18
+font-color-light = #302B22
+
+
+body
+  background-attachment: fixed
+  background-color: body-background
+  background-image: url(/img/ReyQua-full-notext-transparent.svg)
+  background-position: center
+  background-repeat: no-repeat
+  background-size: auto 95%
+  color: font-color-dark
+  font-family: "Crimson Text", georgia, serifs
+
+h1, h2, h3
+  color: font-color-light
+  font-family: "Vollkorn", georgia, serifs
+
+a[href]
+  border-bottom: 1px dotted font-color-light
+  color: lightness(font-color-light, 22%)
+  text-decoration: none
+  &:hover
+    color: lightness(font-color-light, 40%)
+    border-color: @color
