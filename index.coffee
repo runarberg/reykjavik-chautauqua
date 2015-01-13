@@ -1,3 +1,4 @@
+fs = require 'fs'
 path = require 'path'
 
 bodyParser = require 'body-parser'
@@ -5,10 +6,14 @@ express = require 'express'
 marked = require('marked').setOptions
     renderer: require './lib/marked-renderer'
     sanitize: true
+morgan = require 'morgan'
 Q = require 'q'
 
 db = require './db'
 
+
+accessLogStream = fs.createWriteStream __dirname + '/access.log',
+    flags: 'a'
 
 handleErr = (err, res) ->    
     console.error err
@@ -18,6 +23,8 @@ handleErr = (err, res) ->
 app = express()
 
 app.set('port', process.env.PORT or 5000)
+
+app.use morgan 'combined', stream: accessLogStream
 
 app.use bodyParser.urlencoded extended: false
 app.use bodyParser.json()
