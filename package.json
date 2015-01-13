@@ -21,10 +21,16 @@
   "browserify": {
     "transform": [
       "coffeeify",
-      ["polyify", { "browsers": "IE >= 10" }]
+      [
+        "polyify",
+        {
+          "browsers": "IE >= 10"
+        }
+      ]
     ]
   },
   "dependencies": {
+    "bean": "^1.0.15",
     "body-parser": "^1.10.0",
     "coffee-script": "^1.8.0",
     "crel": "^2.1.8",

@@ -1,13 +1,13 @@
+bean = require 'bean'
 crel = require 'crel'
-
 marked = require('marked').setOptions
     renderer: require './marked-renderer'
     sanitize: true
 
 
 # ChildNode.prototype.remove() polyfill
-unless Element.prototype.remove
-    Object.defineProperty Element.prototype, "remove",
+unless Node.prototype.remove
+    Object.defineProperty Node.prototype, "remove",
         value: () ->
             this.parentNode.removeChild this
 
@@ -30,7 +30,7 @@ surround = (textbox, a, b, defaultText) ->
     textbox.value = newText
     textbox.setSelectionRange selStart + a.length, selEnd + a.length
     textbox.focus()
-    textbox.dispatchEvent new Event 'input'
+    bean.fire textbox, 'input'
 
 
 commands = (textbox) ->
@@ -59,39 +59,37 @@ commands = (textbox) ->
 Editor = (form, output) ->
 
     commander = commands form.inputs.content
-    form.menu.addEventListener "click", (e) ->
-        button = e.target
-        if e.target.matches "button[value]"
-            e.preventDefault()
-            commander[button.value]()
+    bean.on form.menu, "click", "button[value]", (e) ->
+        e.preventDefault()
+        commander[this.value]()
 
-    form.inputs.title.addEventListener "input", (e) ->
+    bean.on form.inputs.title, "input", (e) ->
         title = this.value
         oldNode = output.title.firstChild
         oldNode.remove() if oldNode
         crel output.title, title if title
 
-    form.inputs.title.addEventListener "keydown", (e) ->
+    bean.on form.inputs.title, "keydown", (e) ->
         if e.keyCode == 13
             e.preventDefault()
             e.stopPropagation()
             form.inputs.author.focus()
 
-    form.inputs.author.addEventListener "keydown", (e) ->
+    bean.on form.inputs.author, "input", (e) ->
+        author = this.value
+        oldNode = output.author.firstChild
+        oldNode.remove() if oldNode
+        crel output.author, "by #{author}" if author
+        
+    bean.on form.inputs.author, "keydown", (e) ->
         if e.keyCode == 13
             e.preventDefault()
             e.stopPropagation()
             form.inputs.content.focus()
 
-    form.inputs.content.addEventListener "input", (e) ->
+    bean.on form.inputs.content, "input", (e) ->
         content = marked this.value
         output.content.innerHTML = content
-
-    form.inputs.author.addEventListener "input", (e) ->
-        author = this.value
-        oldNode = output.author.firstChild
-        oldNode.remove() if oldNode
-        crel output.author, "by #{author}" if author
 
 
     this.clear = () ->

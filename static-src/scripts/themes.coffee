@@ -1,19 +1,12 @@
+bean = require 'bean'
 crel = require 'crel'
 qwest = require 'qwest'
-
 marked = require('marked').setOptions
     renderer: require '../../lib/marked-renderer'
     sanitize: true
 
 Editor = require '../../lib/editor'
 
-
-# Element.matches() selector
-Element.prototype.matches = Element.prototype.matches or
-        Element.prototype.matchesSelector or
-        Element.prototype.webkitMatchesSelector or
-        Element.prototype.mozMatchesSelector or
-        Element.prototype.msMatchesSelector
 
 parser = new DOMParser()
 
@@ -35,7 +28,7 @@ editor = new Editor
     author: newPost.querySelector ".author"
 
 
-postForm.addEventListener "submit", (e) ->
+bean.on postForm, "submit", (e) ->
     e.preventDefault()
 
     title = postForm.querySelector("[name='title']").value
@@ -69,17 +62,17 @@ postForm.addEventListener "submit", (e) ->
     .catch (error) ->
         console.error error
 
-submitComment = (form, e) ->
+bean.on posts, 'submit', '.new-comment-form', (e) ->
     e.preventDefault()
-    commentAuthor = form.querySelector("input[name='author']")
-    commentContent = form.querySelector("textarea[name='content']")
-    postTitle = form.querySelector("input[name='post']").value
+    commentAuthor = this.querySelector("input[name='author']")
+    commentContent = this.querySelector("textarea[name='content']")
+    postTitle = this.querySelector("input[name='post']").value
 
     unless commentContent.value
         # No sending in an empty comment
         return
 
-    qwest.post form.action,
+    qwest.post this.action,
         content: commentContent.value
         author: commentAuthor.value
         post: postTitle
@@ -99,9 +92,3 @@ submitComment = (form, e) ->
 
     .catch (error) ->
         console.log error
-
-
-posts.addEventListener 'submit', (e) ->
-    form = e.target
-    if form.matches '.new-comment-form'
-        submitComment form, e

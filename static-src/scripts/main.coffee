@@ -1,3 +1,4 @@
+bean = require 'bean'
 crel = require 'crel'
 tween = require 'tween.js'
 
@@ -39,7 +40,7 @@ handleScrollEnd = (e) ->
     , 20
 
 [].forEach.call scrollBtns, (a) ->
-    a.addEventListener "click", (e) ->
+    bean.on a, "click", (e) ->
         liWidth = themeLis[0].clientWidth
         e.preventDefault()
         if this.classList.contains "left"
@@ -60,7 +61,7 @@ handleScrollEnd = (e) ->
         animation()
         
 
-document.addEventListener "DOMContentLoaded", () ->
+bean.on document, "DOMContentLoaded", () ->
     winWidth = window.innerWidth
     liWidth = themeUl.firstChild.clientWidth
     padding = (winWidth / 2) - (liWidth / 2)
@@ -93,21 +94,20 @@ document.addEventListener "DOMContentLoaded", () ->
 
             setCenterLiFocus()
 
-        a.addEventListener "click", (e) ->
+        bean.on a, "click", (e) ->
             e.preventDefault()
 
-        a.addEventListener "mousedown", (e) ->
+        bean.on a, "mousedown", (e) ->
             e.preventDefault()
-            document.body.addEventListener "mousemove", doScrollThemes
-            document.body.addEventListener "mouseup", (e) ->
-                document.body.removeEventListener "mousemove", doScrollThemes
+            bean.on document.body, "mousemove", doScrollThemes
+            bean.on document.body, "mouseup", (e) ->
+                bean.off document.body, "mousemove", doScrollThemes
     )()
 
-    themeUl.addEventListener "scroll", (e) ->
-        handleScrollEnd(e)
+    bean.on themeUl, "scroll", handleScrollEnd
 
     [].forEach.call themeLis, (li) ->
-        li.addEventListener "mouseover", (e) ->
+        bean.on li, "mouseover", (e) ->
             [].forEach.call themeLis, (li_) ->
                 li_.classList.remove "focus"
             this.classList.add "focus"
