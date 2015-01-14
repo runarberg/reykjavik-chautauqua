@@ -1,48 +1,54 @@
 bean = require 'bean'
 crel = require 'crel'
+qwery = require 'qwery'
 qwest = require 'qwest'
 marked = require('marked').setOptions
     renderer: require '../../lib/marked-renderer'
     sanitize: true
 
+bean.setSelectorEngine qwery
+
 Editor = require '../../lib/editor'
 
 
+head = (arr) ->
+    arr[0]
+
 parser = new DOMParser()
 
-postForm = document.getElementById "new-post-form"
+newPostForm = document.getElementById "new-post-form"
+preview = head qwery ".new-post .preview"
 posts = document.getElementById "posts"        
-newPost = document.getElementById "new-post"
 
 editor = new Editor
-    container: postForm
-    menu: postForm.querySelector ".editmenu"
+    container: newPostForm
+    menu: head qwery ".editmenu", newPostForm
     inputs:
-        title: postForm.querySelector "[name='title']"
-        content: postForm.querySelector "[name='content']"
-        author: postForm.querySelector "[name='author']"
+        title: head qwery "[name='title']", newPostForm
+        content: head qwery "[name='content']", newPostForm
+        author: head qwery "[name='author']", newPostForm
 ,
-    container: newPost
-    title: newPost.querySelector ".title"
-    content: newPost.querySelector ".content"
-    author: newPost.querySelector ".author"
+    container: preview
+    title: head qwery ".title", preview
+    author: head qwery ".author", preview
+    content: head qwery ".content", preview
 
 
-bean.on postForm, "submit", (e) ->
+bean.on newPostForm, "submit", (e) ->
     e.preventDefault()
 
-    title = postForm.querySelector("[name='title']").value
-    author = postForm.querySelector("[name='author']").value
-    content = postForm.querySelector("[name='content']").value
+    title = head qwery "[name='title']", newPostForm
+    author = head qwery "[name='author']", newPostForm
+    content = head qwery "[name='content']", newPostForm
 
     unless title and content
         # You have to have a title and a content to your post
         return
 
-    qwest.post postForm.action,
-        title: title
-        author: author
-        content: content
+    qwest.post newPostForm.action,
+        title: title.value
+        author: author.value
+        content: content.value
     .then (response) ->
         html = parser.parseFromString response, "text/html"
         articleId = title.replace /\s/g, '-'
@@ -64,9 +70,9 @@ bean.on postForm, "submit", (e) ->
 
 bean.on posts, 'submit', '.new-comment-form', (e) ->
     e.preventDefault()
-    commentAuthor = this.querySelector("input[name='author']")
-    commentContent = this.querySelector("textarea[name='content']")
-    postTitle = this.querySelector("input[name='post']").value
+    commentAuthor = head qwery "input[name='author']", this
+    commentContent = head qwery "textarea[name='content']", this
+    postTitle = head qwery "input[name='post']", this
 
     unless commentContent.value
         # No sending in an empty comment
@@ -75,16 +81,17 @@ bean.on posts, 'submit', '.new-comment-form', (e) ->
     qwest.post this.action,
         content: commentContent.value
         author: commentAuthor.value
-        post: postTitle
+        post: postTitle.value
     .then (response) ->
         resHtml = parser.parseFromString response, "text/html"
-        resArticle = resHtml.getElementById postTitle.replace /\s/g, "-"
+        resArticle = resHtml.getElementById postTitle.value.replace /\s/g, "-"
         resComments = resArticle.querySelector(".comments")
 
-        post = document.getElementById postTitle.replace /\s/g, "-"
-        post.querySelector(".comment-length").innerHTML = resComments.childNodes.length
-        comments = post.querySelector(".comments")
-        comments.parentNode.replaceChild(resComments, comments)
+        post = document.getElementById postTitle.value.replace /\s/g, "-"
+        head qwery ".comment-length", post
+        .innerHTML = resComments.childNodes.length
+        comments = head qwery ".comments", post
+        comments.parentNode.replaceChild resComments, comments
 
         # Clear the input fields
         commentContent.value = ""

@@ -1,11 +1,18 @@
 bean = require 'bean'
 crel = require 'crel'
+qwery = require 'qwery'
 tween = require 'tween.js'
 
-themeNav = document.querySelector ".theme-nav"
-themeUl = document.querySelector "ul"
-themeLis = themeNav.querySelectorAll "li"
+head = (arr) ->
+    arr[0]
+
+
+themeNav = head qwery ".theme-nav"
+themeUl = head qwery "ul"
+themeLis = qwery "li", themeNav
 winMid = window.innerWidth/2
+bean.on window, "resize", (e) ->
+    winMid = window.innerWidth/2
 
 setDelay = ( () ->
     timer = 0
@@ -15,19 +22,22 @@ setDelay = ( () ->
 )()
 
 
-scrollBtns = themeNav.querySelectorAll "a.scroll"
+scrollBtns = qwery "a.scroll", themeNav
 
 
 setCenterLiFocus = () ->
-    [].forEach.call themeLis, (li) ->
+    ulMid = themeUl.scrollLeft + winMid
+    themeLis.forEach (li) ->
+        liLeft = li.offsetLeft
+        liRight = liLeft + li.clientWidth
         li.classList.remove "focus"
-        if li.offsetLeft < themeUl.scrollLeft + winMid < li.offsetLeft + li.clientWidth
+        if liLeft < ulMid < liRight
             li.classList.add "focus"
 
 
 setScrollPos = () ->
-    scrollDiv = themeNav.querySelector ".scroll-bar"
-    scrollA = scrollDiv.querySelector "a.scroll-bar-center"
+    scrollDiv = head qwery ".scroll-bar", themeNav
+    scrollA = head qwery "a.scroll-bar-center", scrollDiv
     scrollProp = themeUl.scrollLeft/themeUl.scrollWidth
     scrollLeft = scrollProp * scrollDiv.clientWidth
 
@@ -39,7 +49,7 @@ handleScrollEnd = (e) ->
         setScrollPos()
     , 20
 
-[].forEach.call scrollBtns, (a) ->
+scrollBtns.forEach (a) ->
     bean.on a, "click", (e) ->
         liWidth = themeLis[0].clientWidth
         e.preventDefault()
@@ -67,7 +77,7 @@ bean.on document, "DOMContentLoaded", () ->
     padding = (winWidth / 2) - (liWidth / 2)
     themeUl.firstChild.style.marginLeft = "#{padding}px"
     themeUl.lastChild.style.marginRight = "#{padding}px"
-    focusCenter = themeUl.querySelector(".focus").offsetLeft + liWidth/2
+    focusCenter = head qwery(".focus", themeUl).offsetLeft + liWidth/2
     themeUl.scrollLeft = focusCenter - themeNav.clientWidth/2
 
     # add scroll bar at bottom
@@ -106,8 +116,8 @@ bean.on document, "DOMContentLoaded", () ->
 
     bean.on themeUl, "scroll", handleScrollEnd
 
-    [].forEach.call themeLis, (li) ->
+    themeLis.forEach (li) ->
         bean.on li, "mouseover", (e) ->
-            [].forEach.call themeLis, (li_) ->
+            themeLis.forEach (li_) ->
                 li_.classList.remove "focus"
             this.classList.add "focus"
