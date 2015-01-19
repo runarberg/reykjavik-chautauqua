@@ -1,0 +1,37 @@
+.first-main-header
+  font-size: 1.5em
+  @media screen and (max-width: 640px)
+    font-size 1.2em
+    @media screen and (max-width: 460px)
+      font-size: 1em
+
+  h1, h2
+    border-width: 4px
+    border-style: solid
+    border-color: font-color-light
+    border-image: url(/img/main-borders.svg) 23.5% / 8 stretch
+
+  h1
+    border-bottom: 0
+    margin: .5em 1.5rem 0
+    padding-top: .75em
+    text-align: center
+    text-transform: uppercase
+    &::after
+      content: ""
+      border-bottom: 4px double font-color-dark
+      display: block
+      padding-top: .70em
+      margin: 0 auto
+      width: 90%
+
+  h2
+    border-top: 0
+    margin: 0 1.5rem 1.25em
+    padding: 1em 0 .85em
+    text-align: center
+
+  .introduction
+    width: 38em
+    max-width: 95%
+    margin: .5em auto

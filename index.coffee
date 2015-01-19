@@ -54,6 +54,11 @@ app.get '/events', (req, res) ->
         handleErr err, res
 
 
+app.get '/about', (req, res) ->
+    res.render 'about',
+        md: marked
+
+
 db.getThemes()
 
 .then (themes) ->

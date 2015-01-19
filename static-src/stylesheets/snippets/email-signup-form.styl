@@ -1,0 +1,40 @@
+@require 'index'
+
+
+.email-signup-form
+  width: 38em
+  max-width: 98%
+  margin: 4em auto 8em
+  form
+    border-bottom: 1px solid font-color-light
+    display: flex
+    font-size: 1.2em
+    margin 0 auto
+
+    label, input[type="email"], input[type="submit"]
+      display: inline-block
+      height: 1em
+      margin-left: 0.5em
+    label::after
+      content: ":"
+      padding-right: 0.5em
+    input[type="email"]
+      background: inherit
+      border: 0
+      flex-grow: 1
+      flex-shring: 2
+      padding: 0
+    input[name="b_34db5ed86b65db22d9ec6a3ef_e2cc057825"]
+      position: absolute
+      left: -9999px
+    input[type="submit"]
+      background: font-color-dark
+      border: 1px solid font-color-light
+      color: lightness(body-background, 110%)
+      margin: calc(-2px - .5em) .5em 0 0
+      padding: 0.2em 0.5em 0.3em
+      height: 1.5em
+  > label
+    display: block
+    margin: 1em auto
+    text-align: center

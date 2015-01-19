@@ -1,28 +1,21 @@
-- var title = "Reykjavík Chautauqua"
-- var subtitle = "Institute of Lower Learning"
+extends basic.jade
 
-doctype html
-html(lang="en")
-  head
-    title= title + " — Events"
-    link(rel="stylesheet", href="/stylesheets/events.css")
-    meta(name="viewport", content="width=device-width, maximum-scale=1")
+block title
+  title Reykjavík Chautauqua — Events
 
-  body
-    header.main-header
-      h1 Events
-      h2
-        a(href="/")= title
+block main-header-h1
+  h1 Events
 
-    section.events
-      each event in events
-        article
-          header
-            h2= event.title
-            div.host Hosted by 
-              span.hosts= event.host
-            div.location at 
-              span.location= event.location
-            div.datetime on 
-              time(datetime=event.datetime)= event.humanDate
-          section.description!= md(event.description)
+block main
+  section.events
+    each event in events
+      article
+        header
+          h2= event.title
+          div.host Hosted by 
+            span.hosts= event.host
+          div.location at 
+            span.location= event.location
+          div.datetime on 
+            time(datetime=event.datetime)= event.humanDate
+        section.description!= md(event.description)

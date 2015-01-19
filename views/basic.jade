@@ -1,0 +1,20 @@
+- var title = "Reykjavík Chautauqua"
+- var subtitle = "Institute of Lower Learning"
+
+doctype html
+html(lang="en")
+  head
+    block title
+      title title
+    link(rel="stylesheet", href="/stylesheets/main.css")
+    meta(name="viewport", content="width=device-width, maximum-scale=1")
+
+  body
+    header.second-main-header
+      block main-header
+        block main-header-h1
+          h1 title
+        h2
+          a(href="/")= title
+
+    block main

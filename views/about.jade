@@ -1,0 +1,16 @@
+extends basic.jade
+
+block title
+  title Reykjavík Chautauqua — About
+
+block main-header
+  h1 About
+  h2
+    a(href="/") Reykjavík Chautauqua
+  div.heading-picture
+
+block main
+  article.introduction
+    include:markdown introduction.md
+    include:markdown about.md
+

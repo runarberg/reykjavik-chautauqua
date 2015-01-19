@@ -1,0 +1,128 @@
+@require 'index'
+
+.theme-nav
+  font-size: 1.25em
+  margin: 1.25em 1.5rem 0
+  padding 0 4px 2em
+  position: relative
+  overflow-y: hidden
+  h2
+    color: font-color-light
+    font-size: 2em
+    margin: .6em auto 1em
+    text-align: center
+    @media screen and (max-width: 360px)
+      font-size: 1.2em
+
+  a.scroll
+    background: body-background
+    border: 0
+    display: inline-block
+    font-size: 2.4em
+    font-weight: bold
+    line-height: 310px
+    height: 310px
+    position: absolute
+    padding: 0 .4em
+    &.left
+      left: 4px
+      padding-right: 0.6em
+    &.right
+      right: 4px
+      padding-left: 0.6em
+    &, &:hover, &:focus
+      color: inherit
+      outline: 0
+
+    @media only screen and (max-width: 640px)
+      background: alpha(body-background, 0)
+      height: 0.8em
+      width: 0.5em
+      line-height: 1em
+      top: 5px
+      &, &.left, &.right
+        padding: 0
+      &.left
+        left: 30px
+      &.right
+        right: 30px
+        text-align: right
+
+  .scroll-bar
+    border-bottom: 1px solid font-color-dark
+    height: 0
+    margin: 0 2em
+    overflow: visible
+    position: relative
+    @media screen and (max-width: 640px)
+      display: none
+      a.scroll-bar-center
+        display: none
+
+  a.scroll-bar-center
+    display: block
+    background: font-color-light
+    border-radius: 100%
+    position: absolute
+    top -.5em
+    width: 1em
+    height: 1em
+
+  ul
+    justify-content: center
+    margin: 0 0 -100px           // Hiding the scroll-bar
+    padding: 0 0 100px
+    overflow-x: auto
+    white-space: nowrap
+  li
+    display: inline-block
+    font-size: 2em
+    height: 310px
+    list-style: none
+    margin: 0
+    padding: 0
+    overflow: hidden
+    text-align: center
+    width: 500px
+    white-space: normal
+    @media screen and (max-width: 500px)
+      background-size: contain
+      font-size: 1.5em
+      width: 100%
+      height: 0
+      padding-bottom: 50%
+      padding-top: 12%
+    @media screen and (max-width: 460px)
+      font-size: 1.2em
+    @media screen and (max-width: 360px)
+      font-size: 0.9em
+
+    for theme, color in themes
+      &.{theme}
+        background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
+        &.focus a p
+          color: color
+        @media screen and (max-width: 500px)
+          & a p
+            color: color
+
+    a
+      background: rgba(255,166,166,0.2)
+      color: inherit
+      display: flex
+      flex-direction: column
+      font-family: "Vollkorn"
+      font-weight: bold
+      justify-content: space-between
+      height: 100%
+      width: 100%
+      &:hover
+        color: inherit
+      p
+        margin: 0.25em 0.85em
+        padding: 0.125em 0
+
+    &.focus a
+      background: none
+      p
+        text-shadow: 1px 1px black

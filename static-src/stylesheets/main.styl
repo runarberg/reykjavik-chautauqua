@@ -1,258 +1,45 @@
 @require 'index'
 @require './defaults'
 
-body-background = #F0E7DB
-font-color-dark = #1B1C18
-font-color-light = #302B22
+@require 'snippets/first-main-header'
+@require 'snippets/second-main-header'
 
 
-header
-  font-size: 1.5em
-  @media screen and (max-width: 640px)
-    font-size 1.2em
-    @media screen and (max-width: 460px)
-      font-size: 1em
-
-  h1, h2
-    border-width: 4px
-    border-style: solid
-    border-color: font-color-light
-    border-image: url(/img/main-borders.svg) 23.5% / 8 stretch
-
-  h1
-    border-bottom: 0
-    margin: .5em 1.5rem 0
-    padding-top: .75em
-    text-align: center
-    text-transform: uppercase
-    &::after
-      content: ""
-      border-bottom: 4px double font-color-dark
-      display: block
-      padding-top: .70em
-      margin: 0 auto
-      width: 90%
-
-  h2
-    border-top: 0
-    margin: 0 1.5rem 2em
-    padding: 1em 0 .85em
-    text-align: center
-
-  .introduction
-    width: 38em
-    max-width: 95%
-    margin: .5em auto
-
-  .heading-picture
-    background: url("/img/chautauqua-header.jpeg")
-    background-repeat: no-repeat
-    border: 4px double font-color-dark
-    display: block
-    margin: 0 auto 2em
-    width: 750px
-    height: 332px
-    @media screen and (max-width: 760px)
-      width: 98%
-      height: 0
-      padding-bottom: 43.5%
-      background-size: contain
-
-.theme-nav
-  border-width: 4px
-  border-style: solid
-  border-color: font-color-light
-  border-image: url(/img/main-borders.svg) 23.5% / 8
-  font-size: 1.25em
-  margin: 4em 1.5rem 0
-  padding 0 4px 2em
-  position: relative
-  overflow-y: hidden
-  h2
-    color: font-color-light
-    font-size: 1.6em
-    margin: .4em auto
-    text-align: center
-    @media screen and (max-width: 360px)
-      font-size: 1.2em
-
-  a.scroll
-    background: body-background
-    border: 0
-    display: inline-block
-    font-size: 2.4em
-    font-weight: bold
-    line-height: 310px
-    height: 310px
-    position: absolute
-    padding: 0 .4em
-    &.left
-      left: 4px
-      padding-right: 0.6em
-    &.right
-      right: 4px
-      padding-left: 0.6em
-    &, &:hover, &:focus
-      color: inherit
-      outline: 0
-
-    @media only screen and (max-width: 640px)
-      background: alpha(body-background, 0)
-      height: 0.8em
-      width: 0.5em
-      line-height: 1em
-      top: 5px
-      &, &.left, &.right
-        padding: 0
-      &.left
-        left: 30px
-      &.right
-        right: 30px
-        text-align: right
-
-  .scroll-bar
-    border-bottom: 1px solid font-color-dark
+.heading-picture
+  background: url("/img/chautauqua-header.jpeg")
+  background-repeat: no-repeat
+  border: 4px double font-color-dark
+  display: block
+  margin: 0 auto 2em
+  width: 750px
+  height: 332px
+  @media screen and (max-width: 760px)
+    width: 98%
     height: 0
-    margin: 0 2em
-    overflow: visible
-    position: relative
-    @media screen and (max-width: 640px)
-      display: none
-      a.scroll-bar-center
-        display: none
+    padding-bottom: 43.5%
+    background-size: contain
 
-  a.scroll-bar-center
-    display: block
-    background: font-color-light
-    border-radius: 100%
-    position: absolute
-    top -.5em
-    width: 1em
-    height: 1em
+@require 'snippets/theme-nav'
 
-  ul
-    justify-content: center
-    margin: 0 0 -55px           // Hiding the scroll-bar
-    padding: 0 0 55px
-    overflow-x: auto
-    white-space: nowrap
-  li
-    display: inline-block
-    font-size: 2em
-    height: 310px
-    list-style: none
-    margin: 0
-    padding: 0
-    overflow: hidden
-    text-align: center
-    width: 500px
-    white-space: normal
-    @media screen and (max-width: 500px)
-      background-size: contain
-      font-size: 1.5em
-      width: 100%
-      height: 0
-      padding-bottom: 50%
-      padding-top: 12%
-    @media screen and (max-width: 460px)
-      font-size: 1.2em
-    @media screen and (max-width: 360px)
-      font-size: 0.9em
-
-    for theme, color in themes
-      &.{theme}
-        background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
-        &.focus a p
-          color: color
-        @media screen and (max-width: 500px)
-          & a p
-            color: color
-
-    a
-      background: rgba(255,166,166,0.2)
-      color: inherit
-      display: flex
-      flex-direction: column
-      font-family: "Vollkorn"
-      font-weight: bold
-      justify-content: space-between
-      height: 100%
-      width: 100%
-      &:hover
-        color: inherit
-      p
-        margin: 0.25em 0.85em
-        padding: 0.125em 0
-
-    &.focus a
-      background: none
-      p
-        text-shadow: 1px 1px black
-
-.events
+.events,
+.introduction
+  font-size: 1.1em
+  line-height: 1.3em
   width: 38em
   max-width: 90%
-  margin: 1em auto
+  margin: 1em auto 0
 
   h2
     font-size: 2em
     margin-top: 2em
     text-align: center
 
-  .event-list
-    font-size: 1.2em
-    list-style: none
-    a
-      border: 0
-      color: inherit
+.page-nav
+  font-size: 1.35em
+  margin: 2em auto
+  text-align: center
+  a
+    border: 0
+    color: inherit
 
-.email-signup-form
-  width: 38em
-  max-width: 98%
-  margin: 8em auto
-  form
-    border-bottom: 1px solid font-color-light
-    display: flex
-    font-size: 1.2em
-    margin 0 auto
-
-    label, input[type="email"], input[type="submit"]
-      display: inline-block
-      height: 1em
-      margin-left: 0.5em
-    label::after
-      content: ":"
-      padding-right: 0.5em
-    input[type="email"]
-      background: inherit
-      border: 0
-      flex-grow: 1
-      flex-shring: 2
-      padding: 0
-    input[name="b_34db5ed86b65db22d9ec6a3ef_e2cc057825"]
-      position: absolute
-      left: -9999px
-    input[type="submit"]
-      background: font-color-dark
-      border: 1px solid font-color-light
-      color: lightness(body-background, 110%)
-      margin: calc(-2px - .5em) .5em 0 0
-      padding: 0.2em 0.5em 0.3em
-      height: 1.5em
-  > label
-    display: block
-    margin: 1em auto
-    text-align: center
-
-footer
-  border-top: 4px double font-color-light
-  width: 42em
-  max-width: 98%
-  margin: 8em auto 2em
-  padding-top: 2em
-  h2
-    text-align: center
-  p
-    width: 38em
-    max-width: 95%
-    margin: 1em auto
+@require 'snippets/email-signup-form'

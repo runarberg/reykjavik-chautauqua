@@ -2,16 +2,12 @@
 @require './defaults'
 
 
-body-background = #F0E7DB
-font-color-dark = #1B1C18
-font-color-light = #302B22
-
 article-width = 38em
 
 
-@require 'snippets/main-header'
+@require 'snippets/second-main-header'
 
-.main-header::after
+.second-main-header::after
   content: ""
   background-repeat: no-repeat
   border 4px double font-color-light
@@ -26,7 +22,7 @@ article-width = 38em
     padding-bottom: 62%
 
 for theme, color in themes
-  .main-header.{theme}::after
+  .second-main-header.{theme}::after
     background: url(/ + pathjoin('img', 'themes', theme) + '.jpeg')
 
 article,
