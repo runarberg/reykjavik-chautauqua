@@ -51,7 +51,7 @@ bean.on newPostForm, "submit", (e) ->
         content: content.value
     .then (response) ->
         html = parser.parseFromString response, "text/html"
-        articleId = title.replace /\s/g, '-'
+        articleId = title.value.replace /\s/g, '-'
         newPosts = html.getElementById "posts"
         newArticle = html.getElementById articleId
         newToc = newPosts.querySelector ".toc"
