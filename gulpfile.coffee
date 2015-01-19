@@ -38,6 +38,10 @@ gulp.task 'img', () ->
     gulp.src './static-src/img/**/*.{jpeg,png,svg}'
     .pipe gulp.dest './static/img'
 
+gulp.task 'assets', () ->
+    gulp.src './static-src/assets/*'
+    .pipe gulp.dest './static'
+
 gulp.task 'stylus', () ->
     gulp.src './static-src/stylesheets/**/*.styl'
     .pipe stylus
@@ -50,7 +54,7 @@ gulp.task 'stylus', () ->
     .pipe gulp.dest './static/stylesheets'
     .pipe reload stream: true
 
-gulp.task 'default', ['browserify', 'fonts', 'img', 'stylus']
+gulp.task 'default', ['browserify', 'fonts', 'img', 'stylus', 'assets']
 gulp.task 'watch', [
     'browserify', 'fonts', 'img', 'stylus', 'browser-sync'
     ], () ->
