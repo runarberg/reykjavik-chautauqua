@@ -99,3 +99,22 @@ bean.on posts, 'submit', '.new-comment-form', (e) ->
 
     .catch (error) ->
         console.log error
+
+
+bean.on document, "DOMContentLoaded", () ->
+    videos = qwery ".video", posts
+
+    videos.forEach (video) ->
+        video.dataset.src = video.firstChild.src
+        offset = video.getBoundingClientRect()
+        unless 0 <= offset.bottom and offset.top <= window.innerHeight
+            video.firstChild.src = ""
+
+    loadIframeIfScrolledTo = () ->
+        videos.forEach (video) ->
+            offset = video.getBoundingClientRect()
+            if 0 <= offset.bottom and offset.top <= window.innerHeight
+                video.firstChild.src = video.dataset.src unless  video.dataset.loaded
+                video.dataset.loaded = true
+
+    bean.on window, "scroll", loadIframeIfScrolledTo
