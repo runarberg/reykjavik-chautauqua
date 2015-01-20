@@ -4,7 +4,7 @@ doctype html
 html(class=theme.focus ? "focus-theme" : "")
   head
     meta(charset="utf-8")
-    title= theme.name
+    title= title + " — " + theme.name
     meta(name="viewport", content="width=device-width, maximum-scale=1")
     block stylesheet
       link(rel='stylesheet', href='/stylesheets/themes.css')
@@ -15,7 +15,7 @@ html(class=theme.focus ? "focus-theme" : "")
     header.second-main-header(class=theme.url.slice(1))
       block header
         h1
-          a(href="/"+theme.url)= theme.name
+          a(href=theme.url)= theme.name
         h2
           a(href="/")= title
         
