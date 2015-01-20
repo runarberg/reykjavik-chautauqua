@@ -14,7 +14,8 @@ html(class=theme.focus ? "focus-theme" : "")
   body
     header.second-main-header(class=theme.url.slice(1))
       block header
-        h1= theme.name
+        h1
+          a(href="/"+theme.url)= theme.name
         h2
           a(href="/")= title
         

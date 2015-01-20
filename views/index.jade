@@ -8,11 +8,13 @@ html(lang="en")
     link(rel="stylesheet", href="/stylesheets/main.css")
     link(rel="shortcut icon", href="/favicon.ico")
     link(rel="apple-touch-icon", href="/apple-touch-icon.png")
+    meta(name="description", content="Welcome to Reykjavík Chautauqua — Institute of Lower Learning! Reykjavíks newest educational social media webspace. Learn something new · Share something new · Try something new.")
     meta(name="viewport", content="width=device-width, maximum-scale=1")
 
   body
     header.first-main-header
-      h1= title
+      h1
+        a (href="http://reyqua.com")= title
       h2= subtitle
       
     nav.theme-nav
