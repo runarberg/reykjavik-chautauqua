@@ -5,11 +5,14 @@ doctype html
 html(lang="en")
   head
     title= title
+
+    meta(charset="utf-8")
+    meta(name="description", content="Welcome to Reykjavík Chautauqua — Institute of Lower Learning! Reykjavíks newest educational social media webspace. Learn something new · Share something new · Try something new.")
+    meta(name="viewport", content="width=device-width, maximum-scale=1")
+
     link(rel="stylesheet", href="/stylesheets/main.css")
     link(rel="shortcut icon", href="/favicon.ico")
     link(rel="apple-touch-icon", href="/apple-touch-icon.png")
-    meta(name="description", content="Welcome to Reykjavík Chautauqua — Institute of Lower Learning! Reykjavíks newest educational social media webspace. Learn something new · Share something new · Try something new.")
-    meta(name="viewport", content="width=device-width, maximum-scale=1")
 
   body
     header.first-main-header
@@ -28,7 +31,7 @@ html(lang="en")
               p= theme.dateStr
               p= theme.name
 
-    section.page-nav
+    div.page-nav
       :markdown
         See upcoming [**events**](/events) &
         read more [**about us**](/about)
