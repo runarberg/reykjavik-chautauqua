@@ -16,22 +16,19 @@ renderer.image = (href, title, text) ->
         code = href.split("/").slice(-1)[0]
         out = '<figure class="video vimeo">'+
                 "<iframe src=\"//player.vimeo.com/video/#{code}\"" +
-                ' width="500" height="281" frameborder="0"' +
-                ' webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
+                ' width="500" height="281" allowfullscreen>' +
                 '</iframe></figure>'
 
     else if text == "nzonscreen"
         out = '<figure class="video nzonscreen">'+
                 "<iframe src=\"#{href}\"" +
-                ' width="585" height="410" frameborder="0"' +
-                ' webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
+                ' width="585" height="410" allowfullscreen>' +
                 '</iframe></figure>'
 
     else if text == "nfbcanada"
         out = '<figure class="video nfbcanada">'+
                 "<iframe src=\"#{href}\"" +
-                ' width="516" height="320" frameborder="0"' +
-                ' webkitallowfullscreen mozallowfullscreen allowfullscreen>' +
+                ' width="516" height="320" allowfullscreen>' +
                 '</iframe></figure>'
 
     else
@@ -40,6 +37,9 @@ renderer.image = (href, title, text) ->
                 (if title then " title=\"#{title}\"" else "") +
                 "></figure>"
 
+    # Make figures block level
+    out = "</p>#{out}<p>"
+    
     return out
 
 module.exports = renderer
