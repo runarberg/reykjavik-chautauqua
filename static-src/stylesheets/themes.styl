@@ -48,14 +48,15 @@ article,
     width: article-width
     max-width: 90%
     margin: .5em auto
+    @media (max-width: 42em)
+      font-size: 1em
+    @media (max-width: 38em)
+      font-size: 0.9em
     a
       color: font-color-dark
-      display: flex
-      justify-content: space-between
       &:hover
         color: font-color-light
       span
-        background: body-background
         display: inline-block
         margin: .3em 0 -.3em
       &:hover .title
@@ -64,14 +65,30 @@ article,
       padding 0 3em
     li
       list-style: none
-      .title
-        font-style: italic
-    li.new-post
-      margin-top: 0.5em
-      span.title::before
-        content: "+"
-        font-style: normal
-        padding-right: 0.5em
+      a
+        border: 0
+        display: flex
+        .title
+          font-style: italic
+          order: 1
+        .author
+          order: 3
+          text-align: right
+        &::after
+          content: ""
+          border-bottom: 1px dotted font-color-dark
+          display: inline-block
+          flex-grow: 1
+          order: 2
+        @media screen and (max-width: 520px)
+          flex-direction: column
+          margin-top: 0.5em
+          text-align: center
+          .author
+            order: 2
+            text-align: center
+          &::after
+            display: none
 
 .post,
 .preview
