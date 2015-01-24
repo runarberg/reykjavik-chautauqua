@@ -8,7 +8,8 @@ article.post(id=(post.articleId || post.title.replace(/\s/g, '-')))
     if post.author
       | by 
       span.author= post.author
-      
+    time.date(datetime=post.datetime.toISOString())= post.humanDate
+
   div.content!= md(post.content)
   
   input(id="dropdown-comment-post-#{post.id}", type="checkbox", rel="dropdown")

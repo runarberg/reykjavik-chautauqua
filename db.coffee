@@ -73,7 +73,7 @@ getPosts = (theme) ->
     queryStr = 'SELECT * FROM posts WHERE theme=$1 ORDER BY datetime ASC'
     accFn = (post, posts) ->
         post.articleId = post.title.replace /\s/g, '-'
-        post.humanDate = dateFormat post.date, 'mmmm, dS'
+        post.humanDate = dateFormat post.datetime, 'mmmm, dS'
         posts.addRow post
     getDb queryStr, [theme], accFn
     
