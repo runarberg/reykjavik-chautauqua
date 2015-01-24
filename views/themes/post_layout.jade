@@ -8,7 +8,7 @@ article.post(id=(post.articleId || post.title.replace(/\s/g, '-')))
     if post.author
       | by 
       span.author= post.author
-    time.date(datetime=post.datetime.toISOString())= post.humanDate
+    time.date(datetime=post.datetime.toISOString())!= post.humanDate.replace(/(\d+)(\w{2})/, "$1<sup>$2</sub>")
 
   div.content!= md(post.content)
   
