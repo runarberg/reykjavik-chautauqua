@@ -17,5 +17,5 @@ block main
           div.location at 
             span.location= event.location
           div.datetime on 
-            time(datetime=event.datetime)= event.humanDate
+            time(datetime=event.datetime)!= typogrify(event.humanDate)
         section.description!= md(event.description)

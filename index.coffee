@@ -2,25 +2,42 @@ fs = require 'fs'
 path = require 'path'
 
 bodyParser = require 'body-parser'
+Entities = require('html-entities').AllHtmlEntities
+entities = new Entities()
 express = require 'express'
+jade = require 'jade'
 marked = require('marked').setOptions
     renderer: require './lib/marked-renderer'
     sanitize: true
 morgan = require 'morgan'
 Q = require 'q'
+typogr = require 'typogr'
 
 db = require './db'
+
+
+# wrap markdown in typogrify
+smartypants = (text) ->
+    entities.decode typogr.smartypants text
+
+
+md = (text) ->
+    typogr.typogrify marked smartypants text
 
 
 accessLogStream = fs.createWriteStream __dirname + '/access.log',
     flags: 'a'
 
-handleErr = (err, res) ->    
+handleErr = (err, res) ->
     console.error err
     res.status(500).send "ERROR: " + err
 
 
 app = express()
+
+# my customized jade engine
+jade.filters.md = md
+app.engine('jade', jade.renderFile)
 
 app.set('port', process.env.PORT or 5000)
 
@@ -49,14 +66,16 @@ app.get '/events', (req, res) ->
     .then (events) ->
         res.render 'events',
             events: events
-            md: marked
+            md: md
+            typogrify: typogr.typogrify
+            smartypants: smartypants
     .fail (err) ->
         handleErr err, res
 
 
 app.get '/about', (req, res) ->
     res.render 'about',
-        md: marked
+        md: md
 
 
 db.getThemes()
@@ -79,7 +98,9 @@ db.getThemes()
                         themes: themes
                         theme: theme
                         posts: posts
-                        md: marked
+                        md: md
+                        typogrify: typogr.typogrify
+                        smartypants: smartypants
             .fail (error) ->
                 handleErr error, res
 

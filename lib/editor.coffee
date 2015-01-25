@@ -1,8 +1,18 @@
 bean = require 'bean'
 crel = require 'crel'
+Entities = require('html-entities').AllHtmlEntities
+entities = new Entities()
 marked = require('marked').setOptions
     renderer: require './marked-renderer'
     sanitize: true
+typogr = require 'typogr'
+
+
+smartypants = (text) ->
+    entities.decode typogr.smartypants text
+
+md = (text) ->
+    typogr.typogrify marked smartypants text
 
 
 # ChildNode.prototype.remove() polyfill
@@ -64,7 +74,7 @@ Editor = (form, output) ->
         commander[this.value]()
 
     bean.on form.inputs.title, "input", (e) ->
-        title = this.value
+        title = smartypants this.value
         oldNode = output.title.firstChild
         oldNode.remove() if oldNode
         crel output.title, title if title
@@ -88,7 +98,7 @@ Editor = (form, output) ->
             form.inputs.content.focus()
 
     bean.on form.inputs.content, "input", (e) ->
-        content = marked this.value
+        content = md this.value
         output.content.innerHTML = content
 
 

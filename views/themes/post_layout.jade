@@ -1,14 +1,14 @@
 article.post(id=(post.articleId || post.title.replace(/\s/g, '-')))
 
   header
-    h2= post.title
+    h2= smartypants(post.title)
     a.permalink(href="#"+(post.articleId || post.title.replace(/\s/g, '-')), title="permalink") Permalink
     
   footer
     if post.author
       | by 
       span.author= post.author
-    time.date(datetime=post.datetime.toISOString())!= post.humanDate.replace(/(\d+)(\w{2})/, "$1<sup>$2</sub>")
+    time.date(datetime=post.datetime.toISOString())!= typogrify(post.humanDate)
 
   div.content!= md(post.content)
   
