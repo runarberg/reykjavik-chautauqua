@@ -12,7 +12,10 @@ smartypants = (text) ->
     entities.decode typogr.smartypants text
 
 md = (text) ->
-    typogr.typogrify marked smartypants text
+    text = smartypants(text)
+    # fix issue https://github.com/ekalinin/typogr.js/issues/24
+    text = text.replace /\n\s*(-|–|—|&#8212|&#8211;)+\s*\n/g, "\n----\n"
+    typogr.typogrify marked text
 
 
 # ChildNode.prototype.remove() polyfill
