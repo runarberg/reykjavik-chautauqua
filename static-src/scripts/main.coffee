@@ -77,8 +77,9 @@ bean.on document, "DOMContentLoaded", () ->
     padding = (winWidth / 2) - (liWidth / 2)
     themeUl.firstChild.style.marginLeft = "#{padding}px"
     themeUl.lastChild.style.marginRight = "#{padding}px"
-    focusCenter = head qwery(".focus", themeUl).offsetLeft + liWidth/2
+    focusCenter = head(qwery ".focus", themeUl).offsetLeft + liWidth/2
     themeUl.scrollLeft = focusCenter - themeNav.clientWidth/2
+
 
     # add scroll bar at bottom
     (() ->
