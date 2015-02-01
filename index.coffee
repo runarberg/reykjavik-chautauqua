@@ -48,6 +48,7 @@ app.use bodyParser.json()
 
 app.use express.static path.join __dirname, 'static'
 
+
 app.set 'views', './views'
 app.set 'view engine', 'jade'
 
@@ -117,6 +118,13 @@ db.getThemes()
                 res.redirect theme.url
             .fail (error) ->
                 handleErr error, res
+
+.then () ->
+    # 404 handler
+    app.use (req, res) ->
+        res.status 404
+        res.render 'not-found.jade'
+
 
 .fail (err) ->
     handleErr err, res
