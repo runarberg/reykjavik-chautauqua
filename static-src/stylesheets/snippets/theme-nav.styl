@@ -15,7 +15,6 @@
       font-size: 1.2em
 
   a.scroll
-    background: body-background
     border: 0
     display: inline-block
     font-size: 2.4em
@@ -25,20 +24,19 @@
     position: absolute
     padding: 0 .4em
     &.left
-      left: 4px
+      left: 0
       padding-right: 0.6em
     &.right
-      right: 4px
+      right: 0
       padding-left: 0.6em
     &, &:hover, &:focus
       color: inherit
       outline: 0
 
     @media only screen and (max-width: 640px)
-      background: alpha(body-background, 0)
       height: 0.8em
       width: 0.5em
-      line-height: 1em
+      line-height: 2em
       top: 5px
       &, &.left, &.right
         padding: 0
@@ -70,10 +68,12 @@
 
   ul
     justify-content: center
-    margin: 0 0 -100px           // Hiding the scroll-bar
+    margin: 0 3em -100px           // Hiding the scroll-bar
     padding: 0 0 100px
     overflow-x: auto
     white-space: nowrap
+    @media screen and (max-width: 640px)
+      margin: 0 0 -100px
   li
     display: inline-block
     font-size: 2em
@@ -107,7 +107,6 @@
             color: color
 
     a
-      background: rgba(255,166,166,0.2)
       color: inherit
       display: flex
       flex-direction: column
