@@ -8,6 +8,19 @@ block main-header-h1
 
 block main
   section.events
+    if events.length === 0
+      .empty
+        :md
+          No upcomming events
+          -------------------
+
+          Sorry, we have no events to tell you about...
+
+          If you want to host an event your self, please send us an
+          [e-mail](mailto:reykjavik.chautauqua@gmail.com).
+
+          [Return to front page](/)
+
     each event in events
       article
         header

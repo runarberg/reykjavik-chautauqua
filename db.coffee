@@ -60,7 +60,7 @@ getThemes = () ->
 
 
 getEvents = () ->
-    queryStr = 'SELECT * FROM events'
+    queryStr = 'SELECT * FROM events WHERE datetime > now()'
     accFn = (event, events) ->
         event.permalink = "/events##{urlify event.theme}/#{urlify event.title}"
         event.id = "#{urlify event.theme}/#{urlify event.title}"
