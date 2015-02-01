@@ -9,6 +9,7 @@ jade = require 'jade'
 marked = require('marked').setOptions
     renderer: require './lib/marked-renderer'
     sanitize: true
+    smartypants: true
 morgan = require 'morgan'
 Q = require 'q'
 typogr = require 'typogr'
@@ -21,9 +22,6 @@ smartypants = (text) ->
     entities.decode typogr.smartypants text
 
 md = (text) ->
-    text = smartypants(text)
-    # fix issue https://github.com/ekalinin/typogr.js/issues/24
-    text = text.replace /\n\s*(-|–|—|&#8212|&#8211;)+\s*\n/g, "\n----\n"
     typogr.typogrify marked text
 
 
