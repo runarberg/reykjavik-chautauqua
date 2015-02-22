@@ -4,8 +4,8 @@ Entities = require('html-entities').AllHtmlEntities
 entities = new Entities()
 marked = require('marked').setOptions
     renderer: require './marked-renderer'
-    sanitize: true
     smartypants: true
+    sanitize: true
 typogr = require 'typogr'
 
 
@@ -14,6 +14,9 @@ smartypants = (text) ->
 
 md = (text) ->
     typogr.typogrify marked text
+    .replace /&lt;sup&gt;((?:(?!&lt;\/sup&gt;).)*)&lt;\/sup&gt;/g, "<sup>$1</sup>"
+    .replace /&lt;sub&gt;((?:(?!&lt;\/sub&gt;).)*)&lt;\/sub&gt;/g, "<sub>$1</sub>"
+
 
 
 # ChildNode.prototype.remove() polyfill

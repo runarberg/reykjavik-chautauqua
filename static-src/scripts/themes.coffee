@@ -4,7 +4,6 @@ qwery = require 'qwery'
 qwest = require 'qwest'
 marked = require('marked').setOptions
     renderer: require '../../lib/marked-renderer'
-    sanitize: true
 
 bean.setSelectorEngine qwery
 

@@ -17,12 +17,14 @@ typogr = require 'typogr'
 db = require './db'
 
 
-# wrap markdown in typogrify
+# wrap markdown in typogrify and sanitize
 smartypants = (text) ->
     entities.decode typogr.smartypants text
 
 md = (text) ->
     typogr.typogrify marked text
+    .replace /&lt;sup&gt;((?:(?!&lt;\/sup&gt;).)*)&lt;\/sup&gt;/g, "<sup>$1</sup>"
+    .replace /&lt;sub&gt;((?:(?!&lt;\/sub&gt;).)*)&lt;\/sub&gt;/g, "<sub>$1</sub>"
 
 
 accessLogStream = fs.createWriteStream __dirname + '/access.log',
