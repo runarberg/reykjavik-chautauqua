@@ -6,10 +6,9 @@ Entities = require('html-entities').AllHtmlEntities
 entities = new Entities()
 express = require 'express'
 jade = require 'jade'
-marked = require('marked').setOptions
-    renderer: require './lib/marked-renderer'
-    sanitize: true
-    smartypants: true
+md = require('markdown-it')
+        linkify: true
+        typographer: true
 morgan = require 'morgan'
 Q = require 'q'
 typogr = require 'typogr'
@@ -17,15 +16,15 @@ typogr = require 'typogr'
 db = require './db'
 
 
+# our custom markdown image renderer
+md.renderer.rules.image = require './lib/markdown-it-image-renderer'
+
 # wrap markdown in typogrify and sanitize
 smartypants = (text) ->
     entities.decode typogr.smartypants text
 
-md = (text) ->
-    typogr.typogrify marked text
-    .replace /&lt;sup&gt;((?:(?!&lt;\/sup&gt;).)*)&lt;\/sup&gt;/g, "<sup>$1</sup>"
-    .replace /&lt;sub&gt;((?:(?!&lt;\/sub&gt;).)*)&lt;\/sub&gt;/g, "<sub>$1</sub>"
-
+renderMd = (text) ->
+    md.render text
 
 accessLogStream = fs.createWriteStream __dirname + '/access.log',
     flags: 'a'
@@ -38,7 +37,7 @@ handleErr = (err, res) ->
 app = express()
 
 # my customized jade engine
-jade.filters.md = md
+jade.filters.md = renderMd
 app.engine('jade', jade.renderFile)
 
 app.set('port', process.env.PORT or 5000)
@@ -69,7 +68,7 @@ app.get '/events', (req, res) ->
     .then (events) ->
         res.render 'events',
             events: events
-            md: md
+            md: renderMd
             typogrify: typogr.typogrify
             smartypants: smartypants
     .fail (err) ->
@@ -78,7 +77,7 @@ app.get '/events', (req, res) ->
 
 app.get '/about', (req, res) ->
     res.render 'about',
-        md: md
+        md: renderMd
 
 
 db.getThemes()
@@ -89,11 +88,11 @@ db.getThemes()
         app.get theme.url, (req, res) ->
             db.getPosts(theme.name)
             .then (posts) ->
-                
+
                 # reverse the chronological order of the current month
                 if theme.focus
                     posts = posts.reverse()
-                    
+
                 Q.all posts.map (post) ->
                     db.addComments post
                 .then () ->
@@ -101,7 +100,7 @@ db.getThemes()
                         themes: themes
                         theme: theme
                         posts: posts
-                        md: md
+                        md: renderMd
                         typogrify: typogr.typogrify
                         smartypants: smartypants
             .fail (error) ->
