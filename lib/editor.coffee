@@ -5,6 +5,7 @@ entities = new Entities()
 md = require('markdown-it')
         linkify: true
         typographer: true
+.use require 'markdown-it-sup'
 typogr = require 'typogr'
 
 
@@ -98,7 +99,7 @@ Editor = (form, output) ->
             form.inputs.content.focus()
 
     bean.on form.inputs.content, "input", (e) ->
-        content = md.render this.value
+        content = typogr.typogrify md.render this.value
         output.content.innerHTML = content
 
 

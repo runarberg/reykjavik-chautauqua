@@ -9,6 +9,7 @@ jade = require 'jade'
 md = require('markdown-it')
         linkify: true
         typographer: true
+.use require 'markdown-it-sup'
 morgan = require 'morgan'
 Q = require 'q'
 typogr = require 'typogr'
@@ -24,7 +25,7 @@ smartypants = (text) ->
     entities.decode typogr.smartypants text
 
 renderMd = (text) ->
-    md.render text
+    typogr.typogrify md.render text
 
 accessLogStream = fs.createWriteStream __dirname + '/access.log',
     flags: 'a'
