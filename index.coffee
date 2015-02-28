@@ -86,6 +86,14 @@ db.getThemes()
 .then (themes) ->
     themes.forEach (theme) ->
 
+        # API to get all content given the theme
+        app.get theme.url + '.json', (req, res) ->
+            db.getPosts theme.name
+            .then (posts) ->
+                Q.all posts.map db.addComments
+                .then () ->
+                    res.json posts
+
         app.get theme.url, (req, res) ->
             db.getPosts(theme.name)
             .then (posts) ->
@@ -94,8 +102,7 @@ db.getThemes()
                 if theme.focus
                     posts = posts.reverse()
                     
-                Q.all posts.map (post) ->
-                    db.addComments post
+                Q.all posts.map db.addComments
                 .then () ->
                     res.render 'themes' + theme.url + '/index',
                         themes: themes
