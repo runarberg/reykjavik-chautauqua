@@ -2,21 +2,20 @@ bean = require 'bean'
 crel = require 'crel'
 Entities = require('html-entities').AllHtmlEntities
 entities = new Entities()
-marked = require('marked').setOptions
-    renderer: require './marked-renderer'
-    smartypants: true
-    sanitize: true
+md = require('markdown-it')
+        linkify: true
+        typographer: true
+.use require 'markdown-it-footnote'
+.use require 'markdown-it-sup'
+.use require 'markdown-it-sub'
 typogr = require 'typogr'
 
 
 smartypants = (text) ->
     entities.decode typogr.smartypants text
 
-md = (text) ->
-    typogr.typogrify marked text
-    .replace /&lt;sup&gt;((?:(?!&lt;\/sup&gt;).)*)&lt;\/sup&gt;/g, "<sup>$1</sup>"
-    .replace /&lt;sub&gt;((?:(?!&lt;\/sub&gt;).)*)&lt;\/sub&gt;/g, "<sub>$1</sub>"
-
+# our custom markdown image renderer
+md.renderer.rules.image = require './markdown-it-image-renderer'
 
 
 # ChildNode.prototype.remove() polyfill
@@ -102,7 +101,7 @@ Editor = (form, output) ->
             form.inputs.content.focus()
 
     bean.on form.inputs.content, "input", (e) ->
-        content = md this.value
+        content = typogr.typogrify md.render this.value
         output.content.innerHTML = content
 
 

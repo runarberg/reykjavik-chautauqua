@@ -2,9 +2,6 @@ bean = require 'bean'
 crel = require 'crel'
 qwery = require 'qwery'
 qwest = require 'qwest'
-marked = require('marked').setOptions
-    renderer: require '../../lib/marked-renderer'
-
 bean.setSelectorEngine qwery
 
 Editor = require '../../lib/editor'
