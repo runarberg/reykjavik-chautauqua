@@ -9,6 +9,7 @@ jade = require 'jade'
 md = require('markdown-it')
         linkify: true
         typographer: true
+.use require 'markdown-it-classy'
 .use require 'markdown-it-footnote'
 .use require 'markdown-it-sup'
 .use require 'markdown-it-sub'

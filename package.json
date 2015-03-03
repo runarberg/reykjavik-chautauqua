@@ -39,6 +39,7 @@
     "html-entities": "^1.1.2",
     "jade": "^1.8.1",
     "markdown-it": "^3.0.7",
+    "markdown-it-classy": "^0.1.0",
     "markdown-it-footnote": "^0.1.0",
     "markdown-it-sub": "^0.1.0",
     "markdown-it-sup": "^0.1.0",
