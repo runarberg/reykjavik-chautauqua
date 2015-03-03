@@ -50,7 +50,7 @@ commands = (textbox) ->
     h2: () ->
         surround textbox, "", "\n-------\n", "heading"
     h3: () ->
-        surround textbox, "\n###", "###\n", "heading"
+        surround textbox, "\n### ", " ###\n", "heading"
     em: () ->
         surround textbox, "*", "*", "emphasized text"
     strong: () ->
